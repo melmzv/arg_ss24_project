@@ -25,7 +25,6 @@ You start by setting up few tools on your system.
     - For MacOS users, you can install `make` by running `brew install make` in the terminal. 
     - For Windows users, there are few options to install `make` and they are dependent on how you have setup your system. For example, if you have installed the Windows Subsystem for Linux (WSL), you can install `make` by running `sudo apt-get install make` in the terminal. If not you are probably better of googling how to install `make` on Windows and follow a reliable source.
 
-If you are new to scientific computing, we suggest that you also pick up a reference from the list below and browse through it. The [Gentzkow and Shapiro (2014) paper](https://web.stanford.edu/~gentzkow/research/CodeAndData.pdf) is a particularly easy and also useful read. 
 
 Then browse around the repository and familiarize yourself with its folders. You will quickly see that there are three folders that have files in them:
 
@@ -39,7 +38,7 @@ Then browse around the repository and familiarize yourself with its folders. You
 
 - `info`: This is a folder that can store additional documentation. In our case you will find a RMarkdown file that introduces our TRR 266-themed ggplot theme.
 
-You also see an `output` directory but it is empty. Why? Because you will create the output locally on your computer, if you want.
+You also see an `output` directory but it is empty. Why? Because the output is created locally on your computer.
 
 
 ### How do I create the output?
@@ -56,17 +55,17 @@ Assuming that you have WRDS access, Python, Vs Code, Quarto and make installed, 
 3. It is advisable to create a virtual environment for the project. You can do this by running `python -m venv venv` in the terminal. This will create a virtual environment in the `venv` directory. You can activate the virtual environment by running `source venv/bin/activate` on MacOS or Linux or `.\venv\Scripts\activate` on Windows. You can deactivate the virtual environment by running `deactivate`.
 4. With an active virtual environment, you can install the required packages by running `pip install -r requirements.txt` in the terminal. This will install the required packages for the project.
 5. Copy the file _secrets.env to secrets.env in the project main directory. Edit it by adding your WRDS credentials. 
-6. Run 'make all' either via the console. 
+6. Run 'make all' either via the console. Personally, I use the Makefile Tools extension to run the makefile in VS Code. This will execute the makefile and generate the necessary output files.
 7. Eventually, you will be greeted with the two files in the output directory: "paper.pdf" and "presentation.pdf". Congratulations! You have successfully used an open science resource and reproduced our "analysis". Now modify it and make it your own project!
 
 ### Setting up for Reproducible Empirical Research
 
-To start a new project on earnings management and investor protection using this repository, follow these steps: 
+To start a new project on earnings management and investor protection based on this repo, follow these steps: 
 1. Clone the repository by clicking “Use this Template” at the top of the file list on GitHub. 
 2. Remove any files that you don’t need for your specific project. 
 3. Over time, you can fork this repository and customize it to develop a personalized template that fits your workflow and preferences.
 
-This repository contains three files that TRR members that use R might find particularly useful: 
+This repository contains three files that TRR 266 members might find particularly useful: 
 - The file `code/python/theme_trr.py` features a ggplot theme that makes it easy to generate visuals that comply to the TRR 266 style guide. But ggplot in python is not yet polished and does not have the same level of quality as in R. 
 - The RMarkdown file in `info` takes you through the process. With the `doc/beamer_theme_trr266.sty` you can beef up your Quarto based beamer presentations to the fancy TRR design. 
 - Finally, the file `code/python/pull_wrds_data.py` is useful if you want to learn how to download WRDS data directly from python.
@@ -84,7 +83,7 @@ This repository was built based on the ['treat' template for reproducible resear
 
 ### References
 
-:bulb: These are some very helpful texts discussing collaborative workflows for scientific computing:
+:bulb: If you’re new to collaborative workflows for scientific computing, here are some helpful texts:
 
 - Christensen, Freese and Miguel (2019): Transparent and Reproducible Social Science Research, Chapter 11: https://www.ucpress.edu/book/9780520296954/transparent-and-reproducible-social-science-research
 - Gentzkow and Shapiro (2014): Code and data for the social sciences:
