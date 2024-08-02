@@ -1,14 +1,14 @@
 # Accounting Reading Group - Assignment III: Earnings Management and Investor Protection
 
-## Adopting an Open Science Workflow and the TRR 266 Template for Reproducible Empirical Accounting Research 
+## Adopting the Open Science Workflow and TRR 266 Template for Reproducible Empirical Accounting Research 
 
 This repository provides an infrastructure for an open science-oriented empirical project, specifically targeted at the empirical accounting research community. It features a project exploring the relationship between earnings management and investor protection across different countries. The project requires access to the research platform WRDS, which provides access to a variety of different datasets.
 
-This final assignment comprises the comprehensive application of all skills learned in previous assignments, indicating a more complex project workflow. The task involves accessing and retrieving data from the Worldscope Database through WRDS, which adds complexity as it requires both understanding WRDS and writing scripts to pull the data. Similarly to Assignment I, reproducing a table from a seminal paper necessitates a deep understanding of the paper’s methodology and thorough attention to detail to match the results. Additionally, the project output includes  documentation of the steps and explicit assumptions made. The output documents compare the results with the original and discuss any differences observed.
+This final assignment requires the comprehensive application of all skills learned and feedback received from previous assignments, indicating a more complex project workflow. The task involves accessing and retrieving data from the Worldscope Database through WRDS, which adds complexity as it requires both understanding WRDS and writing scripts to pull the data. Similarly to Assignment I, reproducing a table from a seminal paper necessitates a deep understanding of the paper’s methodology and thorough attention to detail to match the results. Additionally, the project output includes  documentation of the steps and explicit assumptions made. The output documents compare the findings with the paper key results and discuss any differences observed.
 
 Even if you are not specifically interested in earnings management (who wouldn’t be?) or do not have access to WRDS Databases, the codebase provided in this repository will give you a clear understanding of how to structure a reproducible empirical project. The template and workflow used here are designed to ensure transparency and reproducibility, making it a valuable resource for any empirical accounting research project.
 
-The default branch, `only_python`, is a stripped-down version of the template that only contains the Python workflow. Only this branch was cloned from the TREAT repo, as we are focused solely on the Python workflow.
+The default branch, `only_python`, is a stripped-down version of the template that only contains the Python workflow. Only this branch was cloned from the TRR 266 Template for Reproducible Empirical Accounting Research (TREAT) repo, as we are focused solely on the Python workflow.
 
 ### Where do I start?
 
@@ -44,7 +44,7 @@ You also see an `output` directory but it is empty. Why? Because you will create
 
 ### How do I create the output?
 
-Assuming that you have WRDS access, Vs Code and make installed, this should be relatively straightforward.
+Assuming that you have WRDS access, Python, Vs Code, Quarto and make installed, this should be relatively straightforward. Refer to download and setup instructions [here](#where-do-i-start).
 
 > [!IMPORTANT]
 > In order to access the Worldscope Database through WRDS, complete this [form](https://wrds-www.wharton.upenn.edu/register/), if not yet registered for WRDS.
@@ -59,29 +59,24 @@ Assuming that you have WRDS access, Vs Code and make installed, this should be r
 6. Run 'make all' either via the console. 
 7. Eventually, you will be greeted with the two files in the output directory: "paper.pdf" and "presentation.pdf". Congratulations! You have successfully used an open science resource and reproduced our "analysis". Now modify it and make it your own project!
 
-### OK. That was fun. Bot how should I use the repo now?
+### Setting up for Reproducible Empirical Research
 
-The basic idea is to clone the repository whenever you start a new project. If you are using GitHub, the simplest way to do this is to click on "Use this Template" above the file list. Then delete everything that you don't like and/or need. Over time, as you develop your own preferences, you can fork this repository and adjust it so that it becomes your very own template targeted to your very own preferences.
+To start a new project on earnings management and investor protection using this repository, follow these steps: 
+1. Clone the repository by clicking “Use this Template” at the top of the file list on GitHub. 
+2. Remove any files that you don’t need for your specific project. 
+3. Over time, you can fork this repository and customize it to develop a personalized template that fits your workflow and preferences.
 
-
-### For TRR 266 Members: What else is in there for you?
-
-This repository contains three files that TRR members that use R might find particularly useful. The file `code/R/theme_trr.py` features a ggplot theme that makes it easy to generate visuals that comply to the TRR 266 style guide. But ggplot in python is not yet polished and does not have the same level of quality as in R. The RMarkdown file in `info` takes you through the process. With the `doc/beamer_theme_trr266.sty` you can beef up your Quarto based beamer presentations to our fancy TRR design. Finally, the file `code/R/pull_wrds_data.py` might be useful if you want to learn how to download WRDS data directly from python.
-
-
-### Why do you do abc in a certain way? I like to do things differently!
-
-Scientific workflows are a matter of preference and taste. What we present here is based on our experiences on what works well but this by no means implies that there are no other and better ways to do things. So, feel free to disagree and to build your own template. Or, even better: Convince us about your approach by submitting a pull request!
-
-
-### But there are other templates. Why yet another one?
-
-Of course there are and they a great. The reason why we decided to whip up our own is that we wanted a template that also includes some of the default style elements that we use in our collaborative research center [TRR 266 Accounting for Transparency](https://accounting-for-transparency.de). And we wanted to have a template that is centered on workflows that are typical in the accounting and finance domain. Here you go.
+This repository contains three files that TRR members that use R might find particularly useful: 
+- The file `code/python/theme_trr.py` features a ggplot theme that makes it easy to generate visuals that comply to the TRR 266 style guide. But ggplot in python is not yet polished and does not have the same level of quality as in R. 
+- The RMarkdown file in `info` takes you through the process. With the `doc/beamer_theme_trr266.sty` you can beef up your Quarto based beamer presentations to the fancy TRR design. 
+- Finally, the file `code/python/pull_wrds_data.py` is useful if you want to learn how to download WRDS data directly from python.
 
 
 ### Licensing
 
-This repository is licensed under the MIT license. Due to reusing a part of the example code from the treat repository, e.g. code for pulling data from WRDS, I would like to give the following credit:
+This project particularly utilizes the template used in collaborative research center [TRR 266 Accounting for Transparency](https://accounting-for-transparency.de), that is centered on workflows that are typical in the accounting and finance domain.
+
+The repository is licensed under the MIT license. Due to reusing a part of the example code from the treat repository, e.g. code for pulling data from WRDS, I would like to give the following credit:
 
 ```
 This repository was built based on the ['treat' template for reproducible research](https://github.com/trr266/treat).
@@ -89,7 +84,7 @@ This repository was built based on the ['treat' template for reproducible resear
 
 ### References
 
-These are some very helpful texts discussing collaborative workflows for scientific computing:
+These are some very helpful texts discussing collaborative workflows for scientific computing :bulb::
 
 - Christensen, Freese and Miguel (2019): Transparent and Reproducible Social Science Research, Chapter 11: https://www.ucpress.edu/book/9780520296954/transparent-and-reproducible-social-science-research
 - Gentzkow and Shapiro (2014): Code and data for the social sciences:
