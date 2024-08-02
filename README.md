@@ -1,6 +1,6 @@
-# Accounting Reading Group - Assignment III
+# Accounting Reading Group - Assignment III: Earnings Management and Investor Protection
 
-## Earnings Management and Investor Protection: Adopting an Open Science Workflow and the TRR 266 Template for Reproducible Empirical Accounting Research 
+## Adopting an Open Science Workflow and the TRR 266 Template for Reproducible Empirical Accounting Research 
 
 This repository provides an infrastructure for an open science-oriented empirical project, specifically targeted at the empirical accounting research community. It features a project exploring the relationship between earnings management and investor protection across different countries. The project requires access to the research platform WRDS, which provides access to a variety of different datasets.
 
