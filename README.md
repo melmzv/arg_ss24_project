@@ -84,7 +84,7 @@ This repository was built based on the ['treat' template for reproducible resear
 
 ### References
 
-These are some very helpful texts discussing collaborative workflows for scientific computing :bulb::
+:bulb: These are some very helpful texts discussing collaborative workflows for scientific computing:
 
 - Christensen, Freese and Miguel (2019): Transparent and Reproducible Social Science Research, Chapter 11: https://www.ucpress.edu/book/9780520296954/transparent-and-reproducible-social-science-research
 - Gentzkow and Shapiro (2014): Code and data for the social sciences:
