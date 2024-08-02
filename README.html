@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.53">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>readme</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="README_files/libs/clipboard/clipboard.min.js"></script>
+<script src="README_files/libs/quarto-html/quarto.js"></script>
+<script src="README_files/libs/quarto-html/popper.min.js"></script>
+<script src="README_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="README_files/libs/quarto-html/anchor.min.js"></script>
+<link href="README_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="README_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="README_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="README_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="README_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+
+
+
+<section id="accounting-reading-group---assignment-iii" class="level1">
+<h1>Accounting Reading Group - Assignment III</h1>
+<section id="earnings-management-and-investor-protection-adopting-an-open-science-workflow-and-the-trr-266-template-for-reproducible-empirical-accounting-research" class="level2">
+<h2 class="anchored" data-anchor-id="earnings-management-and-investor-protection-adopting-an-open-science-workflow-and-the-trr-266-template-for-reproducible-empirical-accounting-research">Earnings Management and Investor Protection: Adopting an Open Science Workflow and the TRR 266 Template for Reproducible Empirical Accounting Research</h2>
+<p>This repository provides an infrastructure for an open science-oriented empirical project, specifically targeted at the empirical accounting research community. It features a project exploring the relationship between earnings management and investor protection across different countries. The project requires access to the research platform WRDS, which provides access to a variety of different datasets.</p>
+<p>This final assignment comprises the comprehensive application of all skills learned in previous assignments, indicating a more complex project workflow. The task involves accessing and retrieving data from the Worldscope Database through WRDS, which adds complexity as it requires both understanding WRDS and writing scripts to pull the data. Similarly to Assignment I, reproducing a table from a seminal paper necessitates a deep understanding of the paper’s methodology and thorough attention to detail to match the results. Additionally, documenting the steps and making explicit assumptions where the paper is unclear adds complexity. The output documents compare the results with the original and discuss any differences observed.</p>
+<p>Even if you are not specifically interested in earnings management (who wouldn’t be?) or do not have access to WRDS Databases, the codebase provided in this repository will give you a clear understanding of how to structure a reproducible empirical project. The template and workflow used here are designed to ensure transparency and reproducibility, making it a valuable resource for any empirical accounting research project.</p>
+<p>The default branch, <code>only_python</code>, is a stripped-down version of the template that only contains the Python workflow. Only this branch was cloned from the TREAT repo, as we are focused solely on the Python workflow.</p>
+<section id="where-do-i-start" class="level3">
+<h3 class="anchored" data-anchor-id="where-do-i-start">Where do I start?</h3>
+<p>You start by setting up few tools on your system.</p>
+<ul>
+<li><p>If you are new to Python, we recommend that you follow the <a href="https://realpython.com/installing-python/">Real Python installation guide</a> that gives a good overview of how to set up Python on your system.</p></li>
+<li><p>Additionally, you will also need to setup an Integrated Development Environment (IDE) or a code editor. We recommend using VS Code, please follow the <a href="https://code.visualstudio.com/docs/python/python-tutorial">Getting started with Python in VS Code Guide</a>.</p></li>
+<li><p>You wll also need <a href="https://quarto.org/">Quarto</a>, a scientific and technical publishing system. Please follow the <a href="https://quarto.org/docs/get-started/">Quarto installation guide</a> to install Quarto on your system.</p></li>
+<li><p>Finally, you will also need to have <code>make</code> installed on your system, if you want to use it. For Linux users this is usually already installed. For MacOS users, you can install <code>make</code> by running <code>brew install make</code> in the terminal. For Windows users, there are few options to install <code>make</code> and they are dependent on how you have setup your system. For example, if you have installed the Windows Subsystem for Linux (WSL), you can install <code>make</code> by running <code>sudo apt-get install make</code> in the terminal. If not you are probably better of googling how to install <code>make</code> on Windows and follow a reliable source.</p></li>
+</ul>
+<p>If you are new to scientific computing, we suggest that you also pick up a reference from the list below and browse through it. The <a href="https://web.stanford.edu/~gentzkow/research/CodeAndData.pdf">Gentzkow and Shapiro (2014) paper</a> is a particularly easy and also useful read.</p>
+<p>Then browse around the repository and familiarize yourself with its folders. You will quickly see that there are three folders that have files in them:</p>
+<ul>
+<li><p><code>config</code>: This directory holds configuration files that are being called by the program scripts in the <code>code</code> directory. We try to keep the configurations separate from the code to make it easier to adjust the workflow to your needs.</p></li>
+<li><p><code>code</code>: This directory holds program scripts that are being called to download data from WRDS, prepare the data, run the analysis and create the output files (a paper and a presentation, both PDF files).</p></li>
+<li><p><code>data</code>: A directory where data is stored. You will see that it again contains sub-directories and a README file that explains their purpose. You will also see that in the <code>external</code> sub-directory there are two data files. Again, the README file explains their content.</p></li>
+<li><p><code>doc</code>: Here you will find two Quarto files containing text and program instructions that will become our paper and presentation, by rendering them through the R markdown process and LaTeX.</p></li>
+<li><p><code>info</code>: This is a folder that can store additional documentation. In our case you will find a RMarkdown file that introduces our TRR 266-themed ggplot theme.</p></li>
+</ul>
+<p>You also see an <code>output</code> directory but it is empty. Why? Because you will create the output locally on your computer, if you want.</p>
+</section>
+<section id="how-do-i-create-the-output" class="level3">
+<h3 class="anchored" data-anchor-id="how-do-i-create-the-output">How do I create the output?</h3>
+<p>Assuming that you have WRDS access, Vs Code and make installed, this should be relatively straightforward.</p>
+<p>In order to access the Worldscope Database through WRDS, complete this <a href="https://wrds-www.wharton.upenn.edu/register/">form</a>, if not yet registered for WRDS. Next, ensure that you create an account with instituional (university) login. If you are from Humboldt-Universität zu Berlin, contact the University Library to get your account request approved. After setting up the Two-factor authentication (2FA) and accepting the terms of use, you are set to go with WRDS Databases.</p>
+<ol type="1">
+<li>Click on the <code>Use this template</code> button on the top right of the repository and choose <code>Create a new repository</code>. Give the repository a name, a description and choose whether it should be public or private. Click on <code>Create repository</code>.</li>
+<li>You can now clone the repository to your local machine. Open the repository in Vs Code and open a new terminal.</li>
+<li>It is advisable to create a virtual environment for the project. You can do this by running <code>python -m venv venv</code> in the terminal. This will create a virtual environment in the <code>venv</code> directory. You can activate the virtual environment by running <code>source venv/bin/activate</code> on MacOS or Linux or <code>.\venv\Scripts\activate</code> on Windows. You can deactivate the virtual environment by running <code>deactivate</code>.</li>
+<li>With an active virtual environment, you can install the required packages by running <code>pip install -r requirements.txt</code> in the terminal. This will install the required packages for the project.</li>
+<li>Copy the file _secrets.env to secrets.env in the project main directory. Edit it by adding your WRDS credentials.</li>
+<li>Run ‘make all’ either via the console.</li>
+<li>Eventually, you will be greeted with the two files in the output directory: “paper.pdf” and “presentation.pdf”. Congratulations! You have successfully used an open science resource and reproduced our “analysis”. Now modify it and make it your own project!</li>
+</ol>
+</section>
+<section id="ok.-that-was-fun.-bot-how-should-i-use-the-repo-now" class="level3">
+<h3 class="anchored" data-anchor-id="ok.-that-was-fun.-bot-how-should-i-use-the-repo-now">OK. That was fun. Bot how should I use the repo now?</h3>
+<p>The basic idea is to clone the repository whenever you start a new project. If you are using GitHub, the simplest way to do this is to click on “Use this Template” above the file list. Then delete everything that you don’t like and/or need. Over time, as you develop your own preferences, you can fork this repository and adjust it so that it becomes your very own template targeted to your very own preferences.</p>
+</section>
+<section id="for-trr-266-members-what-else-is-in-there-for-you" class="level3">
+<h3 class="anchored" data-anchor-id="for-trr-266-members-what-else-is-in-there-for-you">For TRR 266 Members: What else is in there for you?</h3>
+<p>This repository contains three files that TRR members that use R might find particularly useful. The file <code>code/R/theme_trr.py</code> features a ggplot theme that makes it easy to generate visuals that comply to the TRR 266 style guide. But ggplot in python is not yet polished and does not have the same level of quality as in R. The RMarkdown file in <code>info</code> takes you through the process. With the <code>doc/beamer_theme_trr266.sty</code> you can beef up your Quarto based beamer presentations to our fancy TRR design. Finally, the file <code>code/R/pull_wrds_data.py</code> might be useful if you want to learn how to download WRDS data directly from python.</p>
+</section>
+<section id="why-do-you-do-abc-in-a-certain-way-i-like-to-do-things-differently" class="level3">
+<h3 class="anchored" data-anchor-id="why-do-you-do-abc-in-a-certain-way-i-like-to-do-things-differently">Why do you do abc in a certain way? I like to do things differently!</h3>
+<p>Scientific workflows are a matter of preference and taste. What we present here is based on our experiences on what works well but this by no means implies that there are no other and better ways to do things. So, feel free to disagree and to build your own template. Or, even better: Convince us about your approach by submitting a pull request!</p>
+</section>
+<section id="but-there-are-other-templates.-why-yet-another-one" class="level3">
+<h3 class="anchored" data-anchor-id="but-there-are-other-templates.-why-yet-another-one">But there are other templates. Why yet another one?</h3>
+<p>Of course there are and they a great. The reason why we decided to whip up our own is that we wanted a template that also includes some of the default style elements that we use in our collaborative research center <a href="https://accounting-for-transparency.de">TRR 266 Accounting for Transparency</a>. And we wanted to have a template that is centered on workflows that are typical in the accounting and finance domain. Here you go.</p>
+</section>
+<section id="licensing" class="level3">
+<h3 class="anchored" data-anchor-id="licensing">Licensing</h3>
+<p>This repository is licensed under the MIT license. Due to reusing a part of the example code from the treat repository, e.g.&nbsp;code for pulling data from WRDS, I would like to give the following credit:</p>
+<pre><code>This repository was built based on the ['treat' template for reproducible research](https://github.com/trr266/treat).</code></pre>
+</section>
+<section id="references" class="level3">
+<h3 class="anchored" data-anchor-id="references">References</h3>
+<p>These are some very helpful texts discussing collaborative workflows for scientific computing:</p>
+<ul>
+<li>Christensen, Freese and Miguel (2019): Transparent and Reproducible Social Science Research, Chapter 11: https://www.ucpress.edu/book/9780520296954/transparent-and-reproducible-social-science-research</li>
+<li>Gentzkow and Shapiro (2014): Code and data for the social sciences: a practitioner’s guide, https://web.stanford.edu/~gentzkow/research/CodeAndData.pdf</li>
+<li>Wilson, Bryan, Cranston, Kitzes, Nederbragt and Teal (2017): Good enough practices in scientific computing, PLOS Computational Biology 13(6): 1-20, https://doi.org/10.1371/journal.pcbi.1005510</li>
+</ul>
+</section>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

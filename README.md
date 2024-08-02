@@ -1,11 +1,14 @@
-## The TRR 266 Template for Reproducible Empirical Accounting Research 
+# Accounting Reading Group - Assignment III
 
-This repository provides an infrastructure for open science oriented empirical projects. It is targeted to the empirical accounting research crowd. It features a toy project exploring discretionary accruals of U.S. public firms and requires access to U.S. Compustat data via WRDS.
+## Earnings Management and Investor Protection: Adopting an Open Science Workflow and the TRR 266 Template for Reproducible Empirical Accounting Research 
 
-But even if you do not care about discretionary accruals (who wouldn't?) or do not have WRDS access, its code base should give you a feel on how the template is supposed to be used and how to structure a reproducible empirical project.
+This repository provides an infrastructure for an open science-oriented empirical project, specifically targeted at the empirical accounting research community. It features a project exploring the relationship between earnings management and investor protection across different countries. The project requires access to the research platform WRDS, which provides access to a variety of different datasets.
 
-The default branch, `only_python`, is a stripped down version of the template that only contains Python workflow. The `main` branch contains both the R and Python workflows and is a work in progress.
+This final assignment comprises the comprehensive application of all skills learned in previous assignments, indicating a more complex project workflow. The task involves accessing and retrieving data from the Worldscope Database through WRDS, which adds complexity as it requires both understanding WRDS and writing scripts to pull the data. Similarly to Assignment I, reproducing a table from a seminal paper necessitates a deep understanding of the paper’s methodology and thorough attention to detail to match the results. Additionally, documenting the steps and making explicit assumptions where the paper is unclear adds complexity. The output documents compare the results with the original and discuss any differences observed.
 
+Even if you are not specifically interested in earnings management (who wouldn’t be?) or do not have access to WRDS Databases, the codebase provided in this repository will give you a clear understanding of how to structure a reproducible empirical project. The template and workflow used here are designed to ensure transparency and reproducibility, making it a valuable resource for any empirical accounting research project.
+
+The default branch, `only_python`, is a stripped-down version of the template that only contains the Python workflow. Only this branch was cloned from the TREAT repo, as we are focused solely on the Python workflow.
 
 ### Where do I start?
 
@@ -39,6 +42,11 @@ You also see an `output` directory but it is empty. Why? Because you will create
 ### How do I create the output?
 
 Assuming that you have WRDS access, Vs Code and make installed, this should be relatively straightforward.
+
+> [!IMPORTANT]
+> In order to access the Worldscope Database through WRDS, complete this [form](https://wrds-www.wharton.upenn.edu/register/), if not yet registered for WRDS.
+> Ensure that you create an account with your institutional (university) login. If you are from Humboldt-Universität zu Berlin, contact the University Library to get your account request approved. 
+> After setting up Two-factor authentication (2FA) and accepting the terms of use, you will be set to go with WRDS Databases.
 
 1. Click on the `Use this template` button on the top right of the repository and choose `Create a new repository`. Give the repository a name, a description and choose whether it should be public or private. Click on `Create repository`.
 2. You can now clone the repository to your local machine. Open the repository in Vs Code and open a new terminal.
