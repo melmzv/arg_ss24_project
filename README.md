@@ -4,11 +4,11 @@
 
 This repository provides an infrastructure for an open science-oriented empirical project, specifically targeted at the empirical accounting research community. It features a project exploring the relationship between earnings management and investor protection across different countries. The project requires access to the research platform WRDS, which provides access to a variety of different datasets.
 
-This final assignment requires the comprehensive application of all skills learned and feedback received from previous assignments, indicating a more complex project workflow. The task involves accessing and retrieving data from the Worldscope Database through WRDS, which adds complexity as it requires both understanding WRDS and writing scripts to pull the data. Similarly to Assignment I, reproducing a table from a seminal paper necessitates a deep understanding of the paper’s methodology and thorough attention to detail to match the results. Additionally, the project output includes  documentation of the steps and explicit assumptions made. The output documents compare the findings with the paper key results and discuss any differences observed.
+This final assignment requires the comprehensive application of all skills learned and feedback received from previous assignments, making it a more complex project workflow. The task involves accessing and retrieving data from the Worldscope Database through WRDS, which adds complexity as it requires both understanding WRDS and writing scripts to pull the data. Similarly to Assignment I, reproducing a table from a seminal paper necessitates a deep understanding of the paper’s methodology and thorough attention to detail to match the results. Additionally, the project output includes  documentation of the steps and explicit assumptions made. The output documents compare the findings with the paper key results and discuss any differences observed.
 
 Even if you are not specifically interested in earnings management (who wouldn’t be?) or do not have access to WRDS Databases, the codebase provided in this repository will give you a clear understanding of how to structure a reproducible empirical project. The template and workflow used here are designed to ensure transparency and reproducibility, making it a valuable resource for any empirical accounting research project.
 
-The default branch, `only_python`, is a stripped-down version of the template that only contains the Python workflow. Only this branch was cloned from the TRR 266 Template for Reproducible Empirical Accounting Research (TREAT) repo, as we are focused solely on the Python workflow.
+The default branch, `only_python`, is a stripped-down version of the template containing only the Python workflow. This branch was cloned from the TRR 266 Template for Reproducible Empirical Accounting Research (TREAT) repository, focusing solely on the Python workflow.
 
 ### Where do I start?
 
@@ -26,7 +26,7 @@ You start by setting up few tools on your system.
     - For Windows users, there are few options to install `make` and they are dependent on how you have setup your system. For example, if you have installed the Windows Subsystem for Linux (WSL), you can install `make` by running `sudo apt-get install make` in the terminal. If not you are probably better of googling how to install `make` on Windows and follow a reliable source.
 
 
-Then browse around the repository and familiarize yourself with its folders. You will quickly see that there are three folders that have files in them:
+Next, explore the repository to familiarize yourself with its folders. You will quickly see that there are three folders that have files in them:
 
 - `config`: This directory holds configuration files that are being called by the program scripts in the `code` directory. We try to keep the configurations separate from the code to make it easier to adjust the workflow to your needs.
 
@@ -43,7 +43,7 @@ You also see an `output` directory but it is empty. Why? Because the output is c
 
 ### How do I create the output?
 
-Assuming that you have WRDS access, Python, Vs Code, Quarto and make installed, this should be relatively straightforward. Refer to download and setup instructions [here](#where-do-i-start).
+Assuming that you have WRDS access, Python, Vs Code, Quarto and make installed, this should be relatively straightforward. Refer to the setup instructions [here](#where-do-i-start).
 
 > [!IMPORTANT]
 > In order to access the Worldscope Database through WRDS, complete this [form](https://wrds-www.wharton.upenn.edu/register/), if not yet registered for WRDS.
@@ -55,7 +55,7 @@ Assuming that you have WRDS access, Python, Vs Code, Quarto and make installed, 
 3. It is advisable to create a virtual environment for the project. You can do this by running `python -m venv venv` in the terminal. This will create a virtual environment in the `venv` directory. You can activate the virtual environment by running `source venv/bin/activate` on MacOS or Linux or `.\venv\Scripts\activate` on Windows. You can deactivate the virtual environment by running `deactivate`.
 4. With an active virtual environment, you can install the required packages by running `pip install -r requirements.txt` in the terminal. This will install the required packages for the project.
 5. Copy the file _secrets.env to secrets.env in the project main directory. Edit it by adding your WRDS credentials. 
-6. Run 'make all' either via the console. Personally, I use the Makefile Tools extension to run the makefile in VS Code. This will execute the makefile and generate the necessary output files.
+6. Run 'make all' either via the console. I use the Makefile Tools extension in VS Code to run the makefile. This will execute the makefile and generate the necessary output files.
 7. Eventually, you will be greeted with the two files in the output directory: "paper.pdf" and "presentation.pdf". Congratulations! You have successfully used an open science resource and reproduced our "analysis". Now modify it and make it your own project!
 
 ### Setting up for Reproducible Empirical Research
