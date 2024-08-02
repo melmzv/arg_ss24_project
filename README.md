@@ -4,7 +4,7 @@
 
 This repository provides an infrastructure for an open science-oriented empirical project, specifically targeted at the empirical accounting research community. It features a project exploring the relationship between earnings management and investor protection across different countries. The project requires access to the research platform WRDS, which provides access to a variety of different datasets.
 
-This final assignment requires the comprehensive application of all skills learned and feedback received from previous assignments, making it a more complex project workflow. The task involves accessing and retrieving data from the Worldscope Database through WRDS, which adds complexity as it requires both understanding WRDS and writing scripts to pull the data. Similarly to Assignment I, reproducing a table from a seminal paper necessitates a deep understanding of the paper’s methodology and thorough attention to detail to match the results. Additionally, the project output includes  documentation of the steps and explicit assumptions made. The output documents compare the findings with the paper key results and discuss any differences observed.
+This final assignment requires the comprehensive application of all skills learned and feedback received from previous assignments, making it a more complex project workflow. The task involves accessing and retrieving data from the Worldscope Database through WRDS, which adds complexity as it requires both understanding WRDS and writing scripts to pull the data. Similarly to Assignment I, reproducing a table from a seminal paper necessitates a deep understanding of the paper’s methodology and thorough attention to detail to match the results. Additionally, the project output includes  documentation of the steps and explicit assumptions made. The output paper and presentation documents present the findings, compare them with the paper key results and discuss any differences observed.
 
 Even if you are not specifically interested in earnings management (who wouldn’t be?) or do not have access to WRDS Databases, the codebase provided in this repository will give you a clear understanding of how to structure a reproducible empirical project. The template and workflow used here are designed to ensure transparency and reproducibility, making it a valuable resource for any empirical accounting research project.
 
@@ -12,7 +12,7 @@ The default branch, `only_python`, is a stripped-down version of the template co
 
 ### Where do I start?
 
-You start by setting up few tools on your system. 
+You start by setting up few tools on your system: 
 
 - If you are new to Python, we recommend that you follow the [Real Python installation guide](https://realpython.com/installing-python/) that gives a good overview of how to set up Python on your system.
 
@@ -20,7 +20,7 @@ You start by setting up few tools on your system.
 
 - You wll also need [Quarto](https://quarto.org/), a scientific and technical publishing system used for documentation pursoses of this project. Please follow the [Quarto installation guide](https://quarto.org/docs/get-started/) to install Quarto on your system.
 
-- Finally, you will also need to have `make` installed on your system, if you want to use it. 
+- Finally, you will also need to have `make` installed on your system, if you want to use it. It reads instructions from a `Makefile` and helps automate the execution of these tasks, ensuring that complex workflows are executed correctly and efficiently.
     - For Linux users this is usually already installed. 
     - For MacOS users, you can install `make` by running `brew install make` in the terminal. 
     - For Windows users, there are few options to install `make` and they are dependent on how you have setup your system. For example, if you have installed the Windows Subsystem for Linux (WSL), you can install `make` by running `sudo apt-get install make` in the terminal. If not you are probably better of googling how to install `make` on Windows and follow a reliable source.
@@ -43,7 +43,7 @@ You also see an `output` directory but it is empty. Why? Because the output is c
 
 ### How do I create the output?
 
-Assuming that you have WRDS access, Python, Vs Code, Quarto and make installed, this should be relatively straightforward. Refer to the setup instructions [here](#where-do-i-start).
+Assuming that you have WRDS access, Python, Vs Code, Quarto and make installed, this should be relatively straightforward. Refer to the setup instructions in section [above](#where-do-i-start).
 
 > [!IMPORTANT]
 > In order to access the Worldscope Database through WRDS, complete this [form](https://wrds-www.wharton.upenn.edu/register/), if not yet registered for WRDS.
@@ -60,12 +60,12 @@ Assuming that you have WRDS access, Python, Vs Code, Quarto and make installed, 
 
 ### Setting up for Reproducible Empirical Research
 
-To start a new project on earnings management and investor protection based on this repo, follow these steps: 
+To start a new reproducible project on earnings management and investor protection based on this repo, follow these steps: 
 1. Clone the repository by clicking “Use this Template” at the top of the file list on GitHub. 
 2. Remove any files that you don’t need for your specific project. 
 3. Over time, you can fork this repository and customize it to develop a personalized template that fits your workflow and preferences.
 
-This repository contains three files that TRR 266 members might find particularly useful: 
+This repository contains the files that TRR 266 members might find particularly useful: 
 - The file `code/python/theme_trr.py` features a ggplot theme that makes it easy to generate visuals that comply to the TRR 266 style guide. But ggplot in python is not yet polished and does not have the same level of quality as in R. 
 - The RMarkdown file in `info` takes you through the process. With the `doc/beamer_theme_trr266.sty` you can beef up your Quarto based beamer presentations to the fancy TRR design. 
 - Finally, the file `code/python/pull_wrds_data.py` is useful if you want to learn how to download WRDS data directly from python.
