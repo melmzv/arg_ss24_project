@@ -4,7 +4,7 @@
 
 This repository provides an infrastructure for an open science-oriented empirical project, specifically targeted at the empirical accounting research community. It features a project exploring the relationship between earnings management and investor protection across different countries. The project requires access to the research platform WRDS, which provides access to a variety of different datasets.
 
-This final assignment comprises the comprehensive application of all skills learned in previous assignments, indicating a more complex project workflow. The task involves accessing and retrieving data from the Worldscope Database through WRDS, which adds complexity as it requires both understanding WRDS and writing scripts to pull the data. Similarly to Assignment I, reproducing a table from a seminal paper necessitates a deep understanding of the paper’s methodology and thorough attention to detail to match the results. Additionally, documenting the steps and making explicit assumptions where the paper is unclear adds complexity. The output documents compare the results with the original and discuss any differences observed.
+This final assignment comprises the comprehensive application of all skills learned in previous assignments, indicating a more complex project workflow. The task involves accessing and retrieving data from the Worldscope Database through WRDS, which adds complexity as it requires both understanding WRDS and writing scripts to pull the data. Similarly to Assignment I, reproducing a table from a seminal paper necessitates a deep understanding of the paper’s methodology and thorough attention to detail to match the results. Additionally, the project output includes  documentation of the steps and explicit assumptions made. The output documents compare the results with the original and discuss any differences observed.
 
 Even if you are not specifically interested in earnings management (who wouldn’t be?) or do not have access to WRDS Databases, the codebase provided in this repository will give you a clear understanding of how to structure a reproducible empirical project. The template and workflow used here are designed to ensure transparency and reproducibility, making it a valuable resource for any empirical accounting research project.
 
@@ -18,9 +18,12 @@ You start by setting up few tools on your system.
 
 - Additionally, you will also need to setup an Integrated Development Environment (IDE) or a code editor. We recommend using VS Code, please follow the [Getting started with Python in VS Code Guide](https://code.visualstudio.com/docs/python/python-tutorial).
 
-- You wll also need [Quarto](https://quarto.org/), a scientific and technical publishing system. Please follow the [Quarto installation guide](https://quarto.org/docs/get-started/) to install Quarto on your system.
+- You wll also need [Quarto](https://quarto.org/), a scientific and technical publishing system used for documentation pursoses of this project. Please follow the [Quarto installation guide](https://quarto.org/docs/get-started/) to install Quarto on your system.
 
-- Finally, you will also need to have `make` installed on your system, if you want to use it. For Linux users this is usually already installed. For MacOS users, you can install `make` by running `brew install make` in the terminal. For Windows users, there are few options to install `make` and they are dependent on how you have setup your system. For example, if you have installed the Windows Subsystem for Linux (WSL), you can install `make` by running `sudo apt-get install make` in the terminal. If not you are probably better of googling how to install `make` on Windows and follow a reliable source.
+- Finally, you will also need to have `make` installed on your system, if you want to use it. 
+    - For Linux users this is usually already installed. 
+    - For MacOS users, you can install `make` by running `brew install make` in the terminal. 
+    - For Windows users, there are few options to install `make` and they are dependent on how you have setup your system. For example, if you have installed the Windows Subsystem for Linux (WSL), you can install `make` by running `sudo apt-get install make` in the terminal. If not you are probably better of googling how to install `make` on Windows and follow a reliable source.
 
 If you are new to scientific computing, we suggest that you also pick up a reference from the list below and browse through it. The [Gentzkow and Shapiro (2014) paper](https://web.stanford.edu/~gentzkow/research/CodeAndData.pdf) is a particularly easy and also useful read. 
 
