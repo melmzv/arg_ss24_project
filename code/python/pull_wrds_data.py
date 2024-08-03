@@ -23,8 +23,8 @@ def main():
     '''
     cfg = read_config('config/pull_data_cfg.yaml')
     wrds_login = get_wrds_login()
-    wrds_us = pull_wrds_data(cfg, wrds_login)
-    wrds_us.to_csv(cfg['cstat_us_sample_save_path'], index=False)
+    wrds_data = pull_wrds_data(cfg, wrds_login)
+    wrds_data.to_csv(cfg['cstat_us_sample_save_path'], index=False)
 
     
 def get_wrds_login():
@@ -56,21 +56,23 @@ def pull_wrds_data(cfg, wrds_authentication):
     stat_var_str = ', '.join(cfg['stat_vars'])
 
     log.info("Pulling dynamic Compustat data ... ")
-    wrds_us_dynamic = db.raw_sql(
+    wrds_data_dynamic = db.raw_sql(
         f"SELECT {dyn_var_str} FROM comp.funda WHERE {cfg['cs_filter']}"
     )
     log.info("Pulling dynamic Compustat data ... Done!")
 
     log.info("Pulling static Compustat data ... ")
-    wrds_us_static = db.raw_sql(f'SELECT {stat_var_str} FROM comp.company')
+    wrds_data_static = db.raw_sql(
+        f"SELECT {stat_var_str} FROM comp.company"
+    )
     log.info("Pulling static Compustat data ... Done!")
 
     db.close()
     log.info("Disconnected from WRDS")
 
-    wrds_us = pd.merge(wrds_us_static, wrds_us_dynamic, "inner", on="gvkey")
+    wrds_data = pd.merge(wrds_data_dynamic, wrds_data_static, on='gvkey', how='left')
 
-    return wrds_us
+    return wrds_data
 
 
 if __name__ == '__main__':
