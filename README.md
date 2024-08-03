@@ -14,11 +14,11 @@ The default branch, `only_python`, is a stripped-down version of the template co
 
 You start by setting up few tools on your system: 
 
-- If you are new to Python, we recommend that you follow the [Real Python installation guide](https://realpython.com/installing-python/) that gives a good overview of how to set up Python on your system.
+- If you are new to Python, follow the [Real Python installation guide](https://realpython.com/installing-python/) that gives a good overview of how to set up Python on your system.
 
 - Additionally, you will also need to setup an Integrated Development Environment (IDE) or a code editor. We recommend using VS Code, please follow the [Getting started with Python in VS Code Guide](https://code.visualstudio.com/docs/python/python-tutorial).
 
-- You wll also need [Quarto](https://quarto.org/), a scientific and technical publishing system used for documentation pursoses of this project. Please follow the [Quarto installation guide](https://quarto.org/docs/get-started/) to install Quarto on your system.
+- You wll also need [Quarto](https://quarto.org/), a scientific and technical publishing system used for documentation pursoses of this project. Please follow the [Quarto installation guide](https://quarto.org/docs/get-started/) to install Quarto on your system. I recommend downloading the Quarto [Extension](https://marketplace.visualstudio.com/items?itemName=quarto.quarto) for enhanced functionality, which streamlines the workflow and ensures professional documentation quality for this project.
 
 - Finally, you will also need to have `make` installed on your system, if you want to use it. It reads instructions from a `Makefile` and helps automate the execution of these tasks, ensuring that complex workflows are executed correctly and efficiently.
     - For Linux users this is usually already installed. 
