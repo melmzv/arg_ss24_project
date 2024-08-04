@@ -8,12 +8,16 @@ dyn_vars:
     - item1151  # Depreciation, depletion, and amortization item used as sum provided by https://wrds-www.wharton.upenn.edu/documents/526/Worldscope_Balancing_Model_-_Industrials.xls
     - item2999  # Total Assets
     - item7230  # TOTAL ASSETS (U.S.$)
+    - item6099  # CURRENCY OF DOCUMENT (ISO). We see that the local currency of country usually corresponds.
+    - item18214 # EXCHANGE RATE USED FOR TRANSLATING BALANCE SHEET
+    - item18215 # EXHANGE RATE USED FOR TRANSLATING INC STATEMENT/CASH FL
     - item1001  # Net Sales or Revenues
-    - item2501  # Property, Plant, and Equipment, Net
+    - item7240  # NET SALES OR REVENUES (U.S.$)
+    - item7250  # NET INCOME (U.S.$)
     - item1250  # Operating Income
-    - item1249  # Operating Expenses - Total
+    - item1551  # NET INCOME BEFORE EXTRA ITEMS/PREFERRED DIVIDENDS
+    - item1651  # NET INCOME BEFORE PREFERRED DIVIDENDS; net earnings 
     - item3101  # Current Liabilities - Total
-    - item2149  # Other Current Assets
     - item2201  # Current Assets - Total
 
 stat_vars:

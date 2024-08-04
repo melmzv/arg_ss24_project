@@ -72,7 +72,7 @@ To start a new reproducible project on earnings management and investor protecti
 3. Over time, you can fork this repository and customize it to develop a personalized template that fits your workflow and preferences.
 
 > [!TIP]
-> In case you need to work with additional variables other than stated in this project, I recommend using the Excel template [Worldscope Balancing Model - Industrials](https://wrds-www.wharton.upenn.edu/documents/526/Worldscope_Balancing_Model_-_Industrials.xls) that gives a visual overview of variables placement in Balance Sheet, Income Statement and Cash Flow Analysis.
+> In case you need to work with additional variables other than stated in this project, I recommend using the Excel template [Worldscope Balancing Model - Industrials](https://wrds-www.wharton.upenn.edu/documents/526/Worldscope_Balancing_Model_-_Industrials.xls) that gives a visual overview of variables placement in Balance Sheet, Income Statement and Cash Flow Statement.
 
 This repository contains the files that TRR 266 members might find particularly useful: 
 - The file `code/python/theme_trr.py` features a ggplot theme that makes it easy to generate visuals that comply to the TRR 266 style guide. But ggplot in python is not yet polished and does not have the same level of quality as in R. 

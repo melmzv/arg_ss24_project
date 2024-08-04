@@ -22,7 +22,7 @@ def main():
     log.info(f"Data columns: {data.columns.tolist()}")
 
     # Filter countries with at least 300 firm-year observations for the required variables
-    required_vars = ['item2999', 'item1001', 'item1505', 'item1250']
+    required_vars = ['item2999', 'item1001', 'item7250', 'item1250']
 
     # Filter out rows with missing values in the required variables
     data_filtered = data.dropna(subset=required_vars)
