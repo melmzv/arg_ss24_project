@@ -47,8 +47,7 @@ Assuming that you have WRDS access, Python, Vs Code, Quarto and make installed, 
 
 > [!IMPORTANT]
 > - To access the financial data needed for this project, use the Worldscope Database available through the WRDS (Wharton Research Data Services) platform. WRDS acts as a gateway, offering tools for data extraction and analysis, and consolidates multiple data sources for academic and corporate research.
-> - In order to access the Worldscope Database through WRDS, complete this [form](https://wrds-www.wharton.upenn.edu/register/), if not yet registered for WRDS. 
-> - Ensure that you create an account with your institutional (university) login. If you are from Humboldt-Universität zu Berlin, contact the University Library to get your account request approved. After setting up Two-factor authentication (2FA) and accepting the terms of use, you will be set to go with WRDS Databases.
+> - In order to access the Worldscope Database through WRDS, complete this [form](https://wrds-www.wharton.upenn.edu/register/), if not yet registered for WRDS. Ensure that you create an account with your institutional (university) login. If you are from Humboldt-Universität zu Berlin, contact the University Library to get your account request approved. After setting up Two-factor authentication (2FA) and accepting the terms of use, you will be set to go with WRDS Databases.
 > - Unfortunately, WRDS does not typically provide direct access to historical snapshots of databases. The data available through WRDS is usually the most current version (latest update in [July 2024](https://wrds-www.wharton.upenn.edu/data-dictionary/tr_worldscope/)). To access a specific historical version like the November 2000 version, contact WRDS support or the data vendor (Refinitiv) directly to inquire about the possibility of accessing historical snapshots.
 
 
