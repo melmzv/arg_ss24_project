@@ -1,25 +1,25 @@
 dyn_vars:
-    - gvkey
-    - fyear
-    - datadate
-    - act
-    - che
-    - lct
-    - dlc
-    - txp
-    - dp
-    - ni
-    - oibdp
-    - at
-    - sale
-    - ppent
-    - ib
+    - item6105  # Worldscope Permanent ID
+    - year_  # Year
+    - item5350  # Fiscal Period End Date
+    - item2001  # Cash and Short Term Investments
+    - item2003  # Cash
+    - item3051  # Short Term Debt and Current Portion of Long Term Debt
+    - item3063  # Income Taxes Payable
+    - item4049  # Depreciation and Depletion
+    - item1505  # Net Income After Taxes and Minority Interest
+    - item1250  # Operating Income Before Depreciation and Amortization
+    - item2999  # Total Assets
+    - item1001  # Net Sales or Revenues
+    - item2501  # Property, Plant, and Equipment, Net
+    - item1250  # Operating Income
 
 stat_vars:
-    - gvkey
-    - sic
-    - loc
+    - item6105  # Worldscope Permanent ID
+    - item7021  # SIC Code
+    - item6026  # Nation Code
+    - item6001  # Company Name
 
-cs_filter: consol='C' and indfmt='INDL' and datafmt='STD' and popsrc='D'
+cs_filter: freq='A' and year_>=1990 and year_<=1999  # Example filter for year range and frequency
 
-cstat_us_sample_save_path: 'data/pulled/financial_data.csv'
+worldscope_sample_save_path: 'data/pulled/financial_data.csv'

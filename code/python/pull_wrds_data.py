@@ -1,7 +1,7 @@
 # --- Header -------------------------------------------------------------------
 # See LICENSE file for details
 #
-# This code pulls data from WRDS
+# This code pulls data from WRDS Worldscope Database
 # ------------------------------------------------------------------------------
 import os
 from getpass import getpass
@@ -15,7 +15,7 @@ log = setup_logging()
 
 def main():
     '''
-    Main function to pull data from WRDS.
+    Main function to pull data from WRDS Worldscope Database.
 
     This function reads the configuration file, gets the WRDS login credentials, and pulls the data from WRDS.
 
@@ -24,7 +24,7 @@ def main():
     cfg = read_config('config/pull_data_cfg.yaml')
     wrds_login = get_wrds_login()
     wrds_data = pull_wrds_data(cfg, wrds_login)
-    wrds_data.to_csv(cfg['cstat_us_sample_save_path'], index=False)
+    wrds_data.to_csv(cfg['worldscope_sample_save_path'], index=False)
 
     
 def get_wrds_login():
@@ -55,22 +55,22 @@ def pull_wrds_data(cfg, wrds_authentication):
     dyn_var_str = ', '.join(cfg['dyn_vars'])
     stat_var_str = ', '.join(cfg['stat_vars'])
 
-    log.info("Pulling dynamic Compustat data ... ")
+    log.info("Pulling dynamic Worldscope data ... ")
     wrds_data_dynamic = db.raw_sql(
-        f"SELECT {dyn_var_str} FROM comp.funda WHERE {cfg['cs_filter']}"
+        f"SELECT {dyn_var_str} FROM tr_worldscope.wrds_ws_funda WHERE {cfg['cs_filter']}"
     )
-    log.info("Pulling dynamic Compustat data ... Done!")
+    log.info("Pulling dynamic Worldscope data ... Done!")
 
-    log.info("Pulling static Compustat data ... ")
+    log.info("Pulling static Worldscope data ... ")
     wrds_data_static = db.raw_sql(
-        f"SELECT {stat_var_str} FROM comp.company"
+        f"SELECT {stat_var_str} FROM tr_worldscope.wrds_ws_company"
     )
-    log.info("Pulling static Compustat data ... Done!")
+    log.info("Pulling static Worldscope data ... Done!")
 
     db.close()
     log.info("Disconnected from WRDS")
 
-    wrds_data = pd.merge(wrds_data_dynamic, wrds_data_static, on='gvkey', how='left')
+    wrds_data = pd.merge(wrds_data_dynamic, wrds_data_static, on='item6105', how='left')
 
     return wrds_data
 
