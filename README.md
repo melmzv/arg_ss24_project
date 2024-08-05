@@ -8,7 +8,7 @@ This final assignment requires the comprehensive application of all skills learn
 
 Even if you are not specifically interested in earnings management (who wouldn’t be?) or do not have access to WRDS Databases, the codebase provided in this repository will give you a clear understanding of how to structure a reproducible empirical project. The template and workflow used here are designed to ensure transparency and reproducibility, making it a valuable resource for any empirical accounting research project.
 
-The default branch, `only_python`, is a stripped-down version of the template containing only the Python workflow. This branch was cloned from the TRR 266 Template for Reproducible Empirical Accounting Research (TREAT) repository, focusing solely on the Python workflow.
+The default branch, `only_python`, is a stripped-down version of the template containing only the Python workflow. This branch was cloned from the TRR 266 Template for Reproducible Empirical Accounting Research (TREAT) repository, focusing solely on the Python workflow and utulizing the Python libraries listed in the `requirements.txt` file.
 
 ### Where do I start?
 
@@ -59,7 +59,16 @@ Assuming that you have WRDS access, Python, Vs Code, Quarto and make installed, 
 
 1. Click on the `Use this template` button on the top right of the repository and choose `Create a new repository`. Give the repository a name, a description and choose whether it should be public or private. Click on `Create repository`.
 2. You can now clone the repository to your local machine. Open the repository in Vs Code and open a new terminal.
-3. It is advisable to create a virtual environment for the project. You can do this by running `python -m venv venv` in the terminal. This will create a virtual environment in the `venv` directory. You can activate the virtual environment by running `source venv/bin/activate` on MacOS or Linux or `.\venv\Scripts\activate` on Windows. You can deactivate the virtual environment by running `deactivate`.
+3. It is advisable to create a virtual environment for the project. 
+You can do this by running `python -m venv venv` in the terminal. This will create a virtual environment in the `venv` directory. You can activate the virtual environment by running `source venv/bin/activate` on MacOS or Linux or `.\venv\Scripts\activate` on Windows. You can deactivate the virtual environment by running `deactivate`.
+
+```shell
+python3 -m venv venv
+source venv/bin/activate # On Linux and Mac OS
+# venv\Scripts\activate.bat # If you are using Windows - command prompt
+# venv/Script/Activate.ps1 # If you are using Windows - PowerShell and have allowed script execution
+```
+
 4. With an active virtual environment, you can install the required packages by running `pip install -r requirements.txt` in the terminal. This will install the required packages for the project.
 5. Copy the file _secrets.env to secrets.env in the project main directory. Edit it by adding your WRDS credentials.
 > [!NOTE]
