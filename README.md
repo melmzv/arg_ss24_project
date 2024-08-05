@@ -2,9 +2,9 @@
 
 ## Adopting the Open Science Workflow and TRR 266 Template for Reproducible Empirical Accounting Research 
 
-This repository provides an infrastructure for an open science-oriented empirical project, specifically targeted at the empirical accounting research community. It features a project exploring the relationship between earnings management and investor protection across different countries. The project requires access to the research platform WRDS, which provides access to a variety of different datasets.
+This repository provides an infrastructure for an open science-oriented empirical project, specifically targeted at the empirical accounting research community. It features a project exploring the relationship between earnings management and investor protection across different countries. The project showcases a reproducible workflow integrating Python scripts and data analysis, requiring access to the research platform WRDS, which provides access to a variety of different datasets.
 
-This final assignment requires the comprehensive application of all skills learned and feedback received from previous assignments, making it a more complex project workflow. The task involves accessing and retrieving data from the Worldscope Database through WRDS, which adds complexity as it requires both understanding WRDS and writing scripts to pull the data. Similarly to Assignment I, reproducing a table from a seminal paper necessitates a deep understanding of the paper’s methodology and thorough attention to detail to match the results. Additionally, the project output includes  documentation of the steps and explicit assumptions made. The output paper and presentation documents present the findings, compare them with the paper key results and discuss any differences observed.
+This final assignment requires the comprehensive application of all skills learned and feedback received from previous assignments, making it a more complex project workflow. The task involves accessing and retrieving data from the Worldscope Database through WRDS, which adds complexity as it requires both understanding WRDS and writing scripts to pull the data. Similarly to Assignment I, reproducing a table from a seminal paper necessitates a deep understanding of the paper’s methodology and thorough attention to detail to match the results. Additionally, the project output includes  documentation of the steps and explicit assumptions made. The paper and presentation output files present the findings, compare them with the paper key results and discuss any differences observed.
 
 Even if you are not specifically interested in earnings management (who wouldn’t be?) or do not have access to WRDS Databases, the codebase provided in this repository will give you a clear understanding of how to structure a reproducible empirical project. The template and workflow used here are designed to ensure transparency and reproducibility, making it a valuable resource for any empirical accounting research project.
 
@@ -26,19 +26,25 @@ You start by setting up few tools on your system:
     - For Windows users, there are few options to install `make` and they are dependent on how you have setup your system. For example, if you have installed the Windows Subsystem for Linux (WSL), you can install `make` by running `sudo apt-get install make` in the terminal. If not you are probably better of googling how to install `make` on Windows and follow a reliable source.
 
 
-Next, explore the repository to familiarize yourself with its folders. You will quickly see that there are three folders that have files in them:
+Next, explore the repository to familiarize yourself with its folders and files in them:
 
-- `config`: This directory holds configuration files that are being called by the program scripts in the `code` directory. We try to keep the configurations separate from the code to make it easier to adjust the workflow to your needs.
+- `config`: This directory holds configuration files that are being called by the program scripts in the `code` directory. We try to keep the configurations separate from the code to make it easier to adjust the workflow to your needs. In this project, `pull_data_cfg.yaml` file outlines the variables and settings needed to extract the necessary financial data from the Worldscope database. The `prepare_data_cfg.yaml` file specifies the configurations for preprocessing and cleaning the data before analysis, ensuring consistency and accuracy in the dataset and following the paper filtration requirements. The `do_analysis_cfg.yaml` file contains the parameters and settings used for performing the final analysis on the extracted financial data.
 
-- `code`: This directory holds program scripts that are being called to download data from WRDS, prepare the data, run the analysis and create the output files (a paper and a presentation, both PDF files).
+- `code`: This directory holds program scripts that are being called to pull data from WRDS, prepare the data, run the analysis and create the output file (a replicated pickle table). Using pickle instead of Excel is more preferable as it is a more Pythonic data format, enabling faster read and write operations, preserving data types more accurately, and providing better compatibility with Python data structures and libraries.
 
-- `data`: A directory where data is stored. You will see that it again contains sub-directories and a README file that explains their purpose. You will also see that in the `external` sub-directory there are two data files. Again, the README file explains their content.
+- `data`: A directory where data is stored. It is used to organize and manage all data files involved in the project, ensuring a clear separation between external, pulled, and generated data sources. Go through the sub-directories and a README file that explains their purpose. 
 
-- `doc`: Here you will find two Quarto files containing text and program instructions that will become our paper and presentation, by rendering them through the R markdown process and LaTeX.
+- `doc`: This directory contains Quarto files (.qmd) that include text and program instructions for the paper and presentation. These files are rendered through the Quarto process using Python and the VS Code extension, integrating code, results, and literal text seamlessly.
+
+> [!TIP]
+> Logo File Update: Convert `trr266_logo.eps` to `trr266_logo.pdf` for compatibility with XeLaTeX. Update `beamer_theme_trr266.sty` to reference the new PDF logo file. When running the presentation script, ensure `trr266_logo.pdf` is in the `doc` directory for the beamer theme to work correctly.
+
+> [!NOTE]
+> Note: While generating the presentation, you may notice that some sections and subsections might not have the correct beamer formatting applied. This is due to the color coding in the `beamer_theme_trr266.sty` file, which might need further adjustments. The current output is based on the template provided and further customization may be required to ensure consistency across all slides.
 
 - `info`: This is a folder that can store additional documentation. In our case you will find a RMarkdown file that introduces our TRR 266-themed ggplot theme.
 
-You also see an `output` directory but it is empty. Why? Because the output is created locally on your computer.
+You also see an `output` directory but it is empty. Why? Because the output paper and presentation are created locally on your computer.
 
 
 ### How do I create the output?
@@ -61,11 +67,12 @@ Assuming that you have WRDS access, Python, Vs Code, Quarto and make installed, 
 
 > [!TIP]
 > I have included an intermediate check step using the `code/python/test_wrds_connection.py` file to ensure that WRDS access is secure and functional before running the main program script.
-6. Run 'make all' either via the console. I use the Makefile Tools extension in VS Code to run the makefile. This will execute the makefile and generate the necessary output files.
-7. Eventually, you will be greeted with the two files in the output directory: "paper.pdf" and "presentation.pdf". Congratulations! You have successfully used an open science resource and reproduced our "analysis". Now modify it and make it your own project!
+6. Run 'make all' either via the console. I use the Makefile Tools extension in VS Code to run the makefile and generate the necessary output files to the `output` directory.
+7. Eventually, you will be greeted with the two files in the output directory: "paper.pdf" and "presentation.pdf". Congratulations! 🥳 You have successfully used an open science resource and reproduced our "analysis".
 
 ### Setting up for Reproducible Empirical Research
 
+This code base, adapted from TREAT, should give you an overview on how the template is supposed to be used for my specific project and how to structure a reproducible empirical project.
 To start a new reproducible project on earnings management and investor protection based on this repo, follow these steps: 
 1. Clone the repository by clicking “Use this Template” at the top of the file list on GitHub. 
 2. Remove any files that you don’t need for your specific project. 
@@ -82,7 +89,7 @@ This repository contains the files that TRR 266 members might find particularly 
 
 ### Licensing
 
-This project particularly utilizes the template used in collaborative research center [TRR 266 Accounting for Transparency](https://accounting-for-transparency.de), that is centered on workflows that are typical in the accounting and finance domain.
+This project utilizes the template used in collaborative research center [TRR 266 Accounting for Transparency](https://accounting-for-transparency.de), that is centered on workflows that are typical in the accounting and finance domain.
 
 The repository is licensed under the MIT license. Due to reusing a part of the example code from the treat repository, e.g. code for pulling data from WRDS, I would like to give the following credit:
 
