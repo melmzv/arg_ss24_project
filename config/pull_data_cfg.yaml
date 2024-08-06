@@ -5,7 +5,7 @@ dyn_vars:
     - item2003  # Cash
     - item3051  # Short Term Debt and Current Portion of Long Term Debt
     - item3063  # Income Taxes Payable
-    - item1151  # Depreciation, depletion, and amortization item used as sum provided by https://wrds-www.wharton.upenn.edu/documents/526/Worldscope_Balancing_Model_-_Industrials.xls
+    - item1151  # Depreciation, depletion, and amortization item (from IS) used as sum provided by https://wrds-www.wharton.upenn.edu/documents/526/Worldscope_Balancing_Model_-_Industrials.xls
     - item2999  # Total Assets
     - item1001  # Net Sales or Revenues
     - item1250  # Operating Income
@@ -21,7 +21,7 @@ stat_vars:
     - item6026  # Country Code
     - item7021  # SIC Code
 
-cs_filter: freq='A' and year_>=1990 and year_<=1999  # Filter for year range, and annual frequency (based on Worldscope-specific Identifier advice)
+cs_filter: freq='A' and year_>=1990 and year_<=1999  # Filter for year range as given in the paper, and annual frequency based on Worldscope-specific Identifier advice
 
 included_countries: 
     - 'AUSTRIA'

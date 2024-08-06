@@ -1,16 +1,16 @@
 ---
 title: |
-  | Exporing Discretionary Accruals: 
-  | A Stub Project^[I acknowledge financial support from Deutsche Forschungsgemeinschaft-Project-ID 403041268 - TRR 266.] \vspace{1cm}
-author: |
-  | Joachim Gassen 
-  | TRR 266 Accounting for Transparency
-  | Humboldt-Universität zu Berlin 
-  | gassen@wiwi.hu-berlin.de
+  | Earnings Management and Investor Protection:
+  | Accounting Reading Group - Assignment III\vspace{1cm}
+author:
+  - name: Melisa Mazaeva
+    email: melisa.mazaeva@student.hu-berlin.de
+    affiliations:
+      - Humboldt-Universität zu Berlin  
 date: today
 date-format: MMM D, YYYY [\vspace{1cm}]
 abstract: |
-  | The Open Science movement promotes the accessibility and reusability of research. This repository has the objective to help researchers establishing such an collaboration-oriented workflow. It uses a toy project on discretionary accruals for demonstration. 
+  | This project uses the TRR 266 Template for Reproducible Empirical Accounting Research (TREAT) to provide an infrastructure for open science-oriented empirical projects. Leveraging external Worldscope data sets on financial data, the repository showcases a reproducible workflow that integrates Python scripts for data analysis. The project’s output demonstrates a comprehensive application of skills to replicate and extend the findings from the seminal paper by Leuz, Nanda, and Wysocki (2003), particularly in providing descriptive statistics for the four individual earnings management measures as well as the aggregate earnings management score across various countries. In doing so, it documents and discusses the research design choices made and the variations between the original and reproduced results. This code base, adapted from TREAT, should give you an overview on how the template is supposed to be used for my specific project and how to structure a reproducible empirical project.
   | \vspace{6cm}
 bibliography: references.bib
 biblio-style: apsr
@@ -36,9 +36,13 @@ header-includes:
   - \usepackage{adjustbox}
   - \usepackage{graphicx}
   - \usepackage{csquotes}
+  - \usepackage{indentfirst}  # Added this line to ensure the first paragraph is indented for better readability
   - \usepackage[margin=1in]{geometry}
 ---
 
+\pagebreak
+
+## delete or take fikirs below
 ```{python}
 #| echo: false
 #| output: false
@@ -58,21 +62,156 @@ def rename_var_to_label(table, italic=True):
     return table
 ```
 
+## from fikir
+```{python}
+#| echo: false
+#| output: false
+
+import pickle
+import pandas as pd
+
+with open('../output/results.pickle', 'rb') as f:
+        results = pickle.load(f)
+
+def escape_underscores(df):
+    df.columns = [col.replace('_', '\_') for col in df.columns]
+    return df
+
+# Custom formatter function
+def custom_float_format(x):
+    return f"{x:.3f}".lstrip('0') if pd.notnull(x) else ""
+
+
+def prep_latex_table(df, caption=None, label=None):
+    df = escape_underscores(df.reset_index())
+    num_columns = len(df.columns)
+    column_format = 'l' + 'r' * (num_columns - 1)
+    latex_table = df.to_latex(
+        column_format=column_format,
+        index=False,
+        float_format=custom_float_format,
+    )
+    latex_table_lines = [
+        "\\begin{table}[htbp]",
+        "\\centering",
+        "\\resizebox{\\textwidth}{!}{%",
+        latex_table,
+        "}",
+        f"\\caption{{{caption}}}" if caption else "",
+        f"\\label{{{label}}}" if label else "",
+        "\\end{table}"
+    ]
+    return "\n".join(line for line in latex_table_lines if line)
+```
+
 \pagebreak
 
+## delete. from mine
+# List of Abbreviations
+\setlength{\parindent}{0em}
+
+**EM**: Earnings Management
+**IDE**: Integrated Development Environment  
+**UK**: United Kingdom  
+**US**: United States  
+**WRDS**: Wharton Research Data Services
+
+\setlength{\parindent}{4em} 
+
+\pagebreak
 
 
 # Introduction
 
-This is not a paper but a stub that is part of a [project template repository](https://github.com/trr266/treat). We developed this repository to provide a prototype for a reproducible and collaborative workflow. Several authors have discussed advantages of such workflows (@W_2017, @GGR_2018, @CFM_2019) and many scholars across fields have voiced the need for increased reproducibility in science (e.g., @I_2005, @GL_2014, @DPR_2017).
+The following paper illustrates how to use open science tools in empirical accounting research.
+
+The original study by @Leuz_2003 examines systematic differences in earnings management (EM) across 31 countries and proposes that these differences are influenced by the level of investor protection. Specifically, they argue that stronger investor protection reduces earnings management by limiting insiders’ ability to acquire private control benefits.
+
+This paper presents details on a replication of Table 2 Panel A from the seminal paper by @Leuz_2003. The original table provides descriptive statistics for four individual earnings management measures and the aggregate earnings management score across various countries, highlighting significant differences in EM practices between Continental Europe, Asia, and Anglo-American countries. 
+
+The project uses data from the Worldscope Database through Wharton Research Data Services (WRDS), focusing on the fiscal years 1990 to 1999 and covering multiple countries. The replication aims to follow the research design by @Leuz_2003 as closely as possible with the available data. It employs four individual earnings management measures: earnings smoothing using accruals (EM1), the correlation between changes in accruals and cash flows (EM2), the magnitude of accruals (EM3), and the ratio of small profits to small losses (EM4). These measures are combined to create an aggregate earnings management score, providing a comprehensive overview of EM practices.
+
+The analysis includes pulling and filtering the relevant financial data, identifying relevant companies and countries based on the authors’ requirements, calculating the earnings management measures for each country, and examining the relationship between each country’s aggregate earnings management score and its ranking based on made explicit assumptions whenever the paper is not clear on how to proceed.
+
+## delete. from mine
+Note that intermediate check steps have been omitted for brevity. The full code, including intermediate print steps to verify outputs, is presented in `code/python/Assignment1_analyze_residual_income.py`.
+
+The replicated table is shown below, followed by a detailed comparison, replication steps documentation, and discussion of the results.
+
+## delete from fikir. 1st table is for original table
+```{python}
+#| echo: false
+#| output: asis
+
+print(prep_latex_table(
+    results['penman_table'],
+    caption='Original table Penman 2013 - P/B Ratios And Future Residual Income',
+    label='tab:original_penman'
+))
+```
+
+```{python}
+#| echo: false
+#| output: asis
+
+print(prep_latex_table(
+    results['replication_results'],
+    caption='Replicated table - P/B Ratios And Future Residual Income',
+    label='tab:replicated_penman'
+))
+```
+
+# Research Design Choices and Assumptions
+
+The aim of Assignment III is to replicate a specific empirical table (Table 2 Panel A) from the seminal paper by @Leuz_2003. This table involves calculating the EM measures for firms across various countries over a defined period and examining the relationship between these measures and investor protection. The replication process includes data loading, preparation, cleaning, and normalization, followed by the application of statistical methods to compute and interpret financial metrics. For Assignment III, I pulled data from the Worldscope database through WRDS and used the Python programming language to carry out the empirical analysis. Visual Studio Code was used as the Integrated Development Environment (IDE) for writing, debugging, and optimizing the Python code.
+
+The replication is based on data pulled from the Worldscope database, specifically from the `wrds_ws_company` and `wrds_ws_funda` tables, which were merged for the analysis. The first table provides company profile information, including items such as ISIN, Worldscope Identifiers, company name, and the country where the company is domiciled @WRDS_WS_Company_2024. The latter table contains Fundamentals Annual data at the company-year level, including items such total assets, net income, and other relevant financial variables @WRDS_WS_Funda_2024.
+
+Following @Leuz_2003, I focus the analysis on companies across various countries, ensuring that the data accurately reflects the fiscal years 1990 to 1999 as specified in the original study. The replication aims to mirror the research design as closely as possible with the available data.
+
+In addition, I impose the following assumptions to ensure clarity and consistency where the paper does not provide explicit guidance:
+
+1. The original paper references the November 2000 version of the Worldscope Database. However, the data used for this analysis represents the latest available version, updated in July 2024, with quarterly frequency updates [@WRDS_2024]. Due to potential adjustments and updates made to the database since November 2000, there may be differences between the databases that could affect the results. For example, companies may restate financials after the original reporting period, so that these restatements are reflected in the later database version rather than the historical one. Moreover, the data vendor Refinitiv regularly updates its databases to correct errors and add new information, which may be included in the later data but not in the November 2000 snapshot.
+2. The original paper outlines key terms that will be used in this project to ensure consistency and accuracy in the replication. @Leuz_2003 define earnings management as the manipulation of a firm's reported economic performance by insiders to deceive certain stakeholders or to affect contractual results. Authors describe investor protection as a key institutional factor that limits insiders' acquisition of private control benefits, thereby reducing their incentives to manage accounting earnings by ensuring strong and well-enforced rights for outside investors. Finally, private control benefits are the benefits that insiders can gain from controlling a firm, which can include financial gains or other advantages that are not shared with other stakeholders @Leuz_2003.
+3. While pulling the data for analysis, I encountered negative values for some key financial metrics such as operating income (`item1250`), net income before extraordinary items/preferred dividends (`item1551`), and net income before preferred dividends (`item1651`). The paper by @Leuz_2003 does not explicitly specify how to handle negative values in key financial metrics. For the purpose of this replication study, I will include negative values in the analysis. Including these values ensures that the analysis captures the full spectrum of earnings management activities across different countries.
+4. Another potential source of discrepancies between the original and replicated tables may be the choice of variables pulled from Worldscope. For example, in the `wrds_ws_funda table`, both `item1151` and `item4051` are named “DEPRECIATION, DEPLETION AND AMORTIZATION” @WRDS_WS_Funda_2024. I chose `item1151` from the Income Statement rather than `item4051` from the Cash Flow Statement, based on the Excel Industrials Template by @WRDS_Balancing_Model_2024. Since the authors do not specify the choice of variables used from the database, this could cause differences in the results.
+5. The EM measures are based on scaled variables (e.g., operating cash flow scaled by lagged total assets). As such, the currency of the relevant data items should not affect the results as long as the same currency is used consistently for both the numerator and the denominator. This approach ensures comparability across different countries, regardless of their local currencies. Additionally, according to a document by [@Thomson_Financial_2007, p.20], all Worldscope data is consistently reported in the local currency of each firm’s country of domicile, eliminating the need for currency conversions in this project.
+333. ## delete. mine 
+333. It is assumed that Penman (2013) restricted the possible P/B values to a range of 0 to 7 to exclude outliers. Hence, extreme P/B values that are negative and very high (greater than 7) are excluded to focus the analysis on firms with more stable and reasonable valuations, reducing the impact of outliers.
+
+By following the steps provided in Section 4 and adhering to the assumptions made, I successfully replicated the analysis and produced the required table. A thorough step-by-step approach, with each step clearly documented,  helped to understand and verify the outputs.
 
 
-# Discretionary Accruals
+# Replication Steps
+## Step 1: Pulling the Data and Managing the Databases
+In contrast to Assignment I, where the data was provided externally, Assignment III involves additionally pulling data directly from the Worldscope database, merging relevant tables, and preparing the data for further analysis from raw data to final output.
+
+To compile the dataset, the dynamic and static datasets were merged on the `item6105`  identifier, representing the unique Worldscope Permanent ID. WRDS advises using this identifier consistently within Worldscope data since it remains stable over time [@WRDS_Overview_2024]. An inner join was used for this merge, because this approach ensures that only the complete and consistent data from both tables is retained. 
+
+Moreover, an additional filter is applied to retain only company rows. This is achieved by selecting rows where the `item6100` field equals 'C', indicating that the Worldscope Identifier represents a company. This step ensures that the analysis includes only company data, excluding averages, exchange rates, securities, or stock indices, as indicated by [@WRDS_Overview_2024].
+
+As required by @Leuz_2003, financial institutions are excluded from the analysis based on their SIC codes. This is done by filtering out rows where the `item7021` identifier, representing the SIC code, falls within the range of 6000 to 6999. Hence, the dataset focuses only on non-financial companies, aligning with the methodology of the original paper.
+
+Finally, additional filtering ensures that only data from the 31 countries, as given in the paper, is included. These filtering steps were applied to reduce the dataset size and improve the workflow. 
+
+Notably, the configuration file utilizes additional refinement as proposed by [@WRDS_Overview_2024]. Using `A` (Annual) in `freq` variable ensures that the data represents the financial information reported on an annual basis, which is consistent with the paper’s methodology. This excludes data reported on a current, daily, or quarterly basis.
+
+After retaining only relevant company data, excluding financial institutions, and focusing on specified countries, the processed data was then saved to a CSV file at the path `data/pulled` specified in the configuration file `config/pull_data_cfg​`.
+
+## Step 2: Data Preparation
+To prepare the data according to the methodology outlined in the paper, it is essential to follow specific steps. Firstly, countries with sufficient firm-year observations must be filtered. Each country should have at least 300 firm-year observations for certain key accounting variables, including total assets, sales, net income, and operating income. Secondly, firms with adequate consecutive data must be identified. Each firm must have income statement and balance sheet information for at least three consecutive years, where I focus on the same key variables as in the previous step. 
+
+## Step 3: Analysis Implementation and Table Reproduction
+In this replication step, implement the calculations for the EM measures as described in the methodology of the paper, ensuring that all statistical methods and groupings are accurately replicated.
+
+# Discretionary Accruals ##delete?
 
 To demonstrate our workflow, we explore discretionary accruals across the U.S. We calculate modified Jones and Dechow and Dichev type accruals and show their distributional properties. The main purpose of all this, however, is to provide a toy use case for [our project template directory](https://github.com/trr266/project_template) that contains all the code to obtain the data, run the analysis and prepare a paper as well as a presentation.
 
 Table \ref{tab:tab-descriptives-sample} presents our data that is based on a simple WRDS pull of Compustat data with financial firms (SIC 6XXX) excluded. We require data to calculate all variables and this drastically reduces the sample size. Modified Jones discretionary accruals are calculated loosely based on @HN_2007 and Dechow and Dichev discretionary accruals are calculated based on (big surprise) @DD_2002. As you will see from @fig-boxplot_smp, discretionary accruals are very noisy constructs, even after limiting the sample to observations with complete data and winsorizing all data to the top and bottom percentile for each year. @fig-scatter_dd_lnta shows a very prominent heteroscedasticity of discretionary accruals with regards to size. While researchers have tried to address this problem, the distributional properties of these constructs significantly complicate the interpretation of discretionary accrual-related findings. Especially in high powered settings, the measurement error, being highly correlated with size, will tend to load on variables that are unrelated to the underlying economic construct but correlated with size. Table \ref{tab:corr} shows some correlations and Table \ref{tab:reg} shows some completely pointless regressions.
 
+
+## delete. cell 3 on Descriptive Statistics Table
 ```{python}
 #| label: fig-boxplot_smp
 #| fig-cap: "Distribution of Discretionary Accruals over Time"
@@ -153,9 +292,18 @@ print('\n'.join([
 ]))
 ```
 
+
+
+# Results
+Cross-check your results with the original table to ensure accuracy. Compare your results with the results in the paper. If you notice differences, discuss where they may originate. Make sure to be as specific as possible. This could involve looking at the data selection, calculation methods, or any assumptions that might differ from the original; changes in the data over time, different interpretations of the methodology, or limitations in the data sources used. Consider whether the differences are significant and what they might mean for the conclusions drawn in the paper.
+
 # Conclusion
 
 Isn't that wonderful? Discretionary accruals rock but what rocks even more is open science and a collaborative workflow. Clone or fork this repository to kickstart your own projects. If you do not like either R or Python, consider contributing code in your favorite statistical programming language to the repo. Thanks for reading and enjoy!
+gpt: Summarize the key findings and their significance.
+This final assignment has required the comprehensive application of all skills learned and feedback received from previous assignments, making it a more complex project workflow.
+
+The study by @Leuz_2003 documents systematic differences in the level of earnings management across 31 countries. It suggests that insiders use EM to conceal firm performance and protect their private control benefits and that stronger investor protection reduces earnings management by limiting insiders’ ability to gain private benefits. By conducting a descriptive cluster analysis after descriptive statistics that was replicated in this project, the paper identifies groupings of countries with similar institutional characteristics and demonstrates that earnings management varies systematically across these institutional clusters.
 
 \pagebreak
 

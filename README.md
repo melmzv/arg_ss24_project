@@ -30,7 +30,7 @@ Next, explore the repository to familiarize yourself with its folders and files 
 
 - `config`: This directory holds configuration files that are being called by the program scripts in the `code` directory. We try to keep the configurations separate from the code to make it easier to adjust the workflow to your needs. In this project, `pull_data_cfg.yaml` file outlines the variables and settings needed to extract the necessary financial data from the Worldscope database. The `prepare_data_cfg.yaml` file specifies the configurations for preprocessing and cleaning the data before analysis, ensuring consistency and accuracy in the dataset and following the paper filtration requirements. The `do_analysis_cfg.yaml` file contains the parameters and settings used for performing the final analysis on the extracted financial data.
 
-- `code`: This directory holds program scripts that are being called to pull data from WRDS, prepare the data, run the analysis and create the output file (a replicated pickle table). Using pickle instead of Excel is more preferable as it is a more Pythonic data format, enabling faster read and write operations, preserving data types more accurately, and providing better compatibility with Python data structures and libraries.
+- `code`: This directory holds program scripts that are being called to pull data from WRDS directly from python, prepare the data, run the analysis and create the output file (a replicated pickle table). Using pickle instead of Excel is more preferable as it is a more Pythonic data format, enabling faster read and write operations, preserving data types more accurately, and providing better compatibility with Python data structures and libraries.
 
 - `data`: A directory where data is stored. It is used to organize and manage all data files involved in the project, ensuring a clear separation between external, pulled, and generated data sources. Go through the sub-directories and a README file that explains their purpose. 
 
@@ -107,7 +107,6 @@ To start a new reproducible project on earnings management and investor protecti
 This repository contains the files that TRR 266 members might find particularly useful: 
 - The file `code/python/theme_trr.py` features a ggplot theme that makes it easy to generate visuals that comply to the TRR 266 style guide. But ggplot in python is not yet polished and does not have the same level of quality as in R. 
 - The RMarkdown file in `info` takes you through the process. With the `doc/beamer_theme_trr266.sty` you can beef up your Quarto based beamer presentations to the fancy TRR design. 
-- Finally, the file `code/python/pull_wrds_data.py` is useful if you want to learn how to download WRDS data directly from python.
 
 
 ### Licensing

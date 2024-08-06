@@ -68,18 +68,18 @@ def pull_wrds_data(cfg, wrds_authentication):
     db.close()
     log.info("Disconnected from WRDS")
 
-    # Merge the static and dynamic data to create one single data set by the unique ITEM6105 (Worldscope Permanent ID)
+    # Merge the static and dynamic data to create one single data set by the unique item6105 (Worldscope Permanent ID)
     wrds_data = pd.merge(wrds_data_dynamic, wrds_data_static, left_on='item6105', right_on='item6105', how='inner')
 
     # Apply the filter for entity type to select only company rows in merged data based on Worldscope-specific Identifier advice
-    # to retrieve only company and drop average, exchange rate, ADR, security or a stock index.
+    # to retrieve only companies and drop average, exchange rate, ADR, security or a stock index.
     wrds_data = wrds_data[wrds_data['item6100'] == 'C']
 
     # Filter out financial institutions using SIC code as required by paper
     wrds_data = wrds_data.dropna(subset=['item7021'])
     wrds_data = wrds_data[(wrds_data['item7021'].astype(int) < 6000) | (wrds_data['item7021'].astype(int) > 6999)]
 
-    # Apply the filter for specified countries
+    # Apply the filter for specified countries given in the paper
     wrds_data = wrds_data[wrds_data['item6026'].isin(cfg['included_countries']) & ~wrds_data['item6026'].isin(cfg['excluded_countries'])]
 
 
