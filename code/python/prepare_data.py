@@ -22,10 +22,16 @@ def main():
         log.warning(f"Found {dup_obs.shape[0]} duplicate firm-year observations. Removing duplicates.")
         wrds_data = wrds_data.drop_duplicates(subset=['item6105', 'year_'], keep='first')
 
-    # Filter countries with at least 300 firm-year observations for key accounting variables
-    filtered_countries_data = filter_countries(wrds_data)
+    # Filter countries with at least 300 firm-year observations for key accounting variables as in paper
+    filtered_countries_data, eliminated_countries = filter_countries(wrds_data)
 
-    # Filter firms with at least three consecutive years of income statement and balance sheet information
+    # Print eliminated countries
+    if eliminated_countries:
+        log.info(f"Countries eliminated after filtration: {', '.join(eliminated_countries)}")
+    else:
+        log.info("No countries were eliminated after filtration.")
+
+    # Filter firms with at least three consecutive years of income statement and balance sheet information as in paper
     filtered_firms_data = filter_firms(filtered_countries_data)
 
     # Save the filtered dataset
