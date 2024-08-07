@@ -68,8 +68,17 @@ def pull_wrds_data(cfg, wrds_authentication):
     db.close()
     log.info("Disconnected from WRDS")
 
+    # Display the number of rows with empty item6105 before filtering
+    log.info(f"Rows with empty item6105 in dynamic data before filtering: {wrds_data_dynamic['item6105'].isna().sum()}")
+    log.info(f"Rows with empty item6105 in static data before filtering: {wrds_data_static['item6105'].isna().sum()}")
+
+    # Filter out rows with empty item6105 in both dynamic and static datasets, because this unique identifier is crucial 
+    # for further data preparation step when we filter on firm/year observations
+    wrds_data_dynamic = wrds_data_dynamic.dropna(subset=['item6105'])
+    wrds_data_static = wrds_data_static.dropna(subset=['item6105'])
+
     # Merge the static and dynamic data to create one single data set by the unique item6105 (Worldscope Permanent ID)
-    wrds_data = pd.merge(wrds_data_dynamic, wrds_data_static, left_on='item6105', right_on='item6105', how='inner')
+    wrds_data = pd.merge(wrds_data_dynamic, wrds_data_static, on='item6105', how='inner')
 
     # Apply the filter for entity type to select only company rows in merged data based on Worldscope-specific Identifier advice
     # to retrieve only companies and drop average, exchange rate, ADR, security or a stock index.

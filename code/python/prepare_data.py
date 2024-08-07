@@ -1,13 +1,10 @@
 # --- Header -------------------------------------------------------------------
-# Prepares the data for analysis
+# Prepare the pulled data for further analysis as per the requirements by Leuz et al.
 #
-# (C) Your Project -  See LICENSE file for details
+# (C) Melisa Mazaeva -  See LICENSE file for details
 # ------------------------------------------------------------------------------
 
-from itertools import product
-import numpy as np
 import pandas as pd
-
 from utils import read_config, setup_logging
 
 log = setup_logging()
@@ -17,53 +14,43 @@ def main():
     cfg = read_config('config/prepare_data_cfg.yaml')
 
     # Load the pulled data
-    data = pd.read_csv(cfg['worldscope_sample_save_path'])
-    log.info(f"Loaded data with {data.shape[0]} rows and {data.shape[1]} columns.")
-    log.info(f"Data columns: {data.columns.tolist()}")
+    wrds_data = pd.read_csv(cfg['worldscope_sample_save_path'])
 
-    # Filter countries with at least 300 firm-year observations for the required variables
-    required_vars = ['item2999', 'item1001', 'item7250', 'item1250']
+    # Check for duplicate firm-year observations
+    dup_obs = wrds_data[wrds_data.duplicated(subset=['item6105', 'year_'], keep=False)]
+    if not dup_obs.empty:
+        log.warning(f"Found {dup_obs.shape[0]} duplicate firm-year observations. Removing duplicates.")
+        wrds_data = wrds_data.drop_duplicates(subset=['item6105', 'year_'], keep='first')
 
-    # Filter out rows with missing values in the required variables
-    data_filtered = data.dropna(subset=required_vars)
-    log.info(f"Data after filtering missing values in required variables has {data_filtered.shape[0]} rows.")
+    # Filter countries with at least 300 firm-year observations for key accounting variables
+    filtered_countries_data = filter_countries(wrds_data)
 
-    # Count firm-year observations per country
-    country_counts = data_filtered['item6026'].value_counts()
-    log.info(f"Country counts:\n{country_counts}")
+    # Filter firms with at least three consecutive years of income statement and balance sheet information
+    filtered_firms_data = filter_firms(filtered_countries_data)
 
-    # Filter countries with at least 300 observations
-    sufficient_data_countries = country_counts[country_counts >= 300].index.tolist()
-    data_filtered = data_filtered[data_filtered['item6026'].isin(sufficient_data_countries)]
-    log.info(f"Data after filtering countries with at least 300 observations has {data_filtered.shape[0]} rows.")
-
-    # Ensure each firm has data for at least three consecutive years for the required variables
-    def has_consecutive_years(df, min_years=3):
-        years = sorted(df['year_'].unique())
-        return any([all([(years[i + j] - years[i]) == j for j in range(min_years)]) for i in range(len(years) - min_years + 1)])
-
-    # Group by firm and filter for consecutive years
-    firm_groups = data_filtered.groupby('item6105')
-    log.info(f"Firm groups: {len(firm_groups)}")
-
-    def filter_consecutive_years(group):
-        if 'year_' not in group.columns:
-            log.error("Column 'year_' not found in group")
-            return pd.DataFrame()
-        return group if has_consecutive_years(group) else pd.DataFrame()
-
-    consecutive_firm_data = firm_groups.apply(filter_consecutive_years, include_groups=False)
-    consecutive_firm_data.reset_index(drop=True, inplace=True)
-    log.info(f"Data after filtering for firms with at least three consecutive years has {consecutive_firm_data.shape[0]} rows.")
-
-    if consecutive_firm_data.empty:
-        log.warning("No data found with three consecutive years. Please check the data and the required variables.")
-
-    # Save the prepared data
-    consecutive_firm_data.to_csv(cfg['prepared_data_save_path'], index=False)
-    log.info(f"Prepared data saved to {cfg['prepared_data_save_path']}")
+    # Save the filtered dataset
+    filtered_firms_data.to_csv(cfg['prepared_data_save_path'], index=False)
 
     log.info("Preparing data for analysis ... Done!")
 
-if __name__ == '__main__':
+def filter_countries(df):
+    key_vars = ['item2999', 'item1001', 'item1250', 'item1651']  # Total Assets, Net Sales, Operating Income, Net Income
+    grouped = df.groupby('item6026')
+    country_filter = grouped.filter(lambda x: all(x[key_vars].count() >= 300))
+    eliminated_countries = set(df['item6026'].unique()) - set(country_filter['item6026'].unique())
+    return country_filter, list(eliminated_countries)
+
+def filter_firms(df):
+    key_vars = ['item2999', 'item1001', 'item1250', 'item1651']
+    df = df.dropna(subset=key_vars)
+    
+    def has_three_consecutive_years(group):
+        group = group.sort_values('year_')
+        consecutive_years = (group['year_'].diff() == 1).astype(int).rolling(window=3).sum()
+        return (consecutive_years >= 2).any()
+
+    firm_filter = df.groupby('item6105').filter(has_three_consecutive_years)
+    return firm_filter
+
+if __name__ == "__main__":
     main()

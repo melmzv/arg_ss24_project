@@ -6,11 +6,10 @@ dyn_vars:
     - item3051  # Short Term Debt and Current Portion of Long Term Debt
     - item3063  # Income Taxes Payable
     - item1151  # Depreciation, depletion, and amortization item (from IS) used as sum provided by https://wrds-www.wharton.upenn.edu/documents/526/Worldscope_Balancing_Model_-_Industrials.xls
-    - item2999  # Total Assets
-    - item1001  # Net Sales or Revenues
-    - item1250  # Operating Income
-    - item1551  # NET INCOME BEFORE EXTRA ITEMS/PREFERRED DIVIDENDS
-    - item1651  # NET INCOME BEFORE PREFERRED DIVIDENDS; net earnings 
+    - item2999  # Total Assets ***
+    - item1001  # Net Sales or Revenues ***
+    - item1250  # Operating Income ***
+    - item1651  # NET INCOME BEFORE PREFERRED DIVIDENDS; net earnings ***
     - item3101  # Current Liabilities - Total
     - item2201  # Current Assets - Total
 
