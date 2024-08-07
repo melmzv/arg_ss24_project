@@ -23,6 +23,7 @@ fig_caption: yes
 fontsize: 11pt
 ident: yes
 always_allow_html: yes
+number-sections: true 
 header-includes:
   - \usepackage[nolists]{endfloat}    
   - \usepackage{setspace}\doublespacing
@@ -120,7 +121,7 @@ def prep_latex_table(df, caption=None, label=None):
 \pagebreak
 
 
-# Introduction
+# Introduction {#sec-introduction}
 
 The following paper illustrates how to use open science tools in empirical accounting research.
 
@@ -149,7 +150,7 @@ print(prep_latex_table(
 ))
 ```
 
-# Research Design Choices and Assumptions
+# Research Design Choices and Assumptions {#sec-research_design_assumptions}
 
 The aim of Assignment III is to replicate a specific empirical table (Table 2 Panel A) from the seminal paper by @Leuz_2003. This table involves calculating the EM measures for firms across various countries over a defined period and examining the relationship between these measures and investor protection. The replication process includes data loading, preparation, cleaning, and normalization, followed by the application of statistical methods to compute and interpret financial metrics. For Assignment III, I pulled data from the Worldscope database through WRDS and used the Python programming language to carry out the empirical analysis. Visual Studio Code was used as the Integrated Development Environment (IDE) for writing, debugging, and optimizing the Python code.
 
@@ -167,10 +168,10 @@ In addition, I impose the following assumptions to ensure clarity and consistenc
 333. ## delete. mine 
 333. It is assumed that Penman (2013) restricted the possible P/B values to a range of 0 to 7 to exclude outliers. Hence, extreme P/B values that are negative and very high (greater than 7) are excluded to focus the analysis on firms with more stable and reasonable valuations, reducing the impact of outliers.
 
-By following the steps provided in Section 4 and adhering to the assumptions made, I successfully replicated the analysis and produced the required table. A thorough step-by-step approach, with each step clearly documented, helped to understand and verify the outputs.
+By following the steps provided in @sec-replication_steps and adhering to the assumptions made, I successfully replicated the analysis and produced the required table. A thorough step-by-step approach, with each step clearly documented, helped to understand and verify the outputs.
 
 
-# Replication Steps
+# Replication Steps {#sec-replication_steps}
 ## Step 1: Pulling the Data and Managing the Databases
 In contrast to Assignment I, where the data was provided externally, Assignment III involves additionally pulling data directly from the Worldscope database, merging relevant tables, and preparing the data for further analysis from raw data to final output.
 
@@ -193,10 +194,7 @@ To prepare the data sample in line with the methodology outlined in the paper, i
 
 In the second filtration step firms with adequate consecutive data must be identified. Each firm must have income statement and balance sheet information for at least three consecutive years, with all key accounting variables mentioned above present. If a firm had at least three consecutive years of complete data at any point, all its data entries were retained in the final dataset. Therefore, only those countries and firms that meet these criteria for all specified variables are retained in the dataset.
 
-During the preparation step, 8,265 firms and 20,521 firm-year observations (all due to second filtration step) were dropped, resulting in a final dataset with 18,040 firms and 123,469 firm-year observations. The differences in the numbers between the prepared dataset and the figures mentioned in the paper (70,955 firm-year observations and 8,616 non-financial firms) could be due to the assumptions listed in Section 3.
-
-
-
+During the preparation step, 8,265 firms and 20,521 firm-year observations (all due to second filtration step) were dropped, resulting in a final dataset with 18,040 firms and 123,469 firm-year observations. The differences in the numbers between the prepared dataset and the figures mentioned in the paper (70,955 firm-year observations and 8,616 non-financial firms) could be due to the assumptions such as variations in initial datasets, data updates, and filtering criteria listed in @sec-research_design_assumptions. However, the original study might have included additional data cleaning steps not explicitly mentioned, such as handling outliers, specific industry exclusions, or other criteria, which could affect the final counts.
 
 ## Step 3: Analysis Implementation and Table Reproduction
 In this replication step, implement the calculations for the EM measures as described in the methodology of the paper, ensuring that all statistical methods and groupings are accurately replicated.
