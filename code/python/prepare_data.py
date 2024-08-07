@@ -32,7 +32,19 @@ def main():
         log.info("No countries were eliminated after filtration.")
 
     # Filter firms with at least three consecutive years of income statement and balance sheet information as in paper
+    initial_firm_count = len(filtered_countries_data['item6105'].unique())
+    initial_obs_count = len(filtered_countries_data)
+    
     filtered_firms_data = filter_firms(filtered_countries_data)
+
+    final_firm_count = len(filtered_firms_data['item6105'].unique())
+    final_obs_count = len(filtered_firms_data)
+
+    firms_dropped = initial_firm_count - final_firm_count
+    obs_dropped = initial_obs_count - final_obs_count
+
+    log.info(f"Firms dropped after filtration: {firms_dropped}")
+    log.info(f"Firm-year observations dropped after filtration: {obs_dropped}")
 
     # Save the filtered dataset
     filtered_firms_data.to_csv(cfg['prepared_data_save_path'], index=False)
