@@ -15,6 +15,10 @@ def main():
 
     # Load the pulled data
     wrds_data = pd.read_csv(cfg['worldscope_sample_save_path'])
+    initial_obs_count_pulled = len(wrds_data)
+    initial_firm_count_pulled = len(wrds_data['item6105'].unique())
+    log.info(f"Initial number of observations after pulling data: {initial_obs_count_pulled}")
+    log.info(f"Initial number of firms after pulling data: {initial_firm_count_pulled}")
 
     # Check for duplicate firm-year observations
     dup_obs = wrds_data[wrds_data.duplicated(subset=['item6105', 'year_'], keep=False)]
@@ -45,6 +49,9 @@ def main():
 
     log.info(f"Firms dropped after filtration: {firms_dropped}")
     log.info(f"Firm-year observations dropped after filtration: {obs_dropped}")
+
+    log.info(f"Number of observations after preparation: {final_obs_count}")
+    log.info(f"Number of firms after preparation: {final_firm_count}")
 
     # Save the filtered dataset
     filtered_firms_data.to_csv(cfg['prepared_data_save_path'], index=False)

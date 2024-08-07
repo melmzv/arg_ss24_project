@@ -191,9 +191,11 @@ In order to verify the pulle data, I checked the dataset for duplicate firm-year
 
 To prepare the data sample in line with the methodology outlined in the paper, it is essential to follow the requirements, as instructed by @Leuz_2003. Firstly, countries with sufficient firm-year observations must be filtered. Each country should have at least 300 firm-year observations for certain key accounting variables, including total assets, sales, net income, and operating income. In this step, no countries were eliminated as all countries met the requirement, which aligns with the paper's overview of countries.
 
-In the second filtration step firms with adequate consecutive data must be identified. Each firm must have income statement and balance sheet information for at least three consecutive years, with all key accounting variables mentioned above present. If a firm had at least three consecutive years of complete data at any point, all its data entries were retained in the final dataset. The filtration process resulted in the elimination of 8,265 firms and 20,521 firm-year observations. 
+In the second filtration step firms with adequate consecutive data must be identified. Each firm must have income statement and balance sheet information for at least three consecutive years, with all key accounting variables mentioned above present. If a firm had at least three consecutive years of complete data at any point, all its data entries were retained in the final dataset. Therefore, only those countries and firms that meet these criteria for all specified variables are retained in the dataset.
 
-Therefore, only those countries and firms that meet these criteria for all specified variables are retained in the dataset.
+During the preparation step, 8,265 firms and 20,521 firm-year observations (all due to second filtration step) were dropped, resulting in a final dataset with 18,040 firms and 123,469 firm-year observations. The differences in the numbers between the prepared dataset and the figures mentioned in the paper (70,955 firm-year observations and 8,616 non-financial firms) could be due to the assumptions listed in Section 3.
+
+
 
 
 ## Step 3: Analysis Implementation and Table Reproduction
