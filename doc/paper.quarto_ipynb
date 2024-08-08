@@ -50,7 +50,6 @@
         "\n",
         "\\pagebreak\n",
         "\n",
-        "\n",
         "# Research Design Choices and Assumptions {#sec-research_design_assumptions}\n",
         "\n",
         "The aim of Assignment III is to replicate a specific empirical table (Table 2 Panel A) from the seminal paper by @Leuz_2003. This table involves calculating the EM measures for firms across various countries over a defined period and examining the relationship between these measures and investor protection. The replication process includes data loading, preparation, cleaning, and normalization, followed by the application of statistical methods to compute and interpret financial metrics. For Assignment III, I pulled data from the Worldscope database through WRDS and used the Python programming language to carry out the empirical analysis. Visual Studio Code was used as the Integrated Development Environment (IDE) for writing, debugging, and optimizing the Python code.\n",
@@ -99,13 +98,13 @@
         "\n",
         "Now that it is clear that the number of observations for this project is significantly higher than that in @Leuz_2003 study, in order to illustrate the differences and compare the firm-year observations, Table 1 from @Leuz_2003 was partially replicated (only columns on countries and firm/year observations) to distinguish specific discrepancies that could arise for certain countries. The following table representes the (partially) replicated Table 1.\n"
       ],
-      "id": "ec32be65"
+      "id": "dccaacbe"
     },
     {
       "cell_type": "code",
       "metadata": {},
       "source": [
-        "#| label: table_1\n",
+        "#| label: table1\n",
         "#| echo: true\n",
         "#| output: true\n",
         "\n",
@@ -115,9 +114,9 @@
         "table_1 = pd.read_csv('data/generated/table_1.csv')\n",
         "\n",
         "# Display Table 1\n",
-        "print(table_1)"
+        "table_1"
       ],
-      "id": "table_1",
+      "id": "table1",
       "execution_count": null,
       "outputs": []
     },
@@ -136,7 +135,7 @@
         "\\setlength{\\parskip}{8pt}\n",
         "\\noindent"
       ],
-      "id": "dca6545a"
+      "id": "0f340301"
     }
   ],
   "metadata": {

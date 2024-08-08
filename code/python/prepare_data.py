@@ -72,10 +72,9 @@ def main():
     table_1 = pd.concat([summary_table, summary_stats], ignore_index=True)
     
     # Save Table 1 to a CSV file
-    table_1_save_path = 'data/generated/table_1.csv'
-    table_1.to_csv(table_1_save_path, index=False)
+    table_1.to_csv(cfg['table_1_save_path'], index=False)
     
-    print("Table 1 saved to", table_1_save_path)
+    print("Table 1 saved to", cfg['table_1_save_path'])
 
 def filter_countries(df):
     key_vars = ['item2999', 'item1001', 'item1250', 'item1651']  # Total Assets, Net Sales, Operating Income, Net Income
