@@ -198,7 +198,19 @@ During the preparation step, 8,265 firms and 20,521 firm-year observations (all 
 
 Now that it is clear that the number of observations for this project is significantly higher than that in @Leuz_2003 study, in order to illustrate the differences and compare the firm-year observations, Table 1 from @Leuz_2003 was partially replicated (only columns on countries and firm/year observations) to distinguish specific discrepancies that could arise for certain countries. The following table representes the (partially) replicated Table 1.
 
+```{python}
+#| label: table_1
+#| echo: true
+#| output: true
 
+import pandas as pd
+
+# Load Table 1 CSV file
+table_1 = pd.read_csv('data/generated/table_1.csv')
+
+# Display Table 1
+print(table_1)
+```
 
 ## Step 3: Analysis Implementation and Table Reproduction
 In this replication step, implement the calculations for the EM measures as described in the methodology of the paper, ensuring that all statistical methods and groupings are accurately replicated.
