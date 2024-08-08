@@ -79,7 +79,7 @@ def main():
     with open(cfg['table_1_save_path'], 'wb') as f:
         pickle.dump(results, f)
     
-    #print("Table 1 saved to", cfg['table_1_save_path'])
+    log.info(f"Table 1 saved to {cfg['table_1_save_path']}")
 
 def filter_countries(df):
     key_vars = ['item2999', 'item1001', 'item1250', 'item1651']  # Total Assets, Net Sales, Operating Income, Net Income

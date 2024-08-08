@@ -1,0 +1,49 @@
+\begin{table}[htbp]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lrr}
+\toprule
+index & Country & \# Firm-years \\
+\midrule
+0 & AUSTRALIA & 2099.000 \\
+1 & AUSTRIA & 686.000 \\
+2 & BELGIUM & 932.000 \\
+3 & CANADA & 4215.000 \\
+4 & DENMARK & 1326.000 \\
+5 & FINLAND & 1058.000 \\
+6 & FRANCE & 5515.000 \\
+7 & GERMANY & 5307.000 \\
+8 & GREECE & 1034.000 \\
+9 & HONG KONG & 1862.000 \\
+10 & INDIA & 2068.000 \\
+11 & INDONESIA & 978.000 \\
+12 & IRELAND & 625.000 \\
+13 & ITALY & 1591.000 \\
+14 & JAPAN & 20528.000 \\
+15 & KOREA (SOUTH) & 2038.000 \\
+16 & MALAYSIA & 2283.000 \\
+17 & NETHERLANDS & 1782.000 \\
+18 & NORWAY & 1210.000 \\
+19 & PAKISTAN & 598.000 \\
+20 & PHILIPPINES & 574.000 \\
+21 & PORTUGAL & 577.000 \\
+22 & SINGAPORE & 1291.000 \\
+23 & SOUTH AFRICA & 1334.000 \\
+24 & SPAIN & 1221.000 \\
+25 & SWEDEN & 1766.000 \\
+26 & SWITZERLAND & 1553.000 \\
+27 & TAIWAN & 1259.000 \\
+28 & THAILAND & 1664.000 \\
+29 & UNITED KINGDOM & 12910.000 \\
+30 & UNITED STATES & 41585.000 \\
+31 & Mean & 3982.871 \\
+32 & Median & 1553.000 \\
+33 & Min & 574.000 \\
+34 & Max & 41585.000 \\
+\bottomrule
+\end{tabular}
+
+}
+\caption{Table 1: Number of Firm-Year Observations per Country}
+
+\end{table}

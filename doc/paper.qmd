@@ -50,11 +50,11 @@ header-includes:
 import pickle
 import pandas as pd
 
-with open('data/generated/table_1.pickle', 'rb') as f:
+with open('../data/generated/table_1.pickle', 'rb') as f:
     results = pickle.load(f)
 
-def escape_underscores(df):
-    df.columns = [col.replace('_', '\_') for col in df.columns]
+def escape_special_characters(df):
+    df.columns = [col.replace('_', '\\_').replace('#', '\\#') for col in df.columns]
     return df
 
 # Custom formatter function
@@ -62,7 +62,7 @@ def custom_float_format(x):
     return f"{x:.3f}".lstrip('0') if pd.notnull(x) else ""
 
 def prep_latex_table(df, caption=None, label=None):
-    df = escape_underscores(df.reset_index())
+    df = escape_special_characters(df.reset_index())
     num_columns = len(df.columns)
     column_format = 'l' + 'r' * (num_columns - 1)
     latex_table = df.to_latex(
@@ -115,18 +115,6 @@ The analysis includes pulling and filtering the relevant financial data, identif
 Note that intermediate check steps have been omitted for brevity. The full code, including intermediate print steps to verify outputs, is presented in `code/python/Assignment1_analyze_residual_income.py`.
 
 The replicated table is shown below, followed by replication steps documentation, a detailed comparison, and discussion of the results.
-
-## delete from fikir.
-```{python}
-#| echo: false
-#| output: asis
-
-print(prep_latex_table(
-    results['replication_results'],
-    caption='Replicated table - P/B Ratios And Future Residual Income',
-    label='tab:replicated_penman'
-))
-```
 
 # Research Design Choices and Assumptions {#sec-research_design_assumptions}
 
@@ -190,106 +178,6 @@ print(prep_latex_table(
 ## Step 3: Analysis Implementation and Table Reproduction
 In this replication step, implement the calculations for the EM measures as described in the methodology of the paper, ensuring that all statistical methods and groupings are accurately replicated.
 
-
-## delete. cell 3 on Descriptive Statistics Table
-```{python}
-#| label: fig-boxplot_smp
-#| fig-cap: "Distribution of Discretionary Accruals over Time"
-#| echo: false
-#| fig-format: svg
-
-results['fig_boxplot_smp']
-```
-
-```{python}
-#| label: fig-scatter_dd_lnta
-#| fig-cap: "Dechow and Dichev DA and Firm Size"
-#| echo: false
-#| fig-format: svg
-
-results['fig_scatter_dd_lnta']
-```
-
-```{python}
-#| echo: false
-#| output: asis
-
-lat_tab = rename_var_to_label(results['Descriptive Statistics']).split('\n')
-lat_tab[4] = '\\\\[-1.8ex]\\hline \\hline \\\\[-1.8ex]'
-lat_tab[6] = '\\hline\\\\[-1.8ex]'
-lat_tab[-4] = '\\\\[-1.8ex]\\hline \\hline \\\\[-1.8ex]'
-
-print('\n'.join([
-    '\\begin{table}[!htbp]',  
-    '\caption{\label{tab:descriptives}Descriptive Statistics}',
-    '\label{tab:tab-descriptives-sample}',
-    '\\begin{adjustbox}{width=\\textwidth}',
-    '\\begin{threeparttable}',
-    '\n'.join(lat_tab[3:-2]),
-    '\\begin{tablenotes}[flushleft]',
-    '\setlength{\labelsep}{0pt}',
-    '\\footnotetext',
-    f'\\item Note: The data is obtained from the Compustat U.S. as provided by WRDS. The sample covers the period {int(min_fyear)} to {int(max_fyear)} and {no_unique_firms:,} unique firms.',
-    '\end{tablenotes}',
-    '\end{threeparttable}',
-    '\end{adjustbox}',
-    '\\end{table}',
-]))
-```
-
-```{python}
-#| echo: false
-#| output: asis
-
-lat_tab = rename_var_to_label(results['Correlations'], False).split('\n')
-
-lat_tab[2] = '\\\\[-0.9ex]\\hline \\hline \\\\[-0.9ex]'
-lat_tab[4] = '\\hline\\\\[-1.8ex]'
-lat_tab[12] = '\\\\[-0.9ex]\\hline \\hline \\\\[-0.9ex]'
-lat_tab[14] = '\\begin{tablenotes}[flushleft]'
-
-
-print('\n'.join([
-    "\\begin{table}[!htbp]",
-    "\centering",
-    "\caption{\label{tab:CorrTable}Correlations}",
-    '\label{tab:corr}',
-    '\n'.join(lat_tab),
-    "\end{table}"
-]))
-```
-
-```{python}
-#| echo: false
-#| output: asis
-
-print('\n'.join([
-    '\\begin{table}[!htbp] \\centering',
-    '\\caption{\\label{tab:reg}Regressions}', 
-    '\label{tab:reg}',
-    rename_var_to_label('\n'.join(results['Regression'].split('\n')[3:-1])),
-    "\end{table}"
-]))
-```
-
-
-
-# Results
-##Cross-check your results with the original table to ensure accuracy. Compare your results with the results in the paper. If you notice differences, discuss where they may originate. Make sure to be as specific as possible. This could involve looking at the data selection, calculation methods, or any assumptions that might differ from the original; changes in the data over time, different interpretations of the methodology, or limitations in the data sources used. Consider whether the differences are significant and what they might mean for the conclusions drawn in the paper.
-
-The replicated table shows some similarities with the original table by @Leuz_2003 in that . These findings are in line with valuation theory that .
-
-However, the patterns are less clear in the replicated table (in particular ), which stands in contrast to @Leuz_2003.
-
-# Conclusion
-
-##gpt: Summarize the key findings and their significance. take results and insert them here
-
-This project demonstrates the effectiveness of using an open science and collaborative workflow for analyzing earnings management measures across various countries. By following a step-by-step approach and using the TRR 266 Template for Reproducible Empirical Accounting Research, I was able to replicate an empirical table from @Leuz_2003 and provide insights into the trends of earnings management practices, which vary significantly across countries, similar to @Leuz_2003.
-
-The study by @Leuz_2003 documents systematic differences in the level of earnings management across 31 countries. It suggests that insiders use EM to conceal firm performance and protect their private control benefits and that stronger investor protection reduces earnings management by limiting insiders’ ability to gain private benefits. By conducting a descriptive cluster analysis after descriptive statistics that was replicated in this project, the paper identifies groupings of countries with similar institutional characteristics and demonstrates that earnings management varies systematically across these institutional clusters.
-
-The analysis revealed that 
 
 The replication yields mixed results. While  
 
