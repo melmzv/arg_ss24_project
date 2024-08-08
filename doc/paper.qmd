@@ -43,27 +43,6 @@ header-includes:
 
 \pagebreak
 
-## delete or take fikirs below
-```{python}
-#| echo: false
-#| output: false
-
-import pickle
-
-with open('../output/results.pickle', 'rb') as f:
-        results = pickle.load(f)
-
-min_fyear, max_fyear, no_unique_firms = results['Desc information'].values()
-
-
-def rename_var_to_label(table, italic=True):
-    for var_name, var_label in results['Variable Names'].items():
-        var_label = f'\\textit{{{var_label}}}' if italic else var_label
-        table = table.replace(var_name, var_label)
-    return table
-```
-
-## from fikir
 ```{python}
 #| echo: false
 #| output: false
@@ -71,8 +50,8 @@ def rename_var_to_label(table, italic=True):
 import pickle
 import pandas as pd
 
-with open('../output/results.pickle', 'rb') as f:
-        results = pickle.load(f)
+with open('data/generated/table_1.pickle', 'rb') as f:
+    results = pickle.load(f)
 
 def escape_underscores(df):
     df.columns = [col.replace('_', '\_') for col in df.columns]
@@ -81,7 +60,6 @@ def escape_underscores(df):
 # Custom formatter function
 def custom_float_format(x):
     return f"{x:.3f}".lstrip('0') if pd.notnull(x) else ""
-
 
 def prep_latex_table(df, caption=None, label=None):
     df = escape_underscores(df.reset_index())
@@ -199,17 +177,14 @@ During the preparation step, 8,265 firms and 20,521 firm-year observations (all 
 Now that it is clear that the number of observations for this project is significantly higher than that in @Leuz_2003 study, in order to illustrate the differences and compare the firm-year observations, Table 1 from @Leuz_2003 was partially replicated (only columns on countries and firm/year observations) to distinguish specific discrepancies that could arise for certain countries. The following table representes the (partially) replicated Table 1.
 
 ```{python}
-#| label: table_1
-#| echo: true
-#| output: true
+#| echo: false
+#| output: asis
 
-import pandas as pd
-
-# Load Table 1 CSV file
-table_1 = pd.read_csv('data/generated/table_1.csv')
-
-# Display Table 1
-print(table_1)
+print(prep_latex_table(
+    results['table_1'],
+    caption='Table 1: Number of Firm-Year Observations per Country',
+    label='tab:table_1'
+))
 ```
 
 ## Step 3: Analysis Implementation and Table Reproduction
