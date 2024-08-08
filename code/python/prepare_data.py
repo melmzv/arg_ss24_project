@@ -58,6 +58,18 @@ def main():
 
     log.info("Preparing data for analysis ... Done!")
 
+    # Generate summary table for firm-year observations per country
+    summary_table = filtered_firms_data.groupby('item6026').size().reset_index(name='# Firm-years')
+    summary_table.columns = ['Country', '# Firm-years']
+    
+    # Compute mean, median, min, and max
+    summary_stats = summary_table['# Firm-years'].describe()[['mean', '50%', 'min', 'max']]
+    summary_stats.index = ['Mean', 'Median', 'Min', 'Max']
+    
+    # Display the summary table and stats
+    print(summary_table)
+    print(summary_stats)
+
 def filter_countries(df):
     key_vars = ['item2999', 'item1001', 'item1250', 'item1651']  # Total Assets, Net Sales, Operating Income, Net Income
     grouped = df.groupby('item6026')

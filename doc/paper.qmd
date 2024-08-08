@@ -196,6 +196,10 @@ In the second filtration step firms with adequate consecutive data must be ident
 
 During the preparation step, 8,265 firms and 20,521 firm-year observations (all due to second filtration step) were dropped, resulting in a final dataset with 18,040 firms and 123,469 firm-year observations. The differences in the numbers between the prepared dataset and the figures mentioned in the paper (70,955 firm-year observations and 8,616 non-financial firms) could be due to the assumptions such as variations in initial datasets, data updates, and filtering criteria listed in @sec-research_design_assumptions. However, the original study might have included additional data cleaning steps not explicitly mentioned, such as handling outliers, specific industry exclusions, or other criteria, which could affect the final counts.
 
+Now that it is clear that the number of observations for this project is significantly higher than that in @Leuz_2003 study, in order to illustrate the differences and compare the firm-year observations, Table 1 from @Leuz_2003 was partially replicated (only columns on countries and firm/year observations) to distinguish specific discrepancies that could arise for certain countries. The following table representes the (partially) replicated Table 1.
+
+
+
 ## Step 3: Analysis Implementation and Table Reproduction
 In this replication step, implement the calculations for the EM measures as described in the methodology of the paper, ensuring that all statistical methods and groupings are accurately replicated.
 
