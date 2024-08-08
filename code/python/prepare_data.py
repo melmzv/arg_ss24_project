@@ -5,6 +5,7 @@
 # ------------------------------------------------------------------------------
 
 import pandas as pd
+import pickle
 from utils import read_config, setup_logging
 
 log = setup_logging()
@@ -71,10 +72,14 @@ def main():
     # Combine the summary table and stats
     table_1 = pd.concat([summary_table, summary_stats], ignore_index=True)
     
-    # Save Table 1 to a CSV file
-    table_1.to_csv(cfg['table_1_save_path'], index=False)
+    # Save Table 1 to a pickle file
+    results = {
+        "table_1": table_1
+    }
+    with open(cfg['table_1_save_path'], 'wb') as f:
+        pickle.dump(results, f)
     
-    print("Table 1 saved to", cfg['table_1_save_path'])
+    #print("Table 1 saved to", cfg['table_1_save_path'])
 
 def filter_countries(df):
     key_vars = ['item2999', 'item1001', 'item1250', 'item1651']  # Total Assets, Net Sales, Operating Income, Net Income
