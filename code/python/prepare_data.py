@@ -71,6 +71,9 @@ def main():
     
     # Combine the summary table and stats
     table_1 = pd.concat([summary_table, summary_stats], ignore_index=True)
+
+    # Remove decimal places
+    table_1['# Firm-years'] = table_1['# Firm-years'].apply(lambda x: int(round(x)))
     
     # Save Table 1 to a pickle file
     results = {
