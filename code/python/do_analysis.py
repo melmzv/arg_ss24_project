@@ -23,7 +23,6 @@ def load_data():
     Load the prepared financial data from the previous step.
     """
     df = pd.read_csv('data/generated/financial_data_prepared.csv')
-    print(df.head())  # Print the first 5 rows of the dataframe to show the header and a few entries
     return df
 
 def calculate_accruals(df):
@@ -32,14 +31,34 @@ def calculate_accruals(df):
     If a firm does not report information on taxes payable or short-term debt,
     then the change in both variables is assumed to be zero.
     """
-    df['delta_CA'] = df['item2201'].diff()
-    df['delta_Cash'] = df['item2003'].diff()
-    df['delta_CL'] = df['item3101'].diff()
-    df['delta_STD'] = df['item3051'].diff().fillna(0)  # Apply fillna only for STD
-    df['delta_TP'] = df['item3063'].diff().fillna(0)   # Apply fillna only for TP
-    df['Dep'] = df['item1151']  # No fillna applied to Dep
+
+    # Group by unique firm (item6105) and calculate diffs within each firm
+    df['delta_CA'] = df.groupby('item6105')['item2201'].diff()  # Change in total current assets
+    df['delta_Cash'] = df.groupby('item6105')['item2003'].diff()  # Change in cash and cash equivalents
+    df['delta_CL'] = df.groupby('item6105')['item3101'].diff()  # Change in total current liabilities
+    df['delta_STD'] = df.groupby('item6105')['item3051'].diff().fillna(0)  # Apply fillna only for STD
+    df['delta_TP'] = df.groupby('item6105')['item3063'].diff().fillna(0)  # Apply fillna only for TP
+    df['Dep'] = df['item1151']  # No fillna applied to Depreciation and amortization expense
 
     df['Accruals'] = (df['delta_CA'] - df['delta_Cash']) - (df['delta_CL'] - df['delta_STD'] - df['delta_TP']) - df['Dep']
+
+    # Identify rows with NaN in Accruals
+    nan_accruals = df[df['Accruals'].isna()]
+
+    # Print the first 10 rows with NaN in Accruals
+    print("First 10 rows with NaN in Accruals:")
+    print(nan_accruals.head(10))
+
+    # Count and print the number of NaN rows in Accruals
+    nan_count = df['Accruals'].isna().sum()
+    print(f"Number of rows with NaN in Accruals: {nan_count}")
+
+    # Drop rows where Accruals is NaN
+    df = df.dropna(subset=['Accruals'])
+
+    # Print the first few rows to check the calculated accruals
+    print(df[['item6105', 'year_', 'Accruals']].head(10))
+    
     return df
 
 def calculate_cfo(df):
@@ -47,6 +66,9 @@ def calculate_cfo(df):
     Calculate Operating Cash Flow (CFO) by subtracting accruals from operating income.
     """
     df['CFO'] = df['item1250'] - df['Accruals']
+
+    print(df[['item6105', 'year_', 'Accruals', 'CFO']].head(10))
+    
     return df
 
 def calculate_em1(df):
