@@ -88,6 +88,7 @@ def prep_latex_table(df, caption=None, label=None, fontsize='\\fontsize{11}{13}\
 # List of Abbreviations
 \setlength{\parindent}{0em}
 
+**CFO**: Operating Cash Flow  
 **EM**: Earnings Management  
 **IDE**: Integrated Development Environment  
 **UK**: United Kingdom  
@@ -191,17 +192,16 @@ print(prep_latex_table(
 In this replication step, the calculation of the EM measures is implemented according to the methodology described by @Leuz_2003. The study employs four distinct proxies that capture different dimensions of earnings management, such as earnings smoothing and accrual manipulations. These measures are used to assess the pervasiveness of earnings management across countries. This step ensures that all statistical methods and groupings are accurately replicated, following the paper’s approach to capture the extent to which corporate insiders use accounting discretion to obscure their firm’s true economic performance.
 
 ### Smoothing Reported Operating Earnings Using Accruals (EM1)
-`EM1` is a measure that assesses how much insiders (e.g., company executives) smooth or stabilize reported earnings by manipulating accruals. The underlying idea is that firms may attempt to reduce fluctuations in their reported operating income to present a more stable financial performance to investors. This measure indicates the degree to which insiders exercise accounting discretion to smooth reported earnings, with lower values of EM1 suggesting more aggressive earnings smoothing.
+`EM1` is a measure that assesses how much insiders (e.g., company executives) smooth or stabilize reported earnings by manipulating accruals. The concept is that firms may attempt to reduce fluctuations in their reported operating income to present a more stable financial performance to investors. This measure reflects the degree to which insiders use accounting discretion to smooth reported earnings, with lower values of EM1 suggesting more aggressive earnings smoothing.
 
 To calculate this measure:
-1.	Accruals are computed using changes in various components of a firm’s balance sheet and income statement, such as total current assets, cash, current liabilities, short-term debt, taxes payable, and depreciation.
-$$
-\text{Accruals}_{it} = (\Delta \text{CA}_{it} - \Delta \text{Cash}_{it}) - (\Delta \text{CL}_{it} - \Delta \text{STD}_{it} - \Delta \text{TP}_{it}) - \text{Dep}_{it}
-$$
+1.	Compute Accruals by using changes in various components of a firm’s balance sheet and income statement, such as total current assets, cash, current liabilities, short-term debt, taxes payable, and depreciation:
 
 $$
 \begin{aligned}
-where:  \\
+\text{Accruals}_{it} &= (\Delta \text{CA}_{it} - \Delta \text{Cash}_{it}) - (\Delta \text{CL}_{it} - \Delta \text{STD}_{it} - \Delta \text{TP}_{it}) - \text{Dep}_{it} 
+& \\
+\text{where:} \\
 \Delta \text{CA}_{it} & = \text{Change in total current assets} \\
 \Delta \text{Cash}_{it} & = \text{Change in cash and cash equivalents} \\
 \Delta \text{CL}_{it} & = \text{Change in total current liabilities} \\
@@ -211,16 +211,16 @@ where:  \\
 \end{aligned}
 $$
 
-2.	The operating cash flow is indirectly derived from operating income minus accruals
+2.	Derive Operating Cash Flow (CFO) that is indirectly derived from operating income minus accruals:
+
 $$
-\text{CFO}_{it} = \text{Operating Income}_{it} - \text{Accruals}_{it}
+\text{CFO}{it} = \text{Operating Income}_{it} - \text{Accruals}_{it}
 $$
 
-3.	EM1 is then calculated as the country’s median ratio of the firm-level standard deviations of operating income and operating cash flow. Both these standard deviations are scaled by lagged total assets to control for differences in firm size.
+3.	Calculate EM1, which is determined as the country’s median ratio of the firm-level standard deviations of operating income and operating cash flow. Both standard deviations are scaled by lagged total assets to control for differences in firm size:
 $$
 \text{EM1} = \text{Median}\left(\frac{\sigma(\text{Operating Income}_{it})}{\sigma(\text{Operating Cash Flow}_{it})}\right) \quad \text{scaled by lagged total assets}
 $$
-
 
 ### Smoothing and the Correlation Between Changes in Accounting Accruals and Operating Cash Flows (EM2)
 

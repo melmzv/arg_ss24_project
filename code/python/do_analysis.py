@@ -1,133 +1,63 @@
 import pickle
 import pandas as pd
-import numpy as np
-from plotnine import ggplot, geom_boxplot, labs, aes, geom_bin2d, after_stat
-from panel_eda_helper_funcs import (prepare_correlation_table,
-                                    prepare_descriptive_table, PrepareRegressionTable,
-                                    escape_for_latex)
-from prepare_data import treat_outliers
-from theme_trr import theme_trr, scale_color_trr266_d, scale_fill_trr266_c
-
-from utils import setup_logging, read_config
-
-log = setup_logging()
-
 
 def main():
-    log.info('Performing main analysis...')
-    cfg = read_config('config/do_analysis_cfg.yaml')
-    smp = pd.read_csv(cfg['acc_sample'], dtype={'gvkey': str})
+    # Load prepared data
+    financial_data = load_data()
 
-    fig_boxplot_full = make_boxplot(smp)
+    # Calculate accruals
+    financial_data = calculate_accruals(financial_data)
 
-    smp_da = prep_smp_da(smp)
+    # Calculate Operating Cash Flow (CFO)
+    financial_data = calculate_cfo(financial_data)
 
-    fig_boxplot_smp = make_boxplot(smp_da)
+    # Calculate EM1
+    em1_results = calculate_em1(financial_data)
 
-    fig_scatter_md_dd = make_scatter_plot(
-        smp_da, 'mj_da', 'dd_da', 'Modified Jones DA', 'Dechow and Dichev DA'
-    )
+    # Save and print results
+    save_results(em1_results)
 
-    fig_scatter_dd_lnta = make_scatter_plot(
-        smp_da, 'ln_ta', 'dd_da', 'ln(Total Assets)', 'Dechow and Dichev DA'
-    )
+def load_data():
+    """
+    Load the prepared financial data from the previous step.
+    """
+    return pd.read_csv('data/generated/financial_data_prepared.csv')
 
-    fig_scatter_dd_roa = make_scatter_plot(
-        smp_da, 'ebit_avgta', 'dd_da', 'Return on Assets', 'Dechow and Dichev DA'
-    )
-    fig_scatter_dd_salesgr = make_scatter_plot(
-        smp_da, 'sales_growth', 'dd_da', 'Sales Growth', 'Dechow and Dichev DA'
-    )
+def calculate_accruals(df):
+    """
+    Calculate accruals using the provided formula.
+    """
+    df['Accruals'] = (df['item2201'].diff() - df['item2003'].diff()) - (df['item3101'].diff() - df['item3051'].diff() - df['item3063'].diff()) - df['item1151']
+    return df
 
-    tab_desc_stat = prepare_descriptive_table(smp_da.drop(['fyear'], axis=1))
+def calculate_cfo(df):
+    """
+    Calculate Operating Cash Flow (CFO) by subtracting accruals from operating income.
+    """
+    df['CFO'] = df['item1250'] - df['Accruals']
+    return df
 
-    desc_info = {
-        'min_fyear': smp_da['fyear'].min(),
-        'max_fyear': smp_da['fyear'].max(),
-        'no_unique_firms': smp_da['gvkey'].nunique()
-    }
+def calculate_em1(df):
+    """
+    Calculate EM1 for each firm and then take the country-level median.
+    """
+    df['std_operating_income'] = df.groupby('item6105')['item1250'].transform('std')
+    df['std_cfo'] = df.groupby('item6105')['CFO'].transform('std')
+    df['EM1'] = df['std_operating_income'] / df['std_cfo']
+    df['EM1'] = df.groupby('item6105')['EM1'].transform(lambda x: x / df['item2999'].shift(1))  # Scale by lagged total assets
 
-    tab_corr = prepare_correlation_table(smp_da.drop(['fyear'], axis=1))
+    country_em1 = df.groupby('item6026')['EM1'].median().reset_index()
+    return country_em1
 
-    smp_da = smp_da.set_index(['gvkey', 'fyear'])
-
-    tab_regression = PrepareRegressionTable(
-        smp_da,
-        dvs=['mj_da', 'dd_da'],
-        idvs=[
-            ['ln_ta', 'mtb', 'ebit_avgta', 'sales_growth'],
-            ['ln_ta', 'mtb', 'ebit_avgta', 'sales_growth']
-        ],
-        entity_effects=[True, True], time_effects=[True, True],
-        cluster_entity=[True, True], cluster_time=[True, True],
-        models=['ols', 'ols']
-    ).latex_table
-
-    var_names = list(smp_da.drop('ff12_ind', axis=1).columns.values)
-    label = [
-        'Modified Jones DA',
-        'Dechow and Dichev DA',
-        'Ln(Total assets)',
-        'Ln(Market capitalization)',
-        'Market to book',
-        'Return on assets',
-        'Sales growth'
-    ]
-
-    var_names = dict(zip([escape_for_latex(var) for var in var_names], label))
-
-    results = {
-        'fig_boxplot_full': fig_boxplot_full,
-        'fig_boxplot_smp': fig_boxplot_smp,
-        'fig_scatter_md_dd': fig_scatter_md_dd,
-        'fig_scatter_dd_lnta': fig_scatter_dd_lnta,
-        'fig_scatter_dd_roa': fig_scatter_dd_roa,
-        'fig_scatter_dd_salesgr': fig_scatter_dd_salesgr,
-        'Descriptive Statistics': tab_desc_stat,
-        'Desc information': desc_info,
-        'Correlations': tab_corr,
-        'Regression': tab_regression,
-        'Variable Names': var_names
-    }
-    with open(cfg['results'], 'wb') as f:
+def save_results(results):
+    """
+    Save the EM1 results to a pickle file and print them.
+    """
+    with open('output/em1_results.pickle', 'wb') as f:
         pickle.dump(results, f)
-    log.info('Performing main analysis...Done!')
-
-
-def make_boxplot(df):
-    df = df \
-        .filter(['fyear', 'mj_da', 'dd_da']) \
-        .query('dd_da.notna()') \
-        .melt('fyear', ['mj_da', "dd_da"], 'type', 'da') \
-        .assign(types=lambda x: x[['fyear', 'type']].astype(str)
-                .agg('.'.join, axis=1))
-
-    return (ggplot(df, aes(x='fyear', y='da', group='types', color='type')) +
-            geom_boxplot() +
-            labs(x="Fiscal year", y=None, color="Type of discretionary accruals") +
-            scale_color_trr266_d(labels=["Dechow and Dichev", "Modified Jones"]) +
-            theme_trr(legend=True)).draw()
-
-
-def prep_smp_da(smp):
-    smp_da = smp[['gvkey', 'fyear', 'ff12_ind', 'mj_da', 'dd_da',
-                  'ln_ta', 'ln_mktcap', 'mtb', 'ebit_avgta', 'sales_growth']]
-
-    smp_da = smp_da[
-        np.isfinite(smp_da.drop(['gvkey', 'fyear'], axis=1).sum(
-            numeric_only=True, axis=1, skipna=False))
-    ]
-    smp_da = treat_outliers(smp_da, by="fyear")
-    return smp_da
-
-
-def make_scatter_plot(df, x, y, xlab, ylab):
-    return (ggplot(df, aes(x=x, y=y)) +
-            geom_bin2d(aes(fill=after_stat('np.log(count)')), bins=[100, 100]) +
-            labs(x=xlab, y=ylab) +
-            scale_fill_trr266_c() +
-            theme_trr(axis_y_horizontal=False)).draw()
-
+    
+    print("EM1 Results:")
+    print(results)
 
 if __name__ == "__main__":
     main()
