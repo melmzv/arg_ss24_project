@@ -223,7 +223,7 @@ $$
 
 3.	Calculate EM1, which is determined as the country’s median ratio of the firm-level standard deviations of operating income and operating cash flow. Both standard deviations are scaled by lagged total assets to control for differences in firm size:
 $$
-\text{EM1} = \text{Median}\left(\frac{\sigma(\text{Operating Income}_{it})}{\sigma(\text{Operating Cash Flow}_{it})}\right) \quad \text{scaled by lagged total assets}
+\text{EM1} = \text{Median}\left(\frac{\sigma(\text{Operating Income}_{it})}{\sigma(\text{Operating Cash Flow}_{it})}\right) \quad \text{both separately scaled by lagged total assets}
 $$
 
 ### Smoothing and the Correlation Between Changes in Accounting Accruals and Operating Cash Flows (EM2)

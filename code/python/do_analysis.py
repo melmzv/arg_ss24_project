@@ -53,9 +53,6 @@ def calculate_accruals(df):
     nan_count = df['Accruals'].isna().sum()
     print(f"Number of rows with NaN in Accruals: {nan_count}")
 
-    # Drop rows where Accruals is NaN
-    # df = df.dropna(subset=['Accruals'])
-
     # Print the first few rows to check the calculated accruals
     print(df[['item6105', 'year_', 'Accruals']].head(10))
     
@@ -82,20 +79,27 @@ def calculate_em1(df):
     df['std_operating_income'] = df.groupby('item6105')['item1250'].transform('std')
     # Calculate the standard deviation of CFO for each firm (grouped by item6105)
     df['std_cfo'] = df.groupby('item6105')['CFO'].transform('std')
+    print("Standard Deviation of Operating Income and CFO (first 10 rows):")
+    print(df[['item6105', 'year_', 'std_operating_income', 'std_cfo']].head(10))
     
-    # For scaling, identify the first available year for each firm and get the total assets for the prior year
+    # For scaling, identify the total assets from the prior year (making use of year 0 as well. Otherwise would have dropped it in accruals step)
     df['lagged_total_assets'] = df.groupby('item6105')['item2999'].shift(1)
+    print("Lagged Total Assets (first 10 rows):")
+    print(df[['item6105', 'year_', 'item2999', 'lagged_total_assets']].head(10))
     
     # Scale the standard deviations individually by lagged total assets
     df['scaled_std_operating_income'] = df['std_operating_income'] / df['lagged_total_assets']
     df['scaled_std_cfo'] = df['std_cfo'] / df['lagged_total_assets']
+    print("Scaled Standard Deviation of Operating Income and CFO (first 15 rows):")
+    print(df[['item6105', 'year_', 'scaled_std_operating_income', 'scaled_std_cfo']].head(15))
     
     # Calculate EM1 as the ratio of the scaled standard deviations
     df['EM1'] = df['scaled_std_operating_income'] / df['scaled_std_cfo']
+    print("EM1 (first 15 rows):")
+    print(df[['item6105', 'year_', 'EM1']].head(15))
     
     # Group by country (item6026) and take the median of EM1 for each country
     country_em1 = df.groupby('item6026')['EM1'].median().reset_index()
-
     # Round the EM1 results to three decimal places
     country_em1['EM1'] = country_em1['EM1'].round(3)
 
