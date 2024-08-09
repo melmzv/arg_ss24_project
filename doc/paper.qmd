@@ -170,8 +170,8 @@ To prepare the data sample in line with the methodology outlined in the paper, i
 In the second filtration step, firms with adequate consecutive data were identified. Each firm had to have income statement and balance sheet information for at least three consecutive years, with all key accounting variables mentioned above present. If a firm had at least three consecutive years of complete data at any point, all its data entries were retained in the final dataset. Therefore, only those countries and firms that met these criteria for all specified variables were retained in the dataset.
 
 During the preparation step, 8,265 firms and 20,521 firm-year observations (all due to the second filtration step) were dropped, resulting in a final dataset with 18,040 non-financial firms and 123,469 firm-year observations. The differences in the numbers between the prepared dataset and the figures mentioned in the paper (70,955 firm-year observations and 8,616 non-financial firms) could be due to assumptions outlined in @sec-research_design_assumptions, such as variations in initial datasets, data updates, and filtering criteria. However, the original paper might have included additional data cleaning steps not explicitly mentioned, such as handling outliers, specific industry exclusions, or other criteria, which could affect the final counts.
-
-Given that the number of observations in this project is significantly higher than in the original study, Table 1 from @Leuz_2003 was partially replicated (focusing only on columns related to countries and firm-year observations) to highlight specific discrepancies that could arise for certain countries. The results in the table below show a higher number of firm-year observations for almost all countries compared to the paper by @Leuz_2003, likely due to database updates leading to a more comprehensive dataset. The trend in the number of firm-year observations across countries is consistent with the original study, with larger capital markets like Japan, the United Kingdom, and the United States having the highest numbers. The distribution of observations in my dataset shows higher mean and median values compared to the paper by @Leuz_2003, indicating a greater overall number of firm-year observations, while the minimum values are relatively close, suggesting that the overall distribution of observations across countries remains broadly similar.
+## table 2 correctly referenced?
+Given that the number of observations in this project is significantly higher than in the original study, Table 1 from @Leuz_2003 was partially replicated (focusing only on columns related to countries and firm-year observations) to highlight specific discrepancies that could arise for certain countries. The results in the table 2 below show a higher number of firm-year observations for almost all countries compared to the paper by @Leuz_2003, likely due to database updates leading to a more comprehensive dataset. The trend in the number of firm-year observations across countries is consistent with the original study, with larger capital markets like Japan, the United Kingdom, and the United States having the highest numbers. The distribution of observations in my dataset shows higher mean and median values compared to the paper by @Leuz_2003, indicating a greater overall number of firm-year observations, while the minimum values are relatively close, suggesting that the overall distribution of observations across countries remains broadly similar.
 
 However, there are significant discrepancies, particularly for the United States, which has 41,585 observations compared to 3,792 in the original study, possibly due to more comprehensive data or changes in dataset scope. @Leuz_2003 focused only on S&P 500 companies for the U.S., while this analysis uses a more comprehensive dataset from the Worldscope database, which includes detailed financial statement data and profile data on public companies globally. This broader scope results in a higher number of firm-year observations for the United States. Despite the differences in absolute numbers, the relative trends across countries align with the paper.
 
@@ -188,7 +188,47 @@ print(prep_latex_table(
 ```
 
 ## Step 3: Analysis Implementation and Table Reproduction
-In this replication step, implement the calculations for the EM measures as described in the methodology of the paper, ensuring that all statistical methods and groupings are accurately replicated.
+In this replication step, the calculation of the EM measures is implemented according to the methodology described by @Leuz_2003. The study employs four distinct proxies that capture different dimensions of earnings management, such as earnings smoothing and accrual manipulations. These measures are used to assess the pervasiveness of earnings management across countries. This step ensures that all statistical methods and groupings are accurately replicated, following the paper’s approach to capture the extent to which corporate insiders use accounting discretion to obscure their firm’s true economic performance.
+
+### Smoothing Reported Operating Earnings Using Accruals (EM1)
+`EM1` is a measure that assesses how much insiders (e.g., company executives) smooth or stabilize reported earnings by manipulating accruals. The underlying idea is that firms may attempt to reduce fluctuations in their reported operating income to present a more stable financial performance to investors. This measure indicates the degree to which insiders exercise accounting discretion to smooth reported earnings, with lower values of EM1 suggesting more aggressive earnings smoothing.
+
+To calculate this measure:
+1.	Accruals are computed using changes in various components of a firm’s balance sheet and income statement, such as total current assets, cash, current liabilities, short-term debt, taxes payable, and depreciation.
+$$
+\text{Accruals}_{it} = (\Delta \text{CA}_{it} - \Delta \text{Cash}_{it}) - (\Delta \text{CL}_{it} - \Delta \text{STD}_{it} - \Delta \text{TP}_{it}) - \text{Dep}_{it}
+$$
+
+$$
+\begin{aligned}
+where:  \\
+\Delta \text{CA}_{it} & = \text{Change in total current assets} \\
+\Delta \text{Cash}_{it} & = \text{Change in cash and cash equivalents} \\
+\Delta \text{CL}_{it} & = \text{Change in total current liabilities} \\
+\Delta \text{STD}_{it} & = \text{Change in short-term debt included in current liabilities} \\
+\Delta \text{TP}_{it} & = \text{Change in income taxes payable} \\
+\text{Dep}_{it} & = \text{Depreciation and amortization expense}
+\end{aligned}
+$$
+
+2.	The operating cash flow is indirectly derived from operating income minus accruals
+$$
+\text{CFO}_{it} = \text{Operating Income}_{it} - \text{Accruals}_{it}
+$$
+
+3.	EM1 is then calculated as the country’s median ratio of the firm-level standard deviations of operating income and operating cash flow. Both these standard deviations are scaled by lagged total assets to control for differences in firm size.
+$$
+\text{EM1} = \text{Median}\left(\frac{\sigma(\text{Operating Income}_{it})}{\sigma(\text{Operating Cash Flow}_{it})}\right) \quad \text{scaled by lagged total assets}
+$$
+
+
+### Smoothing and the Correlation Between Changes in Accounting Accruals and Operating Cash Flows (EM2)
+
+### Discretion in Reported Earnings: The Magnitude of Accruals (EM3)
+
+### Discretion in Reported Earnings: Small Loss Avoidance (EM4)
+
+### Aggregate Measure of Earnings Management
 
 
 ## delete. cell 3 on Descriptive Statistics Table
