@@ -192,7 +192,7 @@ print(prep_latex_table(
 In this replication step, the calculation of the EM measures is implemented according to the methodology described by @Leuz_2003. The study employs four distinct proxies that capture different dimensions of earnings management, such as earnings smoothing and accrual manipulations. These measures are used to assess the pervasiveness of earnings management across countries. This step ensures that all statistical methods and groupings are accurately replicated, following the paper’s approach to capture the extent to which corporate insiders use accounting discretion to obscure their firm’s true economic performance.
 
 ### Smoothing Reported Operating Earnings Using Accruals (EM1)
-`EM1` is a measure that assesses how much insiders (e.g., company executives) smooth or stabilize reported earnings by manipulating accruals. The concept is that firms may attempt to reduce fluctuations in their reported operating income to present a more stable financial performance to investors. This measure reflects the degree to which insiders use accounting discretion to smooth reported earnings, with lower values of EM1 suggesting more aggressive earnings smoothing.
+`EM1` is a measure that assesses how much insiders (e.g., company executives) smooth or stabilize reported earnings by manipulating accruals. The concept is that firms may attempt to reduce fluctuations in their reported operating income to present a more stable financial performance to investors. This measure reflects the degree to which insiders use accounting discretion to smooth reported earnings, with lower values of EM1 suggesting more extensive earnings smoothing.
 
 To calculate this measure:
 1.	Compute Accruals by using changes in various components of a firm’s balance sheet and income statement, such as total current assets, cash, current liabilities, short-term debt, taxes payable, and depreciation:
@@ -207,7 +207,7 @@ $$
 \Delta \text{CL}_{it} & = \text{Change in total current liabilities} \\
 \Delta \text{STD}_{it} & = \text{Change in short-term debt included in current liabilities} \\
 \Delta \text{TP}_{it} & = \text{Change in income taxes payable} \\
-\text{Dep}_{it} & = \text{Depreciation and amortization expense}
+\text{Dep}_{it} & = \text{Depreciation and amortization expense for firm i in year t} 
 \end{aligned}
 $$
 
