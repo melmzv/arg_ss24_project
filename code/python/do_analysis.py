@@ -54,7 +54,7 @@ def calculate_accruals(df):
     print(f"Number of rows with NaN in Accruals: {nan_count}")
 
     # Drop rows where Accruals is NaN
-    df = df.dropna(subset=['Accruals'])
+    # df = df.dropna(subset=['Accruals'])
 
     # Print the first few rows to check the calculated accruals
     print(df[['item6105', 'year_', 'Accruals']].head(10))
@@ -64,9 +64,12 @@ def calculate_accruals(df):
 def calculate_cfo(df):
     """
     Calculate Operating Cash Flow (CFO) by subtracting accruals from operating income.
+    Handle NaN values where necessary.
     """
+    # We only calculate CFO where accruals are not NaN
     df['CFO'] = df['item1250'] - df['Accruals']
-
+    
+    # Print the first few rows to verify CFO calculations
     print(df[['item6105', 'year_', 'Accruals', 'CFO']].head(10))
 
     return df
@@ -77,15 +80,18 @@ def calculate_em1(df):
     """
     # Calculate the standard deviation of operating income for each firm (grouped by item6105)
     df['std_operating_income'] = df.groupby('item6105')['item1250'].transform('std')
-    
     # Calculate the standard deviation of CFO for each firm (grouped by item6105)
     df['std_cfo'] = df.groupby('item6105')['CFO'].transform('std')
     
-    # Calculate EM1 by dividing the standard deviation of operating income by the standard deviation of CFO
-    df['EM1'] = df['std_operating_income'] / df['std_cfo']
+    # For scaling, identify the first available year for each firm and get the total assets for the prior year
+    df['lagged_total_assets'] = df.groupby('item6105')['item2999'].shift(1)
     
-    # Scale EM1 by lagged total assets, grouped by firm (item6105) and shifting by one period
-    df['EM1'] = df.groupby('item6105')['EM1'].transform(lambda x: x / df['item2999'].shift(1))
+    # Scale the standard deviations individually by lagged total assets
+    df['scaled_std_operating_income'] = df['std_operating_income'] / df['lagged_total_assets']
+    df['scaled_std_cfo'] = df['std_cfo'] / df['lagged_total_assets']
+    
+    # Calculate EM1 as the ratio of the scaled standard deviations
+    df['EM1'] = df['scaled_std_operating_income'] / df['scaled_std_cfo']
     
     # Group by country (item6026) and take the median of EM1 for each country
     country_em1 = df.groupby('item6026')['EM1'].median().reset_index()

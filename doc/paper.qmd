@@ -211,9 +211,9 @@ $$
 \end{aligned}
 $$
 
-During the accruals calculation, `NaN` values arose primarily due to the lack of prior year data needed to compute changes in key financial variables (e.g., total current assets, cash, current liabilities). This issue is most common in the first year of each firm’s data, where no prior year data exists. Furthermore, missing data in intermediate years (e.g., a firm has data for 1990, 1992, and 1993 but not 1991) can also result in `NaN` values for subsequent years due to the lack of necessary prior year information for the accruals calculation.
+During the accruals calculation, `NaN` values arose primarily due to the lack of prior year data needed to compute changes in key financial variables (e.g., total current assets, cash, current liabilities). This issue is most common in the first year of each firm’s data, where no prior year data exists. Furthermore, missing data in intermediate years (e.g., a firm has data on cash for 1990, 1992, and 1993 but not 1991) can also result in `NaN` values for subsequent years due to the lack of necessary prior year information for the accruals calculation.
 
-In total, 53,231 rows with `NaN` values were identified and subsequently dropped from the dataset. @Leuz_2003 specify that for taxes payable (`delta_TP`) and short-term debt (`delta_STD`), missing data should be treated as zero, but for other variables, dropping these rows is consistent with financial practices to ensure accuracy.
+In total, 53,231 rows with `NaN` values were identified ##and subsequently dropped from the dataset. @Leuz_2003 specify that for taxes payable (`delta_TP`) and short-term debt (`delta_STD`), missing data should be treated as zero, but for other variables, dropping these rows is consistent with financial practices to ensure accuracy.
 
 2.	Derive Operating Cash Flow (CFO) that is indirectly derived from operating income minus accruals:
 
