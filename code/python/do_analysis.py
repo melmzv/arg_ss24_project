@@ -68,30 +68,39 @@ def calculate_cfo(df):
     df['CFO'] = df['item1250'] - df['Accruals']
 
     print(df[['item6105', 'year_', 'Accruals', 'CFO']].head(10))
-    
+
     return df
 
 def calculate_em1(df):
     """
     Calculate EM1 for each firm and then take the country-level median.
     """
+    # Calculate the standard deviation of operating income for each firm (grouped by item6105)
     df['std_operating_income'] = df.groupby('item6105')['item1250'].transform('std')
+    
+    # Calculate the standard deviation of CFO for each firm (grouped by item6105)
     df['std_cfo'] = df.groupby('item6105')['CFO'].transform('std')
+    
+    # Calculate EM1 by dividing the standard deviation of operating income by the standard deviation of CFO
     df['EM1'] = df['std_operating_income'] / df['std_cfo']
-    df['EM1'] = df.groupby('item6105')['EM1'].transform(lambda x: x / df['item2999'].shift(1))  # Scale by lagged total assets
-
+    
+    # Scale EM1 by lagged total assets, grouped by firm (item6105) and shifting by one period
+    df['EM1'] = df.groupby('item6105')['EM1'].transform(lambda x: x / df['item2999'].shift(1))
+    
+    # Group by country (item6026) and take the median of EM1 for each country
     country_em1 = df.groupby('item6026')['EM1'].median().reset_index()
 
     # Round the EM1 results to three decimal places
     country_em1['EM1'] = country_em1['EM1'].round(3)
 
-    # Calculate mean, median, standard deviation, min, max
+    # Calculate mean, median, standard deviation, min, max of EM1 across countries
     summary_stats = country_em1['EM1'].agg(['mean', 'median', 'std', 'min', 'max']).round(3)
 
     # Add the summary stats to the results
     summary_stats = summary_stats.reset_index()
     summary_stats.columns = ['Statistic', 'EM1']
 
+    # Combine the country-level results and summary statistics
     country_em1 = pd.concat([country_em1, summary_stats], ignore_index=True)
 
     return country_em1
