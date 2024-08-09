@@ -98,6 +98,9 @@ def calculate_em1(df):
     print("EM1 (first 15 rows):")
     print(df[['item6105', 'year_', 'EM1']].head(15))
     
+    # Drop rows where EM1 is NaN
+    df = df.dropna(subset=['EM1'])
+    
     # Group by country (item6026) and take the median of EM1 for each country
     country_em1 = df.groupby('item6026')['EM1'].median().reset_index()
     # Round the EM1 results to three decimal places

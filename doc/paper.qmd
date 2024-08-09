@@ -195,8 +195,8 @@ In this replication step, the calculation of the EM measures is implemented acco
 `EM1` is a measure that assesses how much insiders (e.g., company executives) smooth or stabilize reported earnings by manipulating accruals. The concept is that firms may attempt to reduce fluctuations in their reported operating income to present a more stable financial performance to investors. This measure reflects the degree to which insiders use accounting discretion to smooth reported earnings, with lower values of EM1 suggesting more extensive earnings smoothing.
 
 To calculate this measure:
-1.	Compute Accruals by using changes in various components of a firm’s balance sheet and income statement, such as total current assets, cash, current liabilities, short-term debt, taxes payable, and depreciation:
 
+1.	Compute Accruals by using changes in various components of a firm’s balance sheet and income statement, such as total current assets, cash, current liabilities, short-term debt, taxes payable, and depreciation:
 $$
 \begin{aligned}
 \text{Accruals}_{it} &= (\Delta \text{CA}_{it} - \Delta \text{Cash}_{it}) - (\Delta \text{CL}_{it} - \Delta \text{STD}_{it} - \Delta \text{TP}_{it}) - \text{Dep}_{it} 
@@ -211,19 +211,14 @@ $$
 \end{aligned}
 $$
 
-During the accruals calculation, `NaN` values arose primarily due to the lack of prior year data needed to compute changes in key financial variables (e.g., total current assets, cash, current liabilities). This issue is most common in the first year of each firm’s data, where no prior year data exists. Furthermore, missing data in intermediate years (e.g., a firm has data on cash for 1990, 1992, and 1993 but not 1991) can also result in `NaN` values for subsequent years due to the lack of necessary prior year information for the accruals calculation.
-
-In total, 53,231 rows with `NaN` values were identified ##and subsequently dropped from the dataset. @Leuz_2003 specify that for taxes payable (`delta_TP`) and short-term debt (`delta_STD`), missing data should be treated as zero, but for other variables, dropping these rows is consistent with financial practices to ensure accuracy.
-
 2.	Derive Operating Cash Flow (CFO) that is indirectly derived from operating income minus accruals:
-
 $$
 \text{CFO}_{it} = \text{Operating Income}_{it} - \text{Accruals}_{it}
 $$
 
 3.	Calculate EM1, which is determined as the country’s median ratio of the firm-level standard deviations of operating income and operating cash flow. Both standard deviations are scaled by lagged total assets to control for differences in firm size:
 $$
-\text{EM1} = \text{Median}\left(\frac{\sigma(\text{Operating Income}_{it})}{\sigma(\text{Operating Cash Flow}_{it})}\right) \quad \text{both separately scaled by lagged total assets}
+\text{EM1} = \text{Median}\left(\frac{\frac{\sigma(\text{Operating Income}_{it})}{\text{Total Assets}_{i(t-1)}}}{\frac{\sigma(\text{Operating Cash Flow}_{it})}{\text{Total Assets}_{i(t-1)}}}\right)
 $$
 
 ### Smoothing and the Correlation Between Changes in Accounting Accruals and Operating Cash Flows (EM2)
@@ -236,23 +231,6 @@ $$
 
 
 ## delete. cell 3 on Descriptive Statistics Table
-```{python}
-#| label: fig-boxplot_smp
-#| fig-cap: "Distribution of Discretionary Accruals over Time"
-#| echo: false
-#| fig-format: svg
-
-results['fig_boxplot_smp']
-```
-
-```{python}
-#| label: fig-scatter_dd_lnta
-#| fig-cap: "Dechow and Dichev DA and Firm Size"
-#| echo: false
-#| fig-format: svg
-
-results['fig_scatter_dd_lnta']
-```
 
 ```{python}
 #| echo: false
@@ -281,54 +259,20 @@ print('\n'.join([
 ]))
 ```
 
-```{python}
-#| echo: false
-#| output: asis
-
-lat_tab = rename_var_to_label(results['Correlations'], False).split('\n')
-
-lat_tab[2] = '\\\\[-0.9ex]\\hline \\hline \\\\[-0.9ex]'
-lat_tab[4] = '\\hline\\\\[-1.8ex]'
-lat_tab[12] = '\\\\[-0.9ex]\\hline \\hline \\\\[-0.9ex]'
-lat_tab[14] = '\\begin{tablenotes}[flushleft]'
-
-
-print('\n'.join([
-    "\\begin{table}[!htbp]",
-    "\centering",
-    "\caption{\label{tab:CorrTable}Correlations}",
-    '\label{tab:corr}',
-    '\n'.join(lat_tab),
-    "\end{table}"
-]))
-```
-
-```{python}
-#| echo: false
-#| output: asis
-
-print('\n'.join([
-    '\\begin{table}[!htbp] \\centering',
-    '\\caption{\\label{tab:reg}Regressions}', 
-    '\label{tab:reg}',
-    rename_var_to_label('\n'.join(results['Regression'].split('\n')[3:-1])),
-    "\end{table}"
-]))
-```
-
 
 # Results {#sec-results}
 
 ##Cross-check your results with the original table to ensure accuracy. Compare your results with the results in the paper. If you notice differences, discuss where they may originate. Make sure to be as specific as possible. This could involve looking at the data selection, calculation methods, or any assumptions that might differ from the original; changes in the data over time, different interpretations of the methodology, or limitations in the data sources used. Consider whether the differences are significant and what they might mean for the conclusions drawn in the paper.
 
-The replicated table shows some similarities with the original table by @Leuz_2003 in that . These findings are in line with valuation theory that .
+The replicated table shows some similarities with the original table by @Leuz_2003 in that . These findings are in line with valuation ***theory*** that .
 
 However, the patterns are less clear in the replicated table (in particular ), which stands in contrast to @Leuz_2003.
 
+The comparison between the calculated EM1 values and those reported in the original paper reveals a strong alignment, with only minor differences observed across most countries. The overall pattern of EM1 values is consistent, effectively capturing the underlying trends in earnings management across different countries. Any differences, such as those for the Philippines, Taiwan, and Norway, are relatively small and likely due to variations in data sources, updates, or slight methodological differences as outlined in @sec-research_design_assumptions. The summary statistics (mean, median, min, max and standard deviation) also closely match those in the original study, further supporting the robustness of the replication process. The results indicate that Anglo-American countries tend to have higher EM1 values, suggesting less earnings smoothing compared to Continental Europe and Asia, consistent with the conclusion of @Leuz_2003 that earnings are smoother in Continental Europe and Asia than in Anglo-American countries, after controlling for the volatility of cash flows.
 
 # Conclusion {#sec-conclusion}
 
-##gpt: Summarize the key findings and their significance. take results and insert them here
+##gpt: Summarize the key findings and their significance.
 
 This project demonstrates the effectiveness of using an open science and collaborative workflow for analyzing earnings management measures across various countries. By following a step-by-step approach and using the TRR 266 Template for Reproducible Empirical Accounting Research, I was able to replicate an empirical table from @Leuz_2003 and provide insights into the trends of earnings management practices, which vary significantly across countries, similar to @Leuz_2003.
 
