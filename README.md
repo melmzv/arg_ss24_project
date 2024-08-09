@@ -40,7 +40,7 @@ Next, explore the repository to familiarize yourself with its folders and files 
 > Logo File Update: Convert `trr266_logo.eps` to `trr266_logo.pdf` for compatibility with XeLaTeX. Update `beamer_theme_trr266.sty` to reference the new PDF logo file. When running the presentation script, ensure `trr266_logo.pdf` is in the `doc` directory for the beamer theme to work correctly.
 
 > [!NOTE]
-> Note: While generating the presentation, you may notice that some sections and subsections might not have the correct beamer formatting applied. This is due to the color coding in the `beamer_theme_trr266.sty` file, which might need further adjustments. The current output is based on the template provided and further customization may be required to ensure consistency across all slides.
+> While generating the presentation, you may notice that some sections and subsections might not have the correct beamer formatting applied. This is due to the color coding in the `beamer_theme_trr266.sty` file, which might need further adjustments. The current output is based on the template provided and further customization may be required to ensure consistency across all slides.
 
 - `info`: This is a folder that can store additional documentation. In our case you will find a RMarkdown file that introduces our TRR 266-themed ggplot theme.
 
