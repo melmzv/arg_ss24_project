@@ -5,44 +5,44 @@
 \toprule
 index & Country & \# Firm-years \\
 \midrule
-0 & AUSTRALIA & 2099 \\
-1 & AUSTRIA & 686 \\
-2 & BELGIUM & 932 \\
-3 & CANADA & 4215 \\
-4 & DENMARK & 1326 \\
-5 & FINLAND & 1058 \\
-6 & FRANCE & 5515 \\
-7 & GERMANY & 5307 \\
-8 & GREECE & 1034 \\
-9 & HONG KONG & 1862 \\
-10 & INDIA & 2068 \\
-11 & INDONESIA & 978 \\
-12 & IRELAND & 625 \\
-13 & ITALY & 1591 \\
-14 & JAPAN & 20528 \\
-15 & KOREA (SOUTH) & 2038 \\
-16 & MALAYSIA & 2283 \\
-17 & NETHERLANDS & 1782 \\
-18 & NORWAY & 1210 \\
-19 & PAKISTAN & 598 \\
-20 & PHILIPPINES & 574 \\
-21 & PORTUGAL & 577 \\
-22 & SINGAPORE & 1291 \\
-23 & SOUTH AFRICA & 1334 \\
-24 & SPAIN & 1221 \\
-25 & SWEDEN & 1766 \\
-26 & SWITZERLAND & 1553 \\
-27 & TAIWAN & 1259 \\
-28 & THAILAND & 1664 \\
-29 & UNITED KINGDOM & 12910 \\
-30 & UNITED STATES & 41585 \\
-31 & Mean & 3983 \\
-32 & Median & 1553 \\
-33 & Min & 574 \\
-34 & Max & 41585 \\
+1 & AUSTRALIA & 2099 \\
+2 & AUSTRIA & 686 \\
+3 & BELGIUM & 932 \\
+4 & CANADA & 4215 \\
+5 & DENMARK & 1326 \\
+6 & FINLAND & 1058 \\
+7 & FRANCE & 5515 \\
+8 & GERMANY & 5307 \\
+9 & GREECE & 1034 \\
+10 & HONG KONG & 1862 \\
+11 & INDIA & 2068 \\
+12 & INDONESIA & 978 \\
+13 & IRELAND & 625 \\
+14 & ITALY & 1591 \\
+15 & JAPAN & 20528 \\
+16 & KOREA (SOUTH) & 2038 \\
+17 & MALAYSIA & 2283 \\
+18 & NETHERLANDS & 1782 \\
+19 & NORWAY & 1210 \\
+20 & PAKISTAN & 598 \\
+21 & PHILIPPINES & 574 \\
+22 & PORTUGAL & 577 \\
+23 & SINGAPORE & 1291 \\
+24 & SOUTH AFRICA & 1334 \\
+25 & SPAIN & 1221 \\
+26 & SWEDEN & 1766 \\
+27 & SWITZERLAND & 1553 \\
+28 & TAIWAN & 1259 \\
+29 & THAILAND & 1664 \\
+30 & UNITED KINGDOM & 12910 \\
+31 & UNITED STATES & 41585 \\
+32 & Mean & 3983 \\
+33 & Median & 1553 \\
+34 & Min & 574 \\
+35 & Max & 41585 \\
 \bottomrule
 \end{tabular}
 
-\caption{Number of Firm-Year Observations per Country}
+\caption{Replicated table - Number of Firm-Year Observations per Country}
 
 \end{table}

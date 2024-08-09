@@ -10,7 +10,7 @@ author:
 date: today
 date-format: MMM D, YYYY [\vspace{1cm}]
 abstract: |
-  | This project uses the TRR 266 Template for Reproducible Empirical Accounting Research (TREAT) to provide an infrastructure for open science-oriented empirical projects. Leveraging external Worldscope data sets on financial data, the repository showcases a reproducible workflow that integrates Python scripts for data analysis. The project’s output demonstrates a comprehensive application of skills to replicate and extend the findings from the seminal paper by Leuz, Nanda, and Wysocki (2003), particularly in providing descriptive statistics for the four individual earnings management measures as well as the aggregate earnings management score across various countries. In doing so, it documents and discusses the research design choices made and the variations between the original and reproduced results. This code base, adapted from TREAT, should give you an overview on how the template is supposed to be used for my specific project and how to structure a reproducible empirical project.
+  | This project uses the TRR 266 Template for Reproducible Empirical Accounting Research (TREAT) to provide an infrastructure for open science-oriented empirical projects. Leveraging external Worldscope data sets on financial data, the repository showcases a reproducible workflow that integrates Python scripts for data analysis. The project’s output demonstrates a comprehensive application of skills to replicate and extend the findings from the seminal paper by Leuz, Nanda, and Wysocki (2003), particularly in providing descriptive statistics for the four individual earnings management measures as well as the aggregate earnings management score across various countries. In doing so, it documents and discusses the research design choices made and the variations between the original and reproduced results. This code base, adapted from TREAT, should give you an overview on how the template is supposed to be used for this specific project and how to structure a reproducible empirical project.
   | \vspace{6cm}
 bibliography: references.bib
 biblio-style: apsr
@@ -84,6 +84,7 @@ def prep_latex_table(df, caption=None, label=None, fontsize='\\fontsize{11}{13}\
 
 \pagebreak
 
+
 # List of Abbreviations
 \setlength{\parindent}{0em}
 
@@ -100,18 +101,13 @@ def prep_latex_table(df, caption=None, label=None, fontsize='\\fontsize{11}{13}\
 
 # Introduction {#sec-introduction}
 
-The following paper illustrates how to use open science tools in empirical accounting research.
+The aim of the following paper is to illustrate how to use open science tools in empirical accounting research. The original study by @Leuz_2003 examines systematic differences in earnings management (EM) across 31 countries and proposes that these differences are influenced by the level of investor protection. Specifically, they argue that stronger investor protection reduces earnings management by limiting insiders’ ability to acquire private control benefits.
 
-The original study by @Leuz_2003 examines systematic differences in earnings management (EM) across 31 countries and proposes that these differences are influenced by the level of investor protection. Specifically, they argue that stronger investor protection reduces earnings management by limiting insiders’ ability to acquire private control benefits.
-
-This paper presents details on a replication of Table 2 Panel A from the seminal paper by @Leuz_2003. The original table provides descriptive statistics for four individual earnings management measures and the aggregate earnings management score across various countries, highlighting significant differences in EM practices between Continental Europe, Asia, and Anglo-American countries. 
+This paper presents details on a replication of Table 2 Panel A from the seminal study by @Leuz_2003. The original table provides descriptive statistics for four individual earnings management measures and the aggregate earnings management score across various countries, highlighting significant differences in EM practices between Continental Europe, Asia, and Anglo-American countries.
 
 The project uses data from the Worldscope Database through Wharton Research Data Services (WRDS), focusing on the fiscal years 1990 to 1999 and covering multiple countries. The replication aims to follow the research design by @Leuz_2003 as closely as possible with the available data. It employs four individual earnings management measures: earnings smoothing using accruals (EM1), the correlation between changes in accruals and cash flows (EM2), the magnitude of accruals (EM3), and the ratio of small profits to small losses (EM4). These measures are combined to create an aggregate earnings management score, providing a comprehensive overview of EM practices.
 
-The analysis includes pulling and filtering the relevant financial data, identifying relevant companies and countries based on the authors’ requirements, calculating the earnings management measures for each country, and examining the relationship between each country’s aggregate earnings management score and its ranking based on made explicit assumptions whenever the paper is not clear on how to proceed.
-
-## delete. from mine
-Note that intermediate check steps have been omitted for brevity. The full code, including intermediate print steps to verify outputs, is presented in `code/python/Assignment1_analyze_residual_income.py`.
+The analysis includes pulling and filtering the relevant financial data, identifying relevant companies and countries based on the authors’ requirements, calculating the EM measures for each country, and examining the relationship between each country’s aggregate earnings management score and its ranking based on explicit assumptions made whenever the paper by @Leuz_2003 is not clear on how to proceed. The complete computation code for EM measures is available in `code/python/do_analysis.py` for detailed review if necessary. Code snippets will be presented only in exceptional cases to highlight specific points. @
 
 The replicated table is shown below, followed by replication steps documentation, a detailed comparison, and discussion of the results.
 
@@ -186,7 +182,7 @@ However, there are significant discrepancies, particularly for the United States
 
 print(prep_latex_table(
     results['table_1'],
-    caption='Number of Firm-Year Observations per Country',
+    caption='Replicated table - Number of Firm-Year Observations per Country',
     label='tab:table_1'
 ))
 ```
