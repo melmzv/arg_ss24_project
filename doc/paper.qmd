@@ -114,6 +114,8 @@ The analysis includes pulling and filtering the relevant financial data, identif
 
 The replicated table is shown below, followed by the research design assumptions in @sec-research_design_assumptions, documentation of the replication steps in @sec-replication_steps, a detailed comparison in @sec-results, and concluding remarks in @sec-conclusion.
 
+Table 1 provides descriptive statistics for the four individual earnings management measures as well as the aggregate earnings management score, where countries are sorted in descending order based on their aggregate score. The discussion on replication findings is presented in @sec-results.
+
 ## delete from fikir.
 ```{python}
 #| echo: false
@@ -170,7 +172,7 @@ In the second filtration step, firms with adequate consecutive data were identif
 
 During the preparation step, 8,265 firms and 20,521 firm-year observations (all due to the second filtration step) were dropped, resulting in a final dataset with 18,040 non-financial firms and 123,469 firm-year observations. The differences in the numbers between the prepared dataset and the figures mentioned in the paper (70,955 firm-year observations and 8,616 non-financial firms) could be due to assumptions outlined in @sec-research_design_assumptions, such as variations in initial datasets, data updates, and filtering criteria. However, the original paper might have included additional data cleaning steps not explicitly mentioned, such as handling outliers, specific industry exclusions, or other criteria, which could affect the final counts.
 ## table 2 correctly referenced?
-Given that the number of observations in this project is significantly higher than in the original study, Table 1 from @Leuz_2003 was partially replicated (focusing only on columns related to countries and firm-year observations) to highlight specific discrepancies that could arise for certain countries. The results in the table 2 below show a higher number of firm-year observations for almost all countries compared to the paper by @Leuz_2003, likely due to database updates leading to a more comprehensive dataset. The trend in the number of firm-year observations across countries is consistent with the original study, with larger capital markets like Japan, the United Kingdom, and the United States having the highest numbers. The distribution of observations in my dataset shows higher mean and median values compared to the paper by @Leuz_2003, indicating a greater overall number of firm-year observations, while the minimum values are relatively close, suggesting that the overall distribution of observations across countries remains broadly similar.
+Given that the number of observations in this project is significantly higher than in the original study, Table 1 from @Leuz_2003 was partially replicated (focusing only on columns related to countries and firm-year observations) to highlight specific discrepancies that could arise for certain countries. The results in the Table 2 below show a higher number of firm-year observations for almost all countries compared to the paper by @Leuz_2003, likely due to database updates leading to a more comprehensive dataset. The trend in the number of firm-year observations across countries is consistent with the original study, with larger capital markets like Japan, the United Kingdom, and the United States having the highest numbers. The distribution of observations in my dataset shows higher mean and median values compared to the paper by @Leuz_2003, indicating a greater overall number of firm-year observations, while the minimum values are relatively close, suggesting that the overall distribution of observations across countries remains broadly similar.
 
 However, there are significant discrepancies, particularly for the United States, which has 41,585 observations compared to 3,792 in the original study, possibly due to more comprehensive data or changes in dataset scope. @Leuz_2003 focused only on S&P 500 companies for the U.S., while this analysis uses a more comprehensive dataset from the Worldscope database, which includes detailed financial statement data and profile data on public companies globally. This broader scope results in a higher number of firm-year observations for the United States. Despite the differences in absolute numbers, the relative trends across countries align with the paper.
 
@@ -273,7 +275,7 @@ $$
 $$
 
 ### Aggregate Measure of Earnings Management
-The aggregate earnings management score is a summary measure that captures the overall level of earnings management in each country. This measure is calculated by ranking countries on each of the four individual earnings management measures (EM1-EM4), where a higher rank indicates a greater degree of earnings management. The final aggregate score is the average of these ranks, providing a comprehensive view of a country’s earnings management practices. 
+The aggregate earnings management score is a summary measure that captures the overall level of earnings management in each country. This measure is calculated by ranking countries on each of the four individual earnings management measures (EM1-EM4), where a higher rank indicates a greater degree of earnings management. The final aggregate score is the average of these ranks, providing a comprehensive view of a country’s earnings management practices. The countries are sorted in descending order based on their aggregate score.
 
 To calculate this measure:
 $$
@@ -281,44 +283,7 @@ $$
 $$
 
 
-## delete. cell 3 on Descriptive Statistics Table
-
-```{python}
-#| echo: false
-#| output: asis
-
-lat_tab = rename_var_to_label(results['Descriptive Statistics']).split('\n')
-lat_tab[4] = '\\\\[-1.8ex]\\hline \\hline \\\\[-1.8ex]'
-lat_tab[6] = '\\hline\\\\[-1.8ex]'
-lat_tab[-4] = '\\\\[-1.8ex]\\hline \\hline \\\\[-1.8ex]'
-
-print('\n'.join([
-    '\\begin{table}[!htbp]',  
-    '\caption{\label{tab:descriptives}Descriptive Statistics}',
-    '\label{tab:tab-descriptives-sample}',
-    '\\begin{adjustbox}{width=\\textwidth}',
-    '\\begin{threeparttable}',
-    '\n'.join(lat_tab[3:-2]),
-    '\\begin{tablenotes}[flushleft]',
-    '\setlength{\labelsep}{0pt}',
-    '\\footnotetext',
-    f'\\item Note: The data is obtained from the Compustat U.S. as provided by WRDS. The sample covers the period {int(min_fyear)} to {int(max_fyear)} and {no_unique_firms:,} unique firms.',
-    '\end{tablenotes}',
-    '\end{threeparttable}',
-    '\end{adjustbox}',
-    '\\end{table}',
-]))
-```
-
-
 # Results {#sec-results}
-
-##Cross-check your results with the original table to ensure accuracy. Compare your results with the results in the paper. If you notice differences, discuss where they may originate. Make sure to be as specific as possible. This could involve looking at the data selection, calculation methods, or any assumptions that might differ from the original; changes in the data over time, different interpretations of the methodology, or limitations in the data sources used. Consider whether the differences are significant and what they might mean for the conclusions drawn in the paper.
-
-##The replicated table shows some similarities with the original table by @Leuz_2003 in that . These findings are in line with valuation ***theory*** that .
-
-##However, the patterns are less clear in the replicated table (in particular ), which stands in contrast to @Leuz_2003.
-
 The comparison between the calculated EM1 values and those reported in the original paper reveals a strong alignment, with only minor differences observed across most countries. The overall pattern of EM1 values is consistent, effectively capturing the underlying trends in earnings management across different countries. Any differences, such as those for the Philippines, Taiwan, and Norway, are relatively small and likely due to variations in data sources, updates, or slight methodological differences as outlined in @sec-research_design_assumptions. The summary statistics (mean, median, min, max and standard deviation) also closely match those in the original study, further supporting the robustness of the replication process. The results indicate that Anglo-American countries tend to have higher EM1 values, suggesting less earnings smoothing compared to Continental Europe and Asia, consistent with the conclusion of @Leuz_2003 that earnings are smoother in Continental Europe and Asia than in Anglo-American countries, after controlling for the volatility of cash flows.
 
 The replication findings regarding EM2 indicate that earnings smoothing is more pronounced in countries like Greece and Japan, while countries like Canada and the United States exhibit less pervasive smoothing behavior, in line with the findings of @Leuz_2003. Despite some differences in magnitude, the overall trends are consistent, reinforcing the idea that earnings smoothing varies significantly across different countries. In fact, these small variations do not significantly alter the overall conclusions. Specifically, the minimum and maximum EM2 values in the replication closely match the original findings, with Greece showing the most earnings smoothing (min: -0.942 vs. -0.928) and Norway the least (max: -0.786 vs. -0.722). This consistency reinforces the accuracy of the replication.
@@ -326,6 +291,10 @@ The replication findings regarding EM2 indicate that earnings smoothing is more 
 The replicated EM3 results are very similar to those of the original study, with close alignment in summary statistics and consistent identification of South Africa and Germany as the countries with the minimum and maximum EM3 values. Additionally, the replication confirms that the magnitude of firms’ accruals relative to their operating cash flows is smaller in the U.K. and the U.S. compared to Austria, Germany, and South Korea, consistent with the original findings. 
 
 The replicated results show significant regional differences in EM4 values, reflecting varying degrees of loss avoidance. Spain has the highest EM4 value, highlighting strong loss avoidance among European firms. Norway, with the lowest EM4 value, corresponds to the minimum value in the original paper, confirming less aggressive loss avoidance. High EM4 values in Asian countries like Indonesia (5.667) and India (6.000) further support the trend that European and Asian firms exhibit greater loss avoidance than their Anglo-American counterparts, such as the United States (1.912) and Canada (2.402), which have lower EM4 values. These results align with the original study's conclusions on regional loss avoidance behavior.
+
+The comparison between the original and replicated aggregate earnings management scores reveals a strong overall alignment with consistent key trends. In the original study, Austria and Greece are at the top of the rankings with aggregate scores of 28.3, indicating the highest levels of earnings management. In the replication, Greece and Austria remain at the top with slightly adjusted scores of 27.5 and 27.2, respectively. Taiwan and South Korea also rank high, mirroring their positions in the original study. While some differences in specific rankings and scores exist, such as the United States consistently having the lowest level of earnings management (2.0 in the original and 3.5 in the replication), these variations are minor and do not spoil overall consistency.
+
+In summary, the replication effectively captures the original study’s key findings, confirming that European and Asian countries generally exhibit higher levels of earnings management than their Anglo-American counterparts. The strong similarity between the original and replicated results underscores the robustness and reliability of the findings.
 
 # Conclusion {#sec-conclusion}
 
@@ -338,6 +307,10 @@ The study by @Leuz_2003 documents systematic differences in the level of earning
 The analysis revealed that 
 
 The replication yields mixed results. While  
+
+The replicated results show significant differences in earnings management practices across countries, with consistent patterns in the relative magnitudes of the individual measures. These differences are particularly evident in areas such as loss avoidance and earnings smoothing. In line with the original study, the replication suggests that firms in countries with more developed equity markets, dispersed ownership structures, strong investor rights, and robust legal enforcement tend to engage in less earnings management. This consistent finding across both the original and replicated studies reinforces the idea that the institutional environment plays a critical role in shaping corporate earnings management behaviors on an international scale.
+
+The replicated analysis also reveals that the individual earnings management measures are highly correlated, leading to similar rankings across the four measures and the aggregate earnings management score. This consistency supports the original study’s finding that a single underlying factor likely represents the four individual measures. In line with the original results, the replicated country rankings based on the aggregate score show high ranks for countries like Greece, Austria, and South Korea, and lower ranks for countries such as Australia, the U.K., and the U.S. This reinforces the robustness of the aggregated measure in capturing the overall level of earnings management across different countries.
 
 This final assignment has required the comprehensive application of all skills learned and feedback received from previous assignments, making it a more complex project workflow. In the future, this repository can be cloned or forked (if made public) to kickstart further projects on earnings management measures analysis. Thanks for reading!
 
