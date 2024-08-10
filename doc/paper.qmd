@@ -189,7 +189,7 @@ print(prep_latex_table(
 ## Step 3: Analysis Implementation and Table Reproduction
 In this replication step, the calculation of the EM measures is implemented according to the methodology described by @Leuz_2003. The study employs four distinct proxies that capture different dimensions of earnings management, such as earnings smoothing and accrual manipulations. These measures are used to assess the pervasiveness of earnings management across countries. This step ensures that all statistical methods and groupings are accurately replicated, following the paper’s approach to capture the extent to which corporate insiders use accounting discretion to obscure their firm’s true economic performance.
 
-### Smoothing Reported Operating Earnings Using Accruals (EM1)
+### Smoothing Reported Operating Earnings Using Accruals (EM1) {#sec-EM1}
 `EM1` is a measure that assesses how much insiders (e.g., company executives) smooth or stabilize reported earnings by manipulating accruals. The concept is that firms may attempt to reduce fluctuations in their reported operating income to present a more stable financial performance to investors. This measure reflects the degree to which insiders use accounting discretion to smooth reported earnings, with lower values of EM1 suggesting more extensive earnings smoothing.
 
 To calculate this measure:
@@ -220,6 +220,29 @@ $$
 $$
 
 ### Smoothing and the Correlation Between Changes in Accounting Accruals and Operating Cash Flows (EM2)
+`EM2` is designed to capture the extent to which insiders use accounting discretion to smooth reported earnings by examining the correlation between changes in accruals and changes in operating cash flows. A stronger negative correlation between these variables indicates that accruals are being used to buffer the impact of cash flow fluctuations, potentially masking the true economic performance of the firm.
+
+To calculate this measure:
+
+1. Compute Accruals and CFO using same Formulas used in @sec-EM1.
+
+2. Calculate the change in Accruals and CFO for each firm-year:
+$$
+\Delta \text{Accruals}_{it} = \text{Accruals}_{it} - \text{Accruals}_{i(t-1)}
+$$
+$$
+\Delta \text{CFO}_{it} = \text{CFO}_{it} - \text{CFO}_{i(t-1)}
+$$
+
+3. Scale both changes by lagged total assets:
+$$
+\frac{\Delta \text{Accruals}_{it}}{\text{Total Assets}_{i(t-1)}}, \quad \frac{\Delta \text{CFO}_{it}}{\text{Total Assets}_{i(t-1)}}
+$$
+
+4. Calculate EM1, which is computed as the Spearman correlation between these scaled changes, aggregated at the country level:
+$$
+\text{EM2} = \rho\left(\frac{\Delta \text{Accruals}_{it}}{\text{Total Assets}_{i(t-1)}}, \frac{\Delta \text{CFO}_{it}}{\text{Total Assets}_{i(t-1)}}\right)
+$$
 
 ### Discretion in Reported Earnings: The Magnitude of Accruals (EM3)
 
