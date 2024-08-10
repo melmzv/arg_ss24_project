@@ -12,8 +12,11 @@ def main():
     # Calculate EM2
     country_em2, summary_stats_em2 = calculate_em2(financial_data)
 
+    # Calculate EM3
+    country_em3, summary_stats_em3 = calculate_em3(financial_data)
+
     # Save and print results
-    save_results(country_em1, summary_stats_em1, country_em2, summary_stats_em2)
+    save_results(country_em1, summary_stats_em1, country_em2, summary_stats_em2, country_em3, summary_stats_em3)
 
 def load_data():
     """
@@ -48,7 +51,6 @@ def calculate_em1(df):
     df['std_cfo'] = df.groupby('item6105')['CFO'].transform('std')
 
     # Step 4: Retrieve Lagged Total Assets
-    # For scaling, identify the total assets from the prior year (making use of year 0 as well. Otherwise would have dropped it in accruals step)
     df['lagged_total_assets'] = df.groupby('item6105')['item2999'].shift(1)
 
     # Step 5: Scale the standard deviations individually by lagged total assets
@@ -57,9 +59,6 @@ def calculate_em1(df):
 
     # Step 6: Calculate EM1 as the ratio of the scaled standard deviations
     df['EM1'] = df['scaled_std_operating_income'] / df['scaled_std_cfo']
-
-    # Drop rows where EM1 is NaN
-    ## df = df.dropna(subset=['EM1'])
 
     # Step 7: Group by country (item6026) and calculate the median of EM1 for each country
     country_em1 = df.groupby('item6026')['EM1'].median().reset_index()
@@ -97,16 +96,51 @@ def calculate_em2(df):
 
     return country_em2, summary_stats_em2
 
-def save_results(country_em1, summary_stats_em1, country_em2, summary_stats_em2):
+def calculate_em3(df):
     """
-    Save the EM1 and EM2 results to a pickle file and print them.
+    Calculate EM3, which is the country’s median ratio of the absolute value of accruals
+    and the absolute value of the cash flow from operations.
+    """
+    # Step 1: Calculate the absolute values of Accruals and CFO
+    df['abs_Accruals'] = df['Accruals'].abs()
+    df['abs_CFO'] = df['CFO'].abs()
+
+    # Print the first few rows to check the calculated absolute values
+    print("Absolute Values of Accruals and CFO (first 10 rows):")
+    print(df[['item6105', 'year_', 'Accruals', 'CFO', 'abs_Accruals', 'abs_CFO']].head(10))
+
+    # Step 2: Calculate the ratio of abs(Accruals) to abs(CFO)
+    df['Ratio'] = df['abs_Accruals'] / df['abs_CFO']
+
+    # Print the first few rows to check the calculated Ratio
+    print("Ratio of Absolute Accruals to Absolute CFO (first 10 rows):")
+    print(df[['item6105', 'year_', 'abs_Accruals', 'abs_CFO', 'Ratio']].head(10))
+
+    # Step 3: Group by country and calculate the median of the Ratio for each country
+    country_em3 = df.groupby('item6026')['Ratio'].median().reset_index()
+    country_em3['EM3'] = country_em3['Ratio'].round(3)
+
+    # Print the country-level EM3 results
+    print("Country-Level EM3 Results (first 10 rows):")
+    print(country_em3.head(10))
+
+    # Step 4: Calculate summary statistics (mean, median, std, min, max) for EM3 across countries
+    summary_stats_em3 = country_em3['EM3'].agg(['mean', 'median', 'std', 'min', 'max']).round(3)
+
+    return country_em3, summary_stats_em3
+
+def save_results(country_em1, summary_stats_em1, country_em2, summary_stats_em2, country_em3, summary_stats_em3):
+    """
+    Save the EM1, EM2, and EM3 results to a pickle file and print them.
     """
     with open('output/em_results.pickle', 'wb') as f:
         pickle.dump({
             'country_em1': country_em1,
             'summary_stats_em1': summary_stats_em1,
             'country_em2': country_em2,
-            'summary_stats_em2': summary_stats_em2
+            'summary_stats_em2': summary_stats_em2,
+            'country_em3': country_em3,
+            'summary_stats_em3': summary_stats_em3
         }, f)
 
     print("EM1 Country-Level Results:")
@@ -118,6 +152,11 @@ def save_results(country_em1, summary_stats_em1, country_em2, summary_stats_em2)
     print(country_em2)
     print("\nEM2 Summary Statistics:")
     print(summary_stats_em2)
+
+    print("\nEM3 Country-Level Results:")
+    print(country_em3)
+    print("\nEM3 Summary Statistics:")
+    print(summary_stats_em3)
 
 if __name__ == "__main__":
     main()
