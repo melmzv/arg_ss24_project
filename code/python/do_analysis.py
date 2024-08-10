@@ -14,9 +14,12 @@ def main():
 
     # Calculate EM3
     country_em3, summary_stats_em3 = calculate_em3(financial_data)
+    
+    # Calculate EM4
+    country_em4, summary_stats_em4 = calculate_em4(financial_data)
 
     # Save and print results
-    save_results(country_em1, summary_stats_em1, country_em2, summary_stats_em2, country_em3, summary_stats_em3)
+    save_results(country_em1, summary_stats_em1, country_em2, summary_stats_em2, country_em3, summary_stats_em3, country_em4, summary_stats_em4)
 
 def load_data():
     """
@@ -119,9 +122,34 @@ def calculate_em3(df):
 
     return country_em3, summary_stats_em3
 
-def save_results(country_em1, summary_stats_em1, country_em2, summary_stats_em2, country_em3, summary_stats_em3):
+def calculate_em4(df):
     """
-    Save the EM1, EM2, and EM3 results to a pickle file and print them.
+    Calculate EM4, which is the ratio of the number of small profits to the number of small losses for each country.
+    Small profits and losses are defined based on net earnings (item1651) scaled by lagged total assets.
+    """
+    # Step 1: Calculate Net Earnings scaled by Lagged Total Assets
+    df['scaled_net_earnings'] = df['item1651'] / df['lagged_total_assets']
+
+    # Step 2: Identify Small Profits and Small Losses
+    df['small_profits'] = ((df['scaled_net_earnings'] >= 0) & (df['scaled_net_earnings'] <= 0.01)).astype(int)
+    df['small_losses'] = ((df['scaled_net_earnings'] >= -0.01) & (df['scaled_net_earnings'] < 0)).astype(int)
+
+    # Step 3: Calculate EM4 as the ratio of Small Profits to Small Losses for each country
+    country_em4 = df.groupby('item6026').apply(
+        lambda x: x['small_profits'].sum() / max(1, x['small_losses'].sum())  # Avoid division by zero
+    ).reset_index()
+    country_em4.columns = ['item6026', 'EM4']
+    # Round the EM4 results to three decimal places
+    country_em4['EM4'] = country_em4['EM4'].round(3)
+
+    # Step 4: Calculate summary statistics (mean, median, std, min, max) for EM4 across countries
+    summary_stats_em4 = country_em4['EM4'].agg(['mean', 'median', 'std', 'min', 'max']).round(3)
+
+    return country_em4, summary_stats_em4
+
+def save_results(country_em1, summary_stats_em1, country_em2, summary_stats_em2, country_em3, summary_stats_em3, country_em4, summary_stats_em4):
+    """
+    Save the EM1, EM2, EM3, and EM4 results to a pickle file and print them.
     """
     with open('output/em_results.pickle', 'wb') as f:
         pickle.dump({
@@ -130,7 +158,9 @@ def save_results(country_em1, summary_stats_em1, country_em2, summary_stats_em2,
             'country_em2': country_em2,
             'summary_stats_em2': summary_stats_em2,
             'country_em3': country_em3,
-            'summary_stats_em3': summary_stats_em3
+            'summary_stats_em3': summary_stats_em3,
+            'country_em4': country_em4,
+            'summary_stats_em4': summary_stats_em4
         }, f)
 
     print("EM1 Country-Level Results:")
@@ -147,6 +177,11 @@ def save_results(country_em1, summary_stats_em1, country_em2, summary_stats_em2,
     print(country_em3)
     print("\nEM3 Summary Statistics:")
     print(summary_stats_em3)
+
+    print("\nEM4 Country-Level Results:")
+    print(country_em4)
+    print("\nEM4 Summary Statistics:")
+    print(summary_stats_em4)
 
 if __name__ == "__main__":
     main()

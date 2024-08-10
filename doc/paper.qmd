@@ -273,6 +273,12 @@ $$
 $$
 
 ### Aggregate Measure of Earnings Management
+The aggregate earnings management score is a summary measure that captures the overall level of earnings management in each country. This measure is calculated by ranking countries on each of the four individual earnings management measures (EM1-EM4), where a higher rank indicates a greater degree of earnings management. The final aggregate score is the average of these ranks, providing a comprehensive view of a country’s earnings management practices. 
+
+To calculate this measure:
+$$
+\text{Aggregate Earnings Management Score}_{\text{country}} = \frac{\text{Rank}_{\text{EM1}} + \text{Rank}_{\text{EM2}} + \text{Rank}_{\text{EM3}} + \text{Rank}_{\text{EM4}}}{4}
+$$
 
 
 ## delete. cell 3 on Descriptive Statistics Table
@@ -318,6 +324,8 @@ The comparison between the calculated EM1 values and those reported in the origi
 The replication findings regarding EM2 indicate that earnings smoothing is more pronounced in countries like Greece and Japan, while countries like Canada and the United States exhibit less pervasive smoothing behavior, in line with the findings of @Leuz_2003. Despite some differences in magnitude, the overall trends are consistent, reinforcing the idea that earnings smoothing varies significantly across different countries. In fact, these small variations do not significantly alter the overall conclusions. Specifically, the minimum and maximum EM2 values in the replication closely match the original findings, with Greece showing the most earnings smoothing (min: -0.942 vs. -0.928) and Norway the least (max: -0.786 vs. -0.722). This consistency reinforces the accuracy of the replication.
 
 The replicated EM3 results are very similar to those of the original study, with close alignment in summary statistics and consistent identification of South Africa and Germany as the countries with the minimum and maximum EM3 values. Additionally, the replication confirms that the magnitude of firms’ accruals relative to their operating cash flows is smaller in the U.K. and the U.S. compared to Austria, Germany, and South Korea, consistent with the original findings. 
+
+The replicated results show significant regional differences in EM4 values, reflecting varying degrees of loss avoidance. Spain has the highest EM4 value, highlighting strong loss avoidance among European firms. Norway, with the lowest EM4 value, corresponds to the minimum value in the original paper, confirming less aggressive loss avoidance. High EM4 values in Asian countries like Indonesia (5.667) and India (6.000) further support the trend that European and Asian firms exhibit greater loss avoidance than their Anglo-American counterparts, such as the United States (1.912) and Canada (2.402), which have lower EM4 values. These results align with the original study's conclusions on regional loss avoidance behavior.
 
 # Conclusion {#sec-conclusion}
 
