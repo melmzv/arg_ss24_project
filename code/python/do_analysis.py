@@ -7,10 +7,13 @@ def main():
     financial_data = load_data()
 
     # Calculate EM1
-    country_em1, summary_stats = calculate_em1(financial_data)
+    country_em1, summary_stats_em1 = calculate_em1(financial_data)
+
+    # Calculate EM2
+    country_em2, summary_stats_em2 = calculate_em2(financial_data)
 
     # Save and print results
-    save_results(country_em1, summary_stats)
+    save_results(country_em1, summary_stats_em1, country_em2, summary_stats_em2)
 
 def load_data():
     """
@@ -65,22 +68,54 @@ def calculate_em1(df):
     country_em1['EM1'] = country_em1['EM1'].round(3)
 
     # Step 8: Calculate summary statistics (mean, median, std, min, max) for EM1 across countries
-    summary_stats = country_em1['EM1'].agg(['mean', 'median', 'std', 'min', 'max']).round(3)
+    summary_stats_em1 = country_em1['EM1'].agg(['mean', 'median', 'std', 'min', 'max']).round(3)
 
-    return country_em1, summary_stats
+    return country_em1, summary_stats_em1
 
-def save_results(country_em1, summary_stats):
+def calculate_em2(df):
     """
-    Save the EM1 results to a pickle file and print them.
+    Calculate EM2, which is the Spearman correlation between the change in Accruals and CFO,
+    both scaled by lagged total assets.
     """
-    with open('output/em1_results.pickle', 'wb') as f:
-        pickle.dump({'country_em1': country_em1, 'summary_stats': summary_stats}, f)
-    
+    # Step 1: Calculate the change in Accruals and CFO
+    df['delta_Accruals'] = df.groupby('item6105')['Accruals'].diff()
+    df['delta_CFO'] = df.groupby('item6105')['CFO'].diff()
+
+    # Step 2: Scale by lagged total assets
+    df['scaled_delta_Accruals'] = df['delta_Accruals'] / df['lagged_total_assets']
+    df['scaled_delta_CFO'] = df['delta_CFO'] / df['lagged_total_assets']
+
+    # Step 3: Calculate EM2 as the Spearman correlation between scaled changes
+    country_em2 = df.groupby('item6026').apply(lambda x: x[['scaled_delta_Accruals', 'scaled_delta_CFO']].corr(method='spearman').iloc[0, 1]).reset_index()
+    country_em2.columns = ['item6026', 'EM2']
+    country_em2['EM2'] = country_em2['EM2'].round(3)
+
+    # Step 4: Calculate summary statistics (mean, median, std, min, max) for EM2 across countries
+    summary_stats_em2 = country_em2['EM2'].agg(['mean', 'median', 'std', 'min', 'max']).round(3)
+
+    return country_em2, summary_stats_em2
+
+def save_results(country_em1, summary_stats_em1, country_em2, summary_stats_em2):
+    """
+    Save the EM1 and EM2 results to a pickle file and print them.
+    """
+    with open('output/em_results.pickle', 'wb') as f:
+        pickle.dump({
+            'country_em1': country_em1,
+            'summary_stats_em1': summary_stats_em1,
+            'country_em2': country_em2,
+            'summary_stats_em2': summary_stats_em2
+        }, f)
+
     print("EM1 Country-Level Results:")
     print(country_em1)
-
     print("\nEM1 Summary Statistics:")
-    print(summary_stats)
+    print(summary_stats_em1)
+
+    print("\nEM2 Country-Level Results:")
+    print(country_em2)
+    print("\nEM2 Summary Statistics:")
+    print(summary_stats_em2)
 
 if __name__ == "__main__":
     main()
