@@ -245,7 +245,7 @@ $$
 $$
 
 ### Discretion in Reported Earnings: The Magnitude of Accruals (EM3)
-EM3 is a measure that obtains the degree of discretion that insiders exercise when reporting earnings, particularly when it comes to misstating a firm’s economic performance. It focuses on the magnitude of accruals as a proxy for earnings management. Insiders can use accruals to overstate or understate earnings, thereby achieving certain financial targets or presenting a skewed view of the firm’s performance.
+EM3 is a measure that obtains the degree of discretion that insiders exercise when reporting earnings, particularly when it comes to misstating a firm’s economic performance. It focuses on the magnitude of accruals as a proxy for earnings management. Insiders can use accruals to overstate or understate earnings, thereby achieving certain financial targets or presenting a skewed view of the firm’s performance. Higher scores of EM3 indicate more earnings management, as larger magnitudes of accruals relative to cash flow from operations suggest greater discretion in financial reporting.
 
 To calculate this measure:
 
@@ -297,13 +297,15 @@ print('\n'.join([
 
 ##Cross-check your results with the original table to ensure accuracy. Compare your results with the results in the paper. If you notice differences, discuss where they may originate. Make sure to be as specific as possible. This could involve looking at the data selection, calculation methods, or any assumptions that might differ from the original; changes in the data over time, different interpretations of the methodology, or limitations in the data sources used. Consider whether the differences are significant and what they might mean for the conclusions drawn in the paper.
 
-The replicated table shows some similarities with the original table by @Leuz_2003 in that . These findings are in line with valuation ***theory*** that .
+##The replicated table shows some similarities with the original table by @Leuz_2003 in that . These findings are in line with valuation ***theory*** that .
 
-However, the patterns are less clear in the replicated table (in particular ), which stands in contrast to @Leuz_2003.
+##However, the patterns are less clear in the replicated table (in particular ), which stands in contrast to @Leuz_2003.
 
 The comparison between the calculated EM1 values and those reported in the original paper reveals a strong alignment, with only minor differences observed across most countries. The overall pattern of EM1 values is consistent, effectively capturing the underlying trends in earnings management across different countries. Any differences, such as those for the Philippines, Taiwan, and Norway, are relatively small and likely due to variations in data sources, updates, or slight methodological differences as outlined in @sec-research_design_assumptions. The summary statistics (mean, median, min, max and standard deviation) also closely match those in the original study, further supporting the robustness of the replication process. The results indicate that Anglo-American countries tend to have higher EM1 values, suggesting less earnings smoothing compared to Continental Europe and Asia, consistent with the conclusion of @Leuz_2003 that earnings are smoother in Continental Europe and Asia than in Anglo-American countries, after controlling for the volatility of cash flows.
 
 The replication findings regarding EM2 indicate that earnings smoothing is more pronounced in countries like Greece and Japan, while countries like Canada and the United States exhibit less pervasive smoothing behavior, in line with the findings of @Leuz_2003. Despite some differences in magnitude, the overall trends are consistent, reinforcing the idea that earnings smoothing varies significantly across different countries. In fact, these small variations do not significantly alter the overall conclusions. Specifically, the minimum and maximum EM2 values in the replication closely match the original findings, with Greece showing the most earnings smoothing (min: -0.942 vs. -0.928) and Norway the least (max: -0.786 vs. -0.722). This consistency reinforces the accuracy of the replication.
+
+The replicated EM3 results are very similar to those of the original study, with close alignment in summary statistics and consistent identification of South Africa and Germany as the countries with the minimum and maximum EM3 values. Additionally, the replication confirms that the magnitude of firms’ accruals relative to their operating cash flows is smaller in the U.K. and the U.S. compared to Austria, Germany, and South Korea, consistent with the original findings. 
 
 # Conclusion {#sec-conclusion}
 

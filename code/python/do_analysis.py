@@ -105,24 +105,14 @@ def calculate_em3(df):
     df['abs_Accruals'] = df['Accruals'].abs()
     df['abs_CFO'] = df['CFO'].abs()
 
-    # Print the first few rows to check the calculated absolute values
-    print("Absolute Values of Accruals and CFO (first 10 rows):")
-    print(df[['item6105', 'year_', 'Accruals', 'CFO', 'abs_Accruals', 'abs_CFO']].head(10))
-
     # Step 2: Calculate the ratio of abs(Accruals) to abs(CFO)
-    df['Ratio'] = df['abs_Accruals'] / df['abs_CFO']
+    df['EM3'] = df['abs_Accruals'] / df['abs_CFO']
 
-    # Print the first few rows to check the calculated Ratio
-    print("Ratio of Absolute Accruals to Absolute CFO (first 10 rows):")
-    print(df[['item6105', 'year_', 'abs_Accruals', 'abs_CFO', 'Ratio']].head(10))
+    # Step 3: Group by country and calculate the median of EM3 for each country
+    country_em3 = df.groupby('item6026')['EM3'].median().reset_index()
 
-    # Step 3: Group by country and calculate the median of the Ratio for each country
-    country_em3 = df.groupby('item6026')['Ratio'].median().reset_index()
-    country_em3['EM3'] = country_em3['Ratio'].round(3)
-
-    # Print the country-level EM3 results
-    print("Country-Level EM3 Results (first 10 rows):")
-    print(country_em3.head(10))
+    # Round the EM3 results to three decimal places
+    country_em3['EM3'] = country_em3['EM3'].round(3)
 
     # Step 4: Calculate summary statistics (mean, median, std, min, max) for EM3 across countries
     summary_stats_em3 = country_em3['EM3'].agg(['mean', 'median', 'std', 'min', 'max']).round(3)
