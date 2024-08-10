@@ -157,16 +157,8 @@ def calculate_aggregate(df_em1, df_em2, df_em3, df_em4):
     """
     # Step 1: Merge the EM1, EM2, EM3, and EM4 dataframes on the 'item6026' column (country identifier)
     combined_df = pd.merge(df_em1, df_em2, on='item6026')
-    print("\nAfter merging EM1 and EM2:")
-    print(combined_df.head())
-
     combined_df = pd.merge(combined_df, df_em3, on='item6026')
-    print("\nAfter merging EM3:")
-    print(combined_df.head())
-
     combined_df = pd.merge(combined_df, df_em4, on='item6026')
-    print("\nAfter merging EM4:")
-    print(combined_df.head())
 
     # Step 2: Rank each country by EM1, EM2, EM3, and EM4
     # Adjusting ranking based on whether higher scores imply more (+) or less (-) earnings management
@@ -175,27 +167,37 @@ def calculate_aggregate(df_em1, df_em2, df_em3, df_em4):
     combined_df['Rank_EM3'] = combined_df['EM3'].rank(ascending=True)  # "+" indicates more EM with higher scores
     combined_df['Rank_EM4'] = combined_df['EM4'].rank(ascending=True)  # "+" indicates more EM with higher scores
 
-    print("\nAfter ranking countries:")
-    print(combined_df[['item6026', 'Rank_EM1', 'Rank_EM2', 'Rank_EM3', 'Rank_EM4']].head(32))
-
     # Step 3: Calculate the aggregate score by averaging the ranks and round to one decimal place
     combined_df['Aggregate_EM_Score'] = combined_df[['Rank_EM1', 'Rank_EM2', 'Rank_EM3', 'Rank_EM4']].mean(axis=1).round(1)
 
-    print("\nAfter calculating the Aggregate EM Score:")
-    print(combined_df[['item6026', 'Aggregate_EM_Score']].head())
+    # Keep all relevant columns for the final table
+    final_table = combined_df[['item6026', 'EM1', 'EM2', 'EM3', 'EM4', 'Aggregate_EM_Score']].sort_values(by='Aggregate_EM_Score', ascending=False).reset_index(drop=True)
+    
+    return final_table
 
-    # Keep only the necessary columns for the result
-    aggregate_results = combined_df[['item6026', 'Aggregate_EM_Score']].sort_values(by='Aggregate_EM_Score', ascending=False).reset_index(drop=True)
+def create_final_table_with_stats(final_table):
+    """
+    Create the final table with EM1-EM4 and aggregate scores, and add summary statistics at the bottom.
+    """
+    # Calculate summary statistics for EM1-EM4 and Aggregate
+    summary_stats = final_table[['EM1', 'EM2', 'EM3', 'EM4', 'Aggregate_EM_Score']].agg(['mean', 'median', 'std', 'min', 'max']).round(3)
     
-    print("\nFinal Aggregate Results:")
-    print(aggregate_results.head())
-    
-    return aggregate_results
+    # Append summary statistics to the table
+    final_table_with_stats = pd.concat([final_table, summary_stats])
+
+    # Rename the index for clarity in summary statistics
+    final_table_with_stats = final_table_with_stats.rename(index={0: 'Mean', 1: 'Median', 2: 'Standard Deviation', 3: 'Min', 4: 'Max'})
+
+    print("\nFinal Combined Table with Summary Statistics:")
+    print(final_table_with_stats)
+    return final_table_with_stats
 
 def save_results(country_em1, summary_stats_em1, country_em2, summary_stats_em2, country_em3, summary_stats_em3, country_em4, summary_stats_em4, aggregate_em):
     """
     Save the EM1, EM2, EM3, EM4, and aggregate earnings management results to a pickle file and print them.
     """
+    final_table_with_stats = create_final_table_with_stats(aggregate_em)
+
     with open('output/em_results.pickle', 'wb') as f:
         pickle.dump({
             'country_em1': country_em1,
@@ -207,9 +209,10 @@ def save_results(country_em1, summary_stats_em1, country_em2, summary_stats_em2,
             'country_em4': country_em4,
             'summary_stats_em4': summary_stats_em4,
             'aggregate_em': aggregate_em,
+            'final_table_with_stats': final_table_with_stats,
         }, f)
 
-    print("EM1 Country-Level Results:")
+    print("\nEM1 Country-Level Results:")
     print(country_em1)
     print("\nEM1 Summary Statistics:")
     print(summary_stats_em1)
@@ -231,6 +234,9 @@ def save_results(country_em1, summary_stats_em1, country_em2, summary_stats_em2,
 
     print("\nAggregate Earnings Management Score:")
     print(aggregate_em)
+
+    print("\nFinal Combined Table with Summary Statistics:")
+    print(final_table_with_stats)
 
 if __name__ == "__main__":
     main()
