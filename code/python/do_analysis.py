@@ -41,10 +41,9 @@ def calculate_em1(df):
     df['Accruals'] = (df['delta_CA'] - df['delta_Cash']) - (df['delta_CL'] - df['delta_STD'] - df['delta_TP']) - df['Dep']
 
     # Step 2: Calculate Operating Cash Flow (CFO) by subtracting accruals from operating income.
-    # Handle NaN values where necessary.
     df['CFO'] = df['item1250'] - df['Accruals']
 
-    # Step 3: Calculate the standard deviations for Operating Income and CFO for each firm (grouped by item1605)
+    # Step 3: Calculate the standard deviations for Operating Income and CFO for each firm
     df['std_operating_income'] = df.groupby('item6105')['item1250'].transform('std')
     df['std_cfo'] = df.groupby('item6105')['CFO'].transform('std')
 
@@ -81,30 +80,20 @@ def calculate_em2(df):
     df['delta_Accruals'] = df.groupby('item6105')['Accruals'].diff()
     df['delta_CFO'] = df.groupby('item6105')['CFO'].diff()
 
-    # Print the first few rows to check the calculated changes in Accruals and CFO
-    print("Delta Accruals and Delta CFO (first 10 rows):")
-    print(df[['item6105', 'year_', 'Accruals', 'CFO', 'delta_Accruals', 'delta_CFO']].head(10))
-
     # Step 2: Scale by lagged total assets
     df['scaled_delta_Accruals'] = df['delta_Accruals'] / df['lagged_total_assets']
     df['scaled_delta_CFO'] = df['delta_CFO'] / df['lagged_total_assets']
 
-    # Print the first few rows to check the scaled changes
-    print("Scaled Delta Accruals and Scaled Delta CFO (first 10 rows):")
-    print(df[['item6105', 'year_', 'lagged_total_assets', 'scaled_delta_Accruals', 'scaled_delta_CFO']].head(10).to_string(index=False))
-
     # Step 3: Calculate EM2 as the Spearman correlation between scaled changes
-    country_em2 = df.groupby('item6026').apply(lambda x: x[['scaled_delta_Accruals', 'scaled_delta_CFO']].corr(method='spearman').iloc[0, 1]).reset_index()
+    country_em2 = df.groupby('item6026').apply(
+        lambda x: x[['scaled_delta_Accruals', 'scaled_delta_CFO']].corr(method='spearman').iloc[0, 1]
+    ).reset_index()
     country_em2.columns = ['item6026', 'EM2']
     # Round the EM2 results to three decimal places
     country_em2['EM2'] = country_em2['EM2'].round(3)
 
     # Step 4: Calculate summary statistics (mean, median, std, min, max) for EM2 across countries
     summary_stats_em2 = country_em2['EM2'].agg(['mean', 'median', 'std', 'min', 'max']).round(3)
-
-    # Print the summary statistics
-    print("EM2 Summary Statistics:")
-    print(summary_stats_em2)
 
     return country_em2, summary_stats_em2
 
