@@ -161,7 +161,7 @@ Further filtering ensured that only data from the 31 countries specified in the 
 
 Moreover, the configuration file utilized additional refinements as proposed by @WRDS_Overview_2024. Specifically, using "A" (Annual) in the `freq` variable ensured that the data represents financial information reported on an annual basis, consistent with the methodology outlined in the paper by @Leuz_2003. This excludes data reported on a current, daily, or quarterly basis. After retaining only relevant company data, filtering out financial institutions, and focusing on the specified countries, the processed data was saved to a CSV file in the `data/pulled` directory, as specified in the configuration file `config/pull_data_cfg`​.
 
-## Step 2: Data Preparation
+## Step 2: Data Preparation {#sec-step2_preparation}
 To verify the pulled data, I checked the dataset for duplicate firm-year observations based on the combination of the Worldscope Permanent ID (`item6105`) and the fiscal year (`year_`). I confirmed that no duplicates were present, ensuring the accuracy of the data for further analysis. As the original study does not specify the net income measure, I used `item1651` (Net Income before Preferred Dividends) as the variable for net income. This choice aligns with the final net income figure reported in the income statement, based on *Worldscope Balancing Model - Industrials* by Wharton Research Data Services [-@WRDS_Balancing_Model_2024].
 
 To prepare the data sample in line with the methodology outlined in the paper, it was essential to follow the requirements set by @Leuz_2003. First, countries with sufficient firm-year observations were filtered. Each country needed at least 300 firm-year observations for key accounting variables, including total assets, sales, net income, and operating income. In this step, no countries were eliminated, as all countries met the requirement, which aligns with the paper’s overview of countries (31 countries in total).
@@ -259,6 +259,18 @@ $$
 $$
 
 ### Discretion in Reported Earnings: Small Loss Avoidance (EM4)
+EM4 captures the extent to which firms manage their reported earnings to avoid small losses. This is an important measure that quantifies the propensity of firms to avoid small losses through earnings management. By calculating the ratio of small profits to small losses, it provides a clear indication of how widespread this practice is within a particular country. A higher EM4 value suggests that firms in a given country are more likely to use accounting discretion to convert small losses into small profits, reflecting a tendency toward earnings management. Note that I used `item1651` (Net Income before Preferred Dividends) as the variable for net earnings, as mentioned in @sec-step2_preparation.
+
+EM4 is calculated as the ratio of the number of small profits to the number of small losses for each country, where small profits and small losses are determined by scaling net earnings by lagged total assets:
+$$
+\begin{aligned}
+\text{EM4}&= \frac{\text{Small Profits}}{\text{Small Losses}} \\
+& \\
+\text{where:} \\
+\text{Small Profits} & : \frac{\text{Net Earnings}_{it}}{\text{Total Assets}_{it-1}} \in [0, 0.01] \\
+\text{Small Losses}  & : \frac{\text{Net Earnings}_{it}}{\text{Total Assets}_{it-1}} \in [-0.01, 0) \\
+\end{aligned}
+$$
 
 ### Aggregate Measure of Earnings Management
 
