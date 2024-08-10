@@ -239,7 +239,7 @@ $$
 \frac{\Delta \text{Accruals}_{it}}{\text{Total Assets}_{i(t-1)}}, \quad \frac{\Delta \text{CFO}_{it}}{\text{Total Assets}_{i(t-1)}}
 $$
 
-4. Calculate EM1, which is computed as the Spearman correlation between these scaled changes, aggregated at the country level:
+4. Calculate EM2, which is computed as the Spearman correlation between these scaled changes, aggregated at the country level:
 $$
 \text{EM2} = \rho\left(\frac{\Delta \text{Accruals}_{it}}{\text{Total Assets}_{i(t-1)}}, \frac{\Delta \text{CFO}_{it}}{\text{Total Assets}_{i(t-1)}}\right)
 $$
