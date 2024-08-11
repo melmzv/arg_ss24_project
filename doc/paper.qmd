@@ -102,6 +102,7 @@ def prep_latex_table(df, caption=None, label=None, fontsize='\\fontsize{11}{13}\
 **CFO**: Operating Cash Flow  
 **EM**: Earnings Management  
 **IDE**: Integrated Development Environment  
+**SIC**: Standard Industrial Classification  
 **UK**: United Kingdom  
 **US**: United States  
 **WRDS**: Wharton Research Data Services  
@@ -178,7 +179,7 @@ To ensure data integrity, I filtered out rows with empty `item6105` (Worldscope 
 
 Additionally, a filter was applied to retain only company rows. This was achieved by selecting rows where the `item6100` field equals ‘C’, indicating that the Worldscope Identifier represents a company. This step ensures that the analysis includes only company data, excluding averages, exchange rates, securities, or stock indices, as advised by @WRDS_Overview_2024.
 
-In line with the methodology used by @Leuz_2003, financial institutions were removed from the analysis based on their SIC codes. This was done by filtering out rows where the `item7021` identifier, representing the SIC code, falls within the range of 6000 to 6999. This ensures that the dataset focuses solely on non-financial companies.
+In line with the methodology used by @Leuz_2003, financial institutions were removed from the analysis based on their Standard Industrial Classification (SIC) codes. This was done by filtering out rows where the `item7021` identifier, representing the SIC code, falls within the range of 6000 to 6999. This ensures that the dataset focuses solely on non-financial companies.
 
 Further filtering ensured that only data from the 31 countries specified in the paper were included. These steps were applied to reduce the dataset size and improve the workflow.
 
