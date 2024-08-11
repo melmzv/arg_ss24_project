@@ -18,11 +18,14 @@ def main():
     # Calculate EM4
     country_em4, summary_stats_em4 = calculate_em4(financial_data)
 
-    # Calculate Aggregate Earnings Management Score
-    aggregate_em = calculate_aggregate(country_em1, country_em2, country_em3, country_em4)
+    # Calculate Aggregate Earnings Management Score and create final table
+    final_table = calculate_aggregate(country_em1, country_em2, country_em3, country_em4)
 
-    # Save and print results
-    save_results(country_em1, summary_stats_em1, country_em2, summary_stats_em2, country_em3, summary_stats_em3, country_em4, summary_stats_em4, aggregate_em)
+    # Create and display the final table and summary statistics
+    final_table, summary_stats = create_final_table_and_summary_stats(final_table)
+
+    # Save only the final table and summary statistics
+    save_results(final_table, summary_stats)
 
 def load_data():
     """
@@ -179,8 +182,8 @@ def create_final_table_and_summary_stats(final_table):
     """
     Create the final table with EM1-EM4 and aggregate scores, and display the summary statistics separately.
     """
-    # Calculate summary statistics for EM1-EM4 and Aggregate
-    summary_stats = final_table[['EM1', 'EM2', 'EM3', 'EM4', 'Aggregate_EM_Score']].agg(['mean', 'median', 'std', 'min', 'max']).round(1)
+    # Calculate summary statistics for EM1-EM4 
+    summary_stats = final_table[['EM1', 'EM2', 'EM3', 'EM4']].agg(['mean', 'median', 'std', 'min', 'max']).round(3)
     
     # Display the final table without summary statistics
     print("\nFinal Combined Table (Main Table):")
@@ -192,62 +195,15 @@ def create_final_table_and_summary_stats(final_table):
     
     return final_table, summary_stats
 
-def save_results(country_em1, summary_stats_em1, country_em2, summary_stats_em2, country_em3, summary_stats_em3, country_em4, summary_stats_em4, aggregate_em):
+def save_results(final_table, summary_stats):
     """
-    Save the EM1, EM2, EM3, EM4, and aggregate earnings management results to a pickle file and print them.
+    Save the final table and summary statistics to a pickle file and print them.
     """
-    # Correctly calculate the summary statistics for each measure
-    summary_stats = {
-        'EM1': summary_stats_em1,
-        'EM2': summary_stats_em2,
-        'EM3': summary_stats_em3,
-        'EM4': summary_stats_em4,
-    }
-    
-    summary_stats_df = pd.DataFrame(summary_stats)
-
     with open('output/em_results.pickle', 'wb') as f:
         pickle.dump({
-            'country_em1': country_em1,
-            'summary_stats_em1': summary_stats_em1,
-            'country_em2': country_em2,
-            'summary_stats_em2': summary_stats_em2,
-            'country_em3': country_em3,
-            'summary_stats_em3': summary_stats_em3,
-            'country_em4': country_em4,
-            'summary_stats_em4': summary_stats_em4,
-            'aggregate_em': aggregate_em,
-            'summary_stats': summary_stats_df,
+            'final_table': final_table,
+            'summary_stats': summary_stats,
         }, f)
-
-    print("\nEM1 Country-Level Results:")
-    print(country_em1)
-    print("\nEM1 Summary Statistics:")
-    print(summary_stats_em1)
-
-    print("\nEM2 Country-Level Results:")
-    print(country_em2)
-    print("\nEM2 Summary Statistics:")
-    print(summary_stats_em2)
-
-    print("\nEM3 Country-Level Results:")
-    print(country_em3)
-    print("\nEM3 Summary Statistics:")
-    print(summary_stats_em3)
-
-    print("\nEM4 Country-Level Results:")
-    print(country_em4)
-    print("\nEM4 Summary Statistics:")
-    print(summary_stats_em4)
-
-    print("\nAggregate Earnings Management Score:")
-    print(aggregate_em)
-
-    print("\nFinal Combined Table (Main Table):")
-    print(aggregate_em)
-    
-    print("\nSummary Statistics:")
-    print(summary_stats_df)
 
 if __name__ == "__main__":
     main()

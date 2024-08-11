@@ -50,8 +50,13 @@ header-includes:
 import pickle
 import pandas as pd
 
+# Load the results from the existing pickle file for table_1
 with open('../data/generated/table_1.pickle', 'rb') as f:
     results = pickle.load(f)
+
+# Load the results from the new pickle file for final_table and summary_stats
+with open('../output/em_results.pickle', 'rb') as f:
+    em_results = pickle.load(f)
 
 def escape_special_characters(df):
     df.columns = [col.replace('_', '\\_').replace('#', '\\#') for col in df.columns]
@@ -99,7 +104,6 @@ def prep_latex_table(df, caption=None, label=None, fontsize='\\fontsize{11}{13}\
 
 \pagebreak
 
-
 # Introduction {#sec-introduction}
 The aim of this paper is to illustrate the use of open science tools in empirical accounting research.
 
@@ -114,19 +118,29 @@ The analysis includes pulling and filtering the relevant financial data, identif
 The replicated table is shown below, followed by the research design assumptions in @sec-research_design_assumptions, documentation of the replication steps in @sec-replication_steps, a detailed comparison in @sec-results, and concluding remarks in @sec-conclusion.
 
 Table 1 provides descriptive statistics for the four individual earnings management measures as well as the aggregate earnings management score, where countries are sorted in descending order based on their aggregate score. The discussion on replication findings is presented in @sec-results.
-
-## delete from fikir.
 ```{python}
+#| label: final_table 
 #| echo: false
 #| output: asis
 
 print(prep_latex_table(
-    results['replication_results'],
-    caption='Replicated table - P/B Ratios And Future Residual Income',
-    label='tab:replicated_penman'
+    em_results['final_table'],
+    caption='Replicated table - EM1, EM2, EM3, EM4, and Aggregate EM Score',
+    label='tab:final_table'
 ))
 ```
 
+```{python}
+#| label: summary_stats 
+#| echo: false
+#| output: asis
+
+print(prep_latex_table(
+    em_results['summary_stats'],
+    caption='Replicated table - Summary Statistics for EM1, EM2, EM3, and EM4',
+    label='tab:summary_stats'
+))
+```
 
 # Research Design Choices and Assumptions {#sec-research_design_assumptions}
 The aim of Assignment III is to replicate a specific empirical table (Table 2 Panel A) from the seminal paper by @Leuz_2003. This table involves calculating the EM measures for firms across various countries over a defined period and examining the relationship between these measures and investor protection. The replication process includes data loading, preparation, cleaning, and normalization, followed by the application of statistical methods to compute and interpret financial metrics. For Assignment III, I pulled data from the Worldscope database through WRDS and used the Python programming language to carry out the empirical analysis. Visual Studio Code was used as the Integrated Development Environment (IDE) for writing, debugging, and optimizing the Python code.
@@ -159,7 +173,7 @@ In line with the methodology used by @Leuz_2003, financial institutions were rem
 
 Further filtering ensured that only data from the 31 countries specified in the paper were included. These steps were applied to reduce the dataset size and improve the workflow.
 
-Moreover, the configuration file utilized additional refinements as proposed by @WRDS_Overview_2024. Specifically, using "A" (Annual) in the `freq` variable ensured that the data represents financial information reported on an annual basis, consistent with the methodology outlined in the paper by @Leuz_2003. This excludes data reported on a current, daily, or quarterly basis. After retaining only relevant company data, filtering out financial institutions, and focusing on the specified countries, the processed data was saved to a CSV file in the `data/pulled` directory, as specified in the configuration file `config/pull_data_cfg`​.
+Moreover, the configuration file utilized additional refinements as proposed by @WRDS_Overview_2024. Specifically, using "A" (Annual) in the `freq` variable ensured that the data represents financial information reported on an annual basis, consistent with the methodology outlined in the paper by @Leuz_2003. This excludes data reported on a current, daily, or quarterly basis. After retaining only relevant company data, filtering out financial institutions, and focusing on the specified countries, the processed data was saved to a CSV file in the `data/pulled` directory, as specified in configuration file `config/pull_data_cfg`​.
 
 ## Step 2: Data Preparation {#sec-step2_preparation}
 To verify the pulled data, I checked the dataset for duplicate firm-year observations based on the combination of the Worldscope Permanent ID (`item6105`) and the fiscal year (`year_`). I confirmed that no duplicates were present, ensuring the accuracy of the data for further analysis. As the original study does not specify the net income measure, I used `item1651` (Net Income before Preferred Dividends) as the variable for net income. This choice aligns with the final net income figure reported in the income statement, based on *Worldscope Balancing Model - Industrials* by Wharton Research Data Services [-@WRDS_Balancing_Model_2024].
@@ -195,6 +209,7 @@ EM1 is a measure that assesses how much insiders (e.g., company executives) smoo
 To calculate this measure:
 
 1.	Compute Accruals by using changes in various components of a firm’s balance sheet and income statement, such as total current assets, cash, current liabilities, short-term debt, taxes payable, and depreciation:
+
 $$
 \begin{aligned}
 \text{Accruals}_{it} &= (\Delta \text{CA}_{it} - \Delta \text{Cash}_{it}) - (\Delta \text{CL}_{it} - \Delta \text{STD}_{it} - \Delta \text{TP}_{it}) - \text{Dep}_{it} 
@@ -263,13 +278,13 @@ EM4 captures the extent to which firms manage their reported earnings to avoid s
 
 EM4 is calculated as the ratio of the number of small profits to the number of small losses for each country, where small profits and small losses are determined by scaling net earnings by lagged total assets:
 $$
-\begin{aligned}
-\text{EM4}&= \frac{\text{Small Profits}}{\text{Small Losses}} \\
-& \\
-\text{where:} \\
-\text{Small Profits} & : \frac{\text{Net Earnings}_{it}}{\text{Total Assets}_{it-1}} \in [0, 0.01] \\
-\text{Small Losses}  & : \frac{\text{Net Earnings}_{it}}{\text{Total Assets}_{it-1}} \in [-0.01, 0) \\
-\end{aligned}
+\text{EM4} = \frac{\text{Small Profits}}{\text{Small Losses}}
+$$
+$$
+\begin{alignedat}{2}
+\text{where:} \\ \quad & \text{Small Profits} && = \frac{\text{Net Earnings}_{it}}{\text{Total Assets}_{it-1}} \in [0, 0.01] \\
+& \text{Small Losses} && = \frac{\text{Net Earnings}_{it}}{\text{Total Assets}_{it-1}} \in [-0.01, 0)
+\end{alignedat}
 $$
 
 ### Aggregate Measure of Earnings Management
@@ -279,7 +294,6 @@ To calculate this measure:
 $$
 \text{Aggregate Earnings Management Score}_{\text{country}} = \frac{\text{Rank}_{\text{EM1}} + \text{Rank}_{\text{EM2}} + \text{Rank}_{\text{EM3}} + \text{Rank}_{\text{EM4}}}{4}
 $$
-
 
 # Results {#sec-results}
 The comparison between the calculated EM1 values and those reported in the original paper reveals a strong alignment, with only minor differences observed across most countries. The overall pattern of EM1 values is consistent, effectively capturing the underlying trends in earnings management across different countries. Any differences, such as those for the Philippines, Taiwan, and Norway, are relatively small and likely due to variations in data sources, updates, or slight methodological differences, as outlined in @sec-research_design_assumptions. The summary statistics (mean, median, min, max, and standard deviation) also closely match those in the original study, further supporting the robustness of the replication process. The results indicate that Anglo-American countries tend to have higher EM1 values, suggesting less earnings smoothing compared to Continental Europe and Asia, consistent with the conclusion of @Leuz_2003 that earnings are smoother in Continental Europe and Asia than in Anglo-American countries after controlling for the volatility of cash flows.
