@@ -1,7 +1,9 @@
 ---
-title: "Exploring Discretionary Accruals"
-author: "Joachim Gassen"
-institute: "TRR 266 Accounting for Transparency"
+title: |
+  | Earnings Management and Investor Protection:
+  | Accounting Reading Group - Assignment III
+author: "Melisa Mazaeva"
+institute: "Humboldt-Universität zu Berlin – Summer 2024"
 date: today
 fontsize: "9pt"
 pdf-engine: xelatex # pdflatex creates rastered fonts
@@ -14,7 +16,11 @@ header-includes:
 - \usepackage{booktabs} 
 - \usepackage{threeparttable}
 - \usepackage{graphicx}
+- \usepackage{etoolbox}
+- \AtBeginEnvironment{verbatim}{\fontsize{7}{7}\selectfont}  # This sets the font size for verbatim environments
 - \input{beamer_theme_trr266.sty}
+bibliography: references.bib
+biblio-style: apsr
 ---
 
 ```{python}
