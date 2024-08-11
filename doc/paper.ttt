@@ -3,7 +3,7 @@
 \fontsize{11}{13}\selectfont
 \begin{tabular}{lrrrrr}
 \toprule
-item6026 & EM1 & EM2 & EM3 & EM4 & Aggregate\_EM\_Score \\
+Country & EM1 & EM2 & EM3 & EM4 & Aggregate EM score \\
 \midrule
 GREECE & 0.365 & -0.942 & 0.764 & 3.375 & 27.5 \\
 AUSTRIA & 0.350 & -0.933 & 0.833 & 3.263 & 27.2 \\

@@ -123,6 +123,13 @@ Table 1 provides descriptive statistics for the four individual earnings managem
 #| echo: false
 #| output: asis
 
+# Rename the 'item6026' and 'aggregate_EM_Score' columns
+em_results['final_combined_table'].rename(columns={
+    'item6026': 'Country',
+    'Aggregate_EM_Score': 'Aggregate EM score'
+}, inplace=True)
+
+# Render the final table with the updated column names
 print(prep_latex_table(
     em_results['final_combined_table'], 
     caption='Replicated table - Country scores for earnings management measures (Sorted by aggregate earnings management)',
