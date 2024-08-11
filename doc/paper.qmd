@@ -67,12 +67,12 @@ def custom_float_format(x):
     return f"{x:.3f}".lstrip('0') if pd.notnull(x) else ""
 
 def prep_latex_table(df, caption=None, label=None, fontsize='\\fontsize{11}{13}\\selectfont'):
-    df = escape_special_characters(df.reset_index())
+    df = escape_special_characters(df.reset_index(drop=True))  # Drop the index column from output tables for better readability
     num_columns = len(df.columns)
     column_format = 'l' + 'r' * (num_columns - 1)
     latex_table = df.to_latex(
         column_format=column_format,
-        index=False,
+        index=False, 
         float_format=custom_float_format,
     )
     latex_table_lines = [
@@ -125,7 +125,7 @@ Table 1 provides descriptive statistics for the four individual earnings managem
 
 print(prep_latex_table(
     em_results['final_combined_table'], 
-    caption='Replicated table - EM1, EM2, EM3, EM4, Aggregate EM Score, and Summary Statistics',
+    caption='Replicated table - Country scores for earnings management measures (Sorted by aggregate earnings management)',
     label='tab:final_combined_table'
 ))
 ```
@@ -183,7 +183,7 @@ However, there are significant discrepancies, particularly for the United States
 
 print(prep_latex_table(
     results['table_1'],
-    caption='Replicated table - Number of Firm-Year Observations per Country',
+    caption='Replicated table - Descriptive statistics: Number of firm-year observations per country',
     label='tab:table_1'
 ))
 ```
