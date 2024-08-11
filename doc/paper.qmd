@@ -119,26 +119,14 @@ The replicated table is shown below, followed by the research design assumptions
 
 Table 1 provides descriptive statistics for the four individual earnings management measures as well as the aggregate earnings management score, where countries are sorted in descending order based on their aggregate score. The discussion on replication findings is presented in @sec-results.
 ```{python}
-#| label: final_table 
+#| label: final_combined_table
 #| echo: false
 #| output: asis
 
 print(prep_latex_table(
-    em_results['final_table'],
-    caption='Replicated table - EM1, EM2, EM3, EM4, and Aggregate EM Score',
-    label='tab:final_table'
-))
-```
-
-```{python}
-#| label: summary_stats 
-#| echo: false
-#| output: asis
-
-print(prep_latex_table(
-    em_results['summary_stats'],
-    caption='Replicated table - Summary Statistics for EM1, EM2, EM3, and EM4',
-    label='tab:summary_stats'
+    em_results['final_combined_table'], 
+    caption='Replicated table - EM1, EM2, EM3, EM4, Aggregate EM Score, and Summary Statistics',
+    label='tab:final_combined_table'
 ))
 ```
 
