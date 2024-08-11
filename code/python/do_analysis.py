@@ -1,10 +1,19 @@
 # We start by loading the libraries that we will use in this analysis.
 import pickle
 import pandas as pd
+from utils import read_config, setup_logging
+
+# Set up logging
+log = setup_logging()
 
 def main():
-    # Load the prepared data
-    financial_data = load_data()
+    log.info("Performing main analysis...")
+    
+    # Load the configuration file
+    cfg = read_config('config/do_analysis_cfg.yaml')
+    
+    # Load the prepared financial data using the path from the config file
+    financial_data = load_data(cfg['prepared_data_save_path'])
 
     # Calculate EM1
     country_em1, summary_stats_em1 = calculate_em1(financial_data)
@@ -24,14 +33,16 @@ def main():
     # Create the final combined table with both metrics and summary statistics
     final_combined_table = create_final_combined_table(final_table)
 
-    # Save the final combined table
-    save_results(final_combined_table)
+    # Save the final combined table using the path from the config file
+    save_results(final_combined_table, cfg['results'])
 
-def load_data():
+    log.info("Performing main analysis...Done!")
+
+def load_data(data_path):
     """
-    Load the prepared financial data from the previous step.
+    Load the prepared financial data from the specified path.
     """
-    df = pd.read_csv('data/generated/financial_data_prepared.csv')
+    df = pd.read_csv(data_path)
     return df
 
 def calculate_em1(df):
@@ -232,11 +243,11 @@ def create_final_combined_table(final_table):
     
     return final_combined_table
 
-def save_results(final_combined_table):
+def save_results(final_combined_table, save_path):
     """
-    Save the final combined table to a pickle file.
+    Save the final combined table to a pickle file at the specified path.
     """
-    with open('output/em_results.pickle', 'wb') as f:
+    with open(save_path, 'wb') as f:
         pickle.dump({
             'final_combined_table': final_combined_table
         }, f)
