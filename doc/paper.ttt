@@ -3,7 +3,7 @@
 \fontsize{11}{13}\selectfont
 \begin{tabular}{lrrrrr}
 \toprule
-Country & EM1 & EM2 & EM3 & EM4 & Aggregate EM score \\
+Country & EM1 (−) & EM2 (−) & EM3 (+) & EM4 (+) & Aggregate earnings management score \\
 \midrule
 GREECE & 0.365 & -0.942 & 0.764 & 3.375 & 27.5 \\
 AUSTRIA & 0.350 & -0.933 & 0.833 & 3.263 & 27.2 \\
@@ -45,7 +45,8 @@ Max & 0.732 & -0.786 & 0.855 & 7.333 &  \\
 \bottomrule
 \end{tabular}
 
-\caption{Replicated table - Country scores for earnings management measures (Sorted by aggregate earnings management)}
+\caption{Replicated table - Country scores for earnings management measures (Sorted by aggregate earnings management)\\
+\textnormal{\fontsize{10pt}{12pt}\selectfont The variables are computed from 123,469 firm-year observations for fiscal years 1990 to 1999 across 31 countries and 18,040 non-financial firms. Data are obtained from the Worldscope Database (July 2024 version). The definitions and calculations of EM1-4, as well as the aggregate score, are thoroughly presented in Section 4. The sign in the column heading indicates whether higher scores for the respective EM measure imply more earnings management (+) or less earnings management (−).}}
 
 \end{table}
 \efloatseparator

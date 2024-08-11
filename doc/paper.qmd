@@ -66,21 +66,27 @@ def escape_special_characters(df):
 def custom_float_format(x):
     return f"{x:.3f}".lstrip('0') if pd.notnull(x) else ""
 
-def prep_latex_table(df, caption=None, label=None, fontsize='\\fontsize{11}{13}\\selectfont'):
+def prep_latex_table(df, caption=None, label=None, fontsize='\\fontsize{11}{13}\\selectfont', description=None):
     df = escape_special_characters(df.reset_index(drop=True))  # Drop the index column from output tables for better readability
     num_columns = len(df.columns)
     column_format = 'l' + 'r' * (num_columns - 1)
+    
     latex_table = df.to_latex(
         column_format=column_format,
         index=False, 
         float_format=custom_float_format,
+        escape=False  # Important to disable escaping so LaTeX commands in column names are respected
     )
+    
+    # Construct description to the table
+    full_caption = f"{caption}\\\\\n\\textnormal{{{description}}}" if description else caption
+    
     latex_table_lines = [
         "\\begin{table}[htbp]",
         "\\centering",
         fontsize,  # Set font size for the table
         latex_table,
-        f"\\caption{{{caption}}}" if caption else "",
+        f"\\caption{{{full_caption}}}" if full_caption else "",
         f"\\label{{{label}}}" if label else "",
         "\\end{table}"
     ]
@@ -123,17 +129,25 @@ Table 1 provides descriptive statistics for the four individual earnings managem
 #| echo: false
 #| output: asis
 
-# Rename the 'item6026' and 'aggregate_EM_Score' columns
+# Rename the columns to ensure consistency with paper
 em_results['final_combined_table'].rename(columns={
     'item6026': 'Country',
+    'EM1': 'EM1 (−)',
+    'EM2': 'EM2 (−)',
+    'EM3': 'EM3 (+)',
+    'EM4': 'EM4 (+)',
     'Aggregate_EM_Score': 'Aggregate EM score'
 }, inplace=True)
 
-# Render the final table with the updated column names
 print(prep_latex_table(
     em_results['final_combined_table'], 
     caption='Replicated table - Country scores for earnings management measures (Sorted by aggregate earnings management)',
-    label='tab:final_combined_table'
+    label='tab:final_combined_table',
+    description = (
+    "\\fontsize{10pt}{12pt}\\selectfont " 
+    "The variables are computed from 123,469 firm-year observations for fiscal years 1990 to 1999 across 31 countries and 18,040 non-financial firms. Data are obtained from the Worldscope Database (July 2024 version). The definitions and calculations of EM1-4, as well as the aggregate score, are thoroughly presented in Section 4. The sign in the column heading indicates whether higher scores for the respective EM measure imply more earnings management (+) or less earnings management (−)."
+    )
+
 ))
 ```
 
