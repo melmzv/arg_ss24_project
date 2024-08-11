@@ -110,18 +110,7 @@ def prep_latex_table(df, caption=None, label=None, fontsize='\\fontsize{11}{13}\
 - **Variable Selection**: Chose specific Worldscope variables (e.g., item1151 over item4051) based on best practices; differences may affect results.
 - **Currency Consistency**: EM measures are based on scaled variables; currency consistency ensures comparability across countries.
 
-### Discretionary Accruals ##delete
-
-- Are used in tons of papers
-- As measurement constructs for almost everything
-  - Earnings Management
-  - Earnings Quality
-  - Audit Quality
-  - Management Quality
-- But how do they look like?
-
-
-### Data - Replication Steps 
+# Data - Replication Steps 
 
 Step 1: Pulling the Data and Managing the Databases
 
@@ -141,12 +130,74 @@ print(prep_latex_table(
     fontsize='\\fontsize{5pt}{6pt}\\selectfont'  # Set smaller font size
 ))
 ```
+---
 
+Step 3: Analysis Implementation and Table Reproduction
 
-### Conclusion
+- Smoothing Reported Operating Earnings Using Accruals (EM1)
+    $$
+    \text{EM1} = \text{Median}\left(\frac{\frac{\sigma(\text{Operating Income}_{it})}{\text{Total Assets}_{i(t-1)}}}{\frac{\sigma(\text{Operating Cash Flow}_{it})}{\text{Total Assets}_{i(t-1)}}}\right)
+    $$
+- Smoothing and the Correlation Between Changes in Accounting Accruals and Operating Cash Flows (EM2)
+    $$
+    \text{EM2} = \rho\left(\frac{\Delta \text{Accruals}_{it}}{\text{Total Assets}_{i(t-1)}}, \frac{\Delta \text{CFO}_{it}}{\text{Total Assets}_{i(t-1)}}\right)
+    $$
+- Discretion in Reported Earnings: The Magnitude of Accruals (EM3)
+    $$
+    \text{EM3} = \text{Median}\left(\frac{|\text{Accruals}_{it}|}{|\text{CFO}_{it}|}\right)
+    $$
+
+ ---
+- Discretion in Reported Earnings: Small Loss Avoidance (EM4)
+    $$
+    \text{EM4} = \frac{\text{Small Profits}}{\text{Small Losses}}
+    $$
+ - Aggregate Measure of Earnings Management
+    $$
+    \text{Aggregate EM Score}_{\text{country}} = \frac{\text{Rank}_{\text{EM1}} + \text{Rank}_{\text{EM2}} + \text{Rank}_{\text{EM3}} + \text{Rank}_{\text{EM4}}}{4}
+    $$
+
+# Results
+
+```{python}
+#| label: final_combined_table
+#| echo: false
+#| output: asis
+
+# Rename the columns to ensure consistency with paper
+em_results['final_combined_table'].rename(columns={
+    'item6026': 'Country',
+    'EM1': 'EM1 (−)',
+    'EM2': 'EM2 (−)',
+    'EM3': 'EM3 (+)',
+    'EM4': 'EM4 (+)',
+    'Aggregate_EM_Score': 'Aggregate EM score'
+}, inplace=True)
+
+print(prep_latex_table(
+    em_results['final_combined_table'], 
+    caption='Replicated table - Country scores for earnings management measures (Sorted by aggregate earnings management)',
+    label='tab:final_combined_table',
+    fontsize='\\fontsize{4pt}{5pt}\\selectfont',  # Set smaller font size
+
+))
+```
+
+# Conclusion
+
+## Summary of Findings
+- EM1 Alignment: Strong alignment with minor differences, reflecting consistent trends in earnings management across countries.
+- EM2 Findings: Similar patterns observed; Greece and Japan show more smoothing, while Canada and the U.S. show less.
+- EM3 Consistency: Replicated results closely match the original, confirming trends in accrual magnitudes.
+- EM4 Regional Differences: Significant regional variations in loss avoidance, consistent with original findings.
+- Aggregate Scores: Strong alignment between original and replicated scores, confirming key trends across countries.
+- **Overall Conclusion**: Replication confirms higher EM in European and Asian countries compared to Anglo-American counterparts.
+
+## Key Insights
 
 - Significant differences in earnings management practices across countries.
 - Strong alignment with original findings in Leuz, Nanda, and Wysocki (2003).
+- The project structure demonstrated the effectiveness of an open science and collaborative workflow.
 - **Future Work**: Repository can be cloned or forked for further analysis.
 
 # References {-}

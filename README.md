@@ -36,9 +36,6 @@ Next, explore the repository to familiarize yourself with its folders and files 
 
 - `doc`: This directory contains Quarto files (.qmd) that include text and program instructions for the paper and presentation. These files are rendered through the Quarto process using Python and the VS Code extension, integrating code, results, and literal text seamlessly.
 
-> [!TIP]
-> Logo File Update: Convert `trr266_logo.eps` to `trr266_logo.pdf` for compatibility with XeLaTeX. Update `beamer_theme_trr266.sty` to reference the new PDF logo file. When running the presentation script, ensure `trr266_logo.pdf` is in the `doc` directory for the beamer theme to work correctly.
-
 > [!IMPORTANT]
 > Make use of significantly enhanced LaTeX table formatting for refined and customizable paper output! 
 
