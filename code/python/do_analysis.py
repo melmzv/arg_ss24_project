@@ -143,6 +143,7 @@ def calculate_em4(df):
     """
     Calculate EM4, which is the ratio of the number of small profits to the number of small losses for each country.
     Small profits and losses are defined based on net earnings (item1651) scaled by lagged total assets.
+    Only include countries with at least 5 small losses.
     """
     # Step 1: Calculate Net Earnings scaled by Lagged Total Assets
     df['scaled_net_earnings'] = df['item1651'] / df['lagged_total_assets']
@@ -151,16 +152,26 @@ def calculate_em4(df):
     df['small_profits'] = ((df['scaled_net_earnings'] >= 0) & (df['scaled_net_earnings'] <= 0.01)).astype(int)
     df['small_losses'] = ((df['scaled_net_earnings'] >= -0.01) & (df['scaled_net_earnings'] < 0)).astype(int)
 
-    # Step 3: Calculate EM4 as the ratio of Small Profits to Small Losses for each country
-    country_em4 = df.groupby('item6026').apply(
+    # Step 3: Filter countries with at least 5 small losses
+    country_counts = df.groupby('item6026')['small_losses'].sum()
+    eligible_countries = country_counts[country_counts >= 5].index
+
+    filtered_df = df[df['item6026'].isin(eligible_countries)]
+
+    # Step 4: Calculate EM4 as the ratio of Small Profits to Small Losses for each eligible country
+    country_em4 = filtered_df.groupby('item6026').apply(
         lambda x: x['small_profits'].sum() / max(1, x['small_losses'].sum())  # Avoid division by zero
     ).reset_index()
     country_em4.columns = ['item6026', 'EM4']
     # Round the EM4 results to three decimal places
     country_em4['EM4'] = country_em4['EM4'].round(3)
 
-    # Step 4: Calculate summary statistics (mean, median, std, min, max) for EM4 across countries
+    # Step 5: Calculate summary statistics (mean, median, std, min, max) for EM4 across countries
     summary_stats_em4 = country_em4['EM4'].agg(['mean', 'median', 'std', 'min', 'max']).round(3)
+
+    # Print how many countries were excluded
+    excluded_countries = len(df['item6026'].unique()) - len(eligible_countries)
+    print(f"{excluded_countries} countries were excluded due to having fewer than 5 small losses.")
 
     return country_em4, summary_stats_em4
 
