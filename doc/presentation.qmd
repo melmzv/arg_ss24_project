@@ -128,6 +128,7 @@ Step 1: Pulling the Data and Managing the Databases
 Step 2: Data Preparation
 
 +  To verify the robustness of descriptive statistics before the main replication, Table 1 from Leuz et al. was replicated, yielding results that closely align with the original study:
+---
 ```{python}
 #| label: table_1 
 #| echo: false
@@ -136,7 +137,8 @@ Step 2: Data Preparation
 print(prep_latex_table(
     results['table_1'],
     caption='Replicated table - Descriptive statistics: Number of firm-year observations per country',
-    label='tab:table_1'
+    label='tab:table_1',
+    fontsize='\\fontsize{5pt}{6pt}\\selectfont'  # Set smaller font size
 ))
 ```
 
