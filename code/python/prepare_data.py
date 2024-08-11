@@ -9,7 +9,6 @@ import pickle
 from utils import read_config, setup_logging
 
 log = setup_logging()
-
 def main():
     log.info("Preparing data for analysis ...")
     cfg = read_config('config/prepare_data_cfg.yaml')
@@ -75,9 +74,13 @@ def main():
     # Remove decimal places
     table_1['# Firm-years'] = table_1['# Firm-years'].apply(lambda x: int(round(x)))
     
+    # Insert an empty row after index 30
+    empty_row = pd.DataFrame([['', '']], columns=table_1.columns)
+    table_1_with_blank = pd.concat([table_1.iloc[:31], empty_row, table_1.iloc[31:]], ignore_index=True)
+    
     # Save Table 1 to a pickle file
     results = {
-        "table_1": table_1
+        "table_1": table_1_with_blank
     }
     with open(cfg['table_1_save_path'], 'wb') as f:
         pickle.dump(results, f)
