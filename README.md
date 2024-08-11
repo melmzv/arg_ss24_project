@@ -42,8 +42,6 @@ Next, explore the repository to familiarize yourself with its folders and files 
 > [!NOTE]
 > While generating the presentation, you may notice that some sections and subsections might not have the correct beamer formatting applied. This is due to the color coding in the `beamer_theme_trr266.sty` file, which might need further adjustments. The current output is based on the template provided and further customization may be required to ensure consistency across all slides.
 
-- `info`: This is a folder that can store additional documentation. In our case you will find a RMarkdown file that introduces our TRR 266-themed ggplot theme.
-
 You also see an `output` directory but it is empty. Why? Because the output paper and presentation are created locally on your computer.
 
 
@@ -103,11 +101,6 @@ To start a new reproducible project on earnings management and investor protecti
 
 > [!TIP]
 > In case you need to work with additional variables other than stated in this project, I recommend using the Excel template [Worldscope Balancing Model - Industrials](https://wrds-www.wharton.upenn.edu/documents/526/Worldscope_Balancing_Model_-_Industrials.xls) that gives a visual overview of variables placement in Balance Sheet, Income Statement and Cash Flow Statement.
-
-This repository contains the files that TRR 266 members might find particularly useful: 
-- The file `code/python/theme_trr.py` features a ggplot theme that makes it easy to generate visuals that comply to the TRR 266 style guide. But ggplot in python is not yet polished and does not have the same level of quality as in R. 
-- The RMarkdown file in `info` takes you through the process. With the `doc/beamer_theme_trr266.sty` you can beef up your Quarto based beamer presentations to the fancy TRR design. 
-
 
 ### Licensing
 
