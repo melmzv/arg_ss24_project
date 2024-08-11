@@ -21,11 +21,11 @@ def main():
     # Calculate Aggregate Earnings Management Score and create final table
     final_table = calculate_aggregate(country_em1, country_em2, country_em3, country_em4)
 
-    # Create and display the final table and summary statistics
-    final_table, summary_stats = create_final_table_and_summary_stats(final_table)
+    # Create the final combined table with both metrics and summary statistics
+    final_combined_table = create_final_combined_table(final_table)
 
-    # Save only the final table and summary statistics
-    save_results(final_table, summary_stats)
+    # Save the final combined table
+    save_results(final_combined_table)
 
 def load_data():
     """
@@ -195,14 +195,45 @@ def create_final_table_and_summary_stats(final_table):
     
     return final_table, summary_stats
 
-def save_results(final_table, summary_stats):
+def create_final_combined_table(final_table):
     """
-    Save the final table and summary statistics to a pickle file and print them.
+    Create a final combined table with EM1-EM4, aggregate scores, and summary statistics.
+    """
+    # Calculate summary statistics for EM1-EM4
+    summary_stats = final_table[['EM1', 'EM2', 'EM3', 'EM4']].agg(['mean', 'median', 'std', 'min', 'max']).round(3)
+    
+    # Rename the index of summary_stats to be more descriptive
+    summary_stats.index = ['Mean', 'Median', 'Std', 'Min', 'Max']
+    
+    # Create a DataFrame for the summary stats with the same columns as final_table
+    summary_stats_df = pd.DataFrame(
+        summary_stats.values,
+        columns=['EM1', 'EM2', 'EM3', 'EM4'],
+        index=['Mean', 'Median', 'Std', 'Min', 'Max']
+    ).reset_index()
+    
+    # Add the names in the 'item6026' column (which originally holds the country names)
+    summary_stats_df['item6026'] = summary_stats_df['index']
+    summary_stats_df['Aggregate_EM_Score'] = ''
+    
+    # Reorder columns to match the final_table structure and drop the 'index' column
+    summary_stats_df = summary_stats_df[['item6026', 'EM1', 'EM2', 'EM3', 'EM4', 'Aggregate_EM_Score']]
+    
+    # Append the summary stats to the final table
+    final_combined_table = pd.concat([final_table, summary_stats_df], ignore_index=True)
+    
+    print("\nFinal Combined Table (with Summary Statistics):")
+    print(final_combined_table)
+    
+    return final_combined_table
+
+def save_results(final_combined_table):
+    """
+    Save the final combined table to a pickle file.
     """
     with open('output/em_results.pickle', 'wb') as f:
         pickle.dump({
-            'final_table': final_table,
-            'summary_stats': summary_stats,
+            'final_combined_table': final_combined_table
         }, f)
 
 if __name__ == "__main__":
