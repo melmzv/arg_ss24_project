@@ -236,17 +236,16 @@ def create_final_combined_table(final_table):
     # Format the summary_stats_df to include trailing zeros for all numbers
     summary_stats_df[['EM1', 'EM2', 'EM3', 'EM4']] = summary_stats_df[['EM1', 'EM2', 'EM3', 'EM4']].applymap(lambda x: f"{x:.3f}")
     
-    # Insert an empty row after index 30
+    # Insert an empty row after index 30 like in paper
     empty_row = pd.DataFrame([['', '', '', '', '', '']], columns=final_table.columns)
     final_table_with_blank = pd.concat([final_table.iloc[:31], empty_row, final_table.iloc[31:]], ignore_index=True)
     
     # Format the final_table_with_blank to include trailing zeros for all numbers
     final_table_with_blank[['EM1', 'EM2', 'EM3', 'EM4']] = final_table_with_blank[['EM1', 'EM2', 'EM3', 'EM4']].applymap(lambda x: f"{float(x):.3f}" if x != '' else x)
     
-    # Ensure Aggregate_EM_Score is rounded to one decimal place and formatted with one decimal
+    # Round to one decimal place like in paper
     final_table_with_blank['Aggregate_EM_Score'] = final_table_with_blank['Aggregate_EM_Score'].apply(lambda x: f"{float(x):.1f}" if x != '' else x)
     
-    # Append the summary stats to the final table
     final_combined_table = pd.concat([final_table_with_blank, summary_stats_df], ignore_index=True)
     
     print("\nFinal Combined Table (with Summary Statistics):")

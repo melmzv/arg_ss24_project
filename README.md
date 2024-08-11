@@ -39,7 +39,7 @@ Next, explore the repository to familiarize yourself with its folders and files 
 > [!IMPORTANT]
 > Make use of significantly enhanced LaTeX table formatting for refined and customizable paper output! 
 
-> [!NOTE]
+> [!WARNING]
 > While generating the presentation, you may notice that some sections and subsections might not have the correct beamer formatting applied. This is due to the color coding in the `beamer_theme_trr266.sty` file, which might need further adjustments. The current output is based on the template provided and further customization may be required to ensure consistency across all slides.
 
 You also see an `output` directory but it is empty. Why? Because the output paper and presentation are created locally on your computer.
@@ -75,8 +75,8 @@ You can deactivate the virtual environment by running `deactivate`.
 
 > [!TIP]
 > I have included an intermediate check step using the `code/python/test_wrds_connection.py` file to ensure that WRDS access is secure and functional before running the main program script.
-6. Run 'make all' in the terminal. I use the Makefile Tools extension in VS Code to run the makefile and create the necessary output files to the `output` directory.
-Otherwise, you can run the following commands in the terminal:
+6. Run 'make all' in the terminal. I use the [Makefile Tools extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.makefile-tools) in VS Code to run the makefile and create the necessary output files to the `output` directory.
+I highly recommend using the Makefile! Otherwise, you can run the following commands in the terminal:
 
 ```shell
 python code/python/pull_wrds_data.py
@@ -106,7 +106,7 @@ To start a new reproducible project on earnings management and investor protecti
 
 This project utilizes the template used in collaborative research center [TRR 266 Accounting for Transparency](https://accounting-for-transparency.de), that is centered on workflows that are typical in the accounting and finance domain.
 
-The repository is licensed under the MIT license. Due to reusing a part of the example code from the treat repository, e.g. code for pulling data from WRDS, I would like to give the following credit:
+The repository is licensed under the MIT license. I would like to give the following credit:
 
 ```
 This repository was built based on the ['treat' template for reproducible research](https://github.com/trr266/treat).
