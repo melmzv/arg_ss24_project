@@ -1,4 +1,4 @@
-# build_em_map_from_pickle.py
+# /code/python/plot_heatmap.py
 # Creates an interactive world map with a top-right dropdown (EM1–EM4 + Aggregate)
 # Input: output/em_results.pickle produced by your analysis pipeline
 # Output: assets/em_map_interactive.html + assets/em_table.csv
@@ -22,7 +22,7 @@ METRIC_COLS = ["EM1", "EM2", "EM3", "EM4", "Aggregate_EM_Score"]
 # Pretty names for the dropdown
 PRETTY = {
     "EM1": "EM1 (Volatility ratio)",
-    "EM2": "EM2 (Accrual–CFO comovement)",
+    "EM2": "EM2 (Accrual-CFO comovement)",
     "EM3": "EM3 (Abs accruals intensity)",
     "EM4": "EM4 (Small profits / small losses)",
     "Aggregate_EM_Score": "Aggregate"
@@ -67,7 +67,6 @@ def normalize_name(s: str) -> str:
         "CONGO (KINSHASA)": "CONGO, THE DEMOCRATIC REPUBLIC OF THE",
         "CONGO (BRAZZAVILLE)": "CONGO",
         "PALESTINE": "PALESTINE, STATE OF",
-        "BOLIVIA (PLURINATIONAL STATE OF)": "BOLIVIA (PLURINATIONAL STATE OF)",
     }
     return aliases.get(x, x)
 
@@ -79,54 +78,24 @@ def to_iso3(country_series: pd.Series) -> pd.Series:
     2) Use a minimal built-in dict for common countries (extend as needed).
     3) Best-effort fuzzy through pycountry if installed (optional).
     """
-    # 1) already ISO3?
     def looks_like_iso3(val):
         return isinstance(val, str) and len(val) == 3 and val.isalpha()
 
     iso = []
     manual = {
-        # extend with the actual countries in your table if needed
-        "GREECE": "GRC",
-        "AUSTRIA": "AUT",
-        "TAIWAN": "TWN",
-        "KOREA, REPUBLIC OF": "KOR",
-        "BELGIUM": "BEL",
-        "PORTUGAL": "PRT",
-        "ITALY": "ITA",
-        "PHILIPPINES": "PHL",
-        "THAILAND": "THA",
-        "SINGAPORE": "SGP",
-        "INDONESIA": "IDN",
-        "GERMANY": "DEU",
-        "JAPAN": "JPN",
-        "HONG KONG": "HKG",
-        "SWITZERLAND": "CHE",
-        "DENMARK": "DNK",
-        "MALAYSIA": "MYS",
-        "PAKISTAN": "PAK",
-        "FRANCE": "FRA",
-        "INDIA": "IND",
-        "NETHERLANDS": "NLD",
-        "SWEDEN": "SWE",
-        "NORWAY": "NOR",
-        "FINLAND": "FIN",
-        "UNITED KINGDOM": "GBR",
-        "AUSTRALIA": "AUS",
-        "IRELAND": "IRL",
-        "UNITED STATES OF AMERICA": "USA",
-        "SOUTH AFRICA": "ZAF",
-        "CANADA": "CAN",
-        "NEW ZEALAND": "NZL",
-        "SPAIN": "ESP",
-        "TURKEY": "TUR",
-        "MEXICO": "MEX",
-        "BRAZIL": "BRA",
-        "CHILE": "CHL",
-        "ARGENTINA": "ARG"
+        "GREECE": "GRC", "AUSTRIA": "AUT", "TAIWAN": "TWN", "KOREA, REPUBLIC OF": "KOR",
+        "BELGIUM": "BEL", "PORTUGAL": "PRT", "ITALY": "ITA", "PHILIPPINES": "PHL",
+        "THAILAND": "THA", "SINGAPORE": "SGP", "INDONESIA": "IDN", "GERMANY": "DEU",
+        "JAPAN": "JPN", "HONG KONG": "HKG", "SWITZERLAND": "CHE", "DENMARK": "DNK",
+        "MALAYSIA": "MYS", "PAKISTAN": "PAK", "FRANCE": "FRA", "INDIA": "IND",
+        "NETHERLANDS": "NLD", "SWEDEN": "SWE", "NORWAY": "NOR", "FINLAND": "FIN",
+        "UNITED KINGDOM": "GBR", "AUSTRALIA": "AUS", "IRELAND": "IRL", "UNITED STATES OF AMERICA": "USA",
+        "SOUTH AFRICA": "ZAF", "CANADA": "CAN", "NEW ZEALAND": "NZL", "SPAIN": "ESP",
+        "TURKEY": "TUR", "MEXICO": "MEX", "BRAZIL": "BRA", "CHILE": "CHL", "ARGENTINA": "ARG"
     }
 
     try:
-        import pycountry  # optional
+        import pycountry
     except Exception:
         pycountry = None
 
@@ -138,11 +107,9 @@ def to_iso3(country_series: pd.Series) -> pd.Series:
         if name in manual:
             iso.append(manual[name])
             continue
-        # pycountry fallback
         code = None
         if pycountry is not None:
             try:
-                # direct
                 m = pycountry.countries.search_fuzzy(name)
                 if m:
                     code = m[0].alpha_3
@@ -164,15 +131,12 @@ df = payload["final_combined_table"].copy()
 # ----------------------------
 # Clean & coerce types
 # ----------------------------
-# Drop blank/summaries you append at the end
 drop_vals = {"", "Mean", "Median", "Std", "Min", "Max"}
 df = df[~df["item6026"].isin(drop_vals)].reset_index(drop=True)
 
-# Coerce metrics to numeric (strings with formatted zeros need this)
 for col in METRIC_COLS:
     df[col] = pd.to_numeric(df[col], errors="coerce")
 
-# Rename for clarity
 df = df.rename(columns={"item6026": "Country"})
 
 # ----------------------------
@@ -187,7 +151,7 @@ if missing_iso > 0:
 df_plot = df.dropna(subset=["ISO3"]).copy()
 
 # ----------------------------
-# Build interactive map with dropdown
+# Build interactive map
 # ----------------------------
 start_metric = "Aggregate_EM_Score"
 
@@ -202,7 +166,7 @@ fig = px.choropleth(
     title="Earnings Management by Country"
 )
 
-# Dropdown (top-right) to switch metric
+# Dropdown menu
 buttons = []
 for m in METRIC_COLS:
     buttons.append(dict(
@@ -217,15 +181,51 @@ fig.update_layout(
         x=0.98, y=0.98, xanchor="right", yanchor="top",
         buttons=buttons, showactive=True
     )],
-    margin=dict(l=0, r=0, t=60, b=0)
+    margin=dict(l=0, r=0, t=60, b=0),
+
+    # 🔹 Portfolio design
+    paper_bgcolor="#000000",
+    plot_bgcolor="#000000",
+    font=dict(
+        family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
+        size=13,
+        color="white"
+    ),
+    title=dict(
+        font=dict(size=16, color="white")
+    )
 )
-fig.update_coloraxes(colorbar_title="EM level")
+
+fig.update_coloraxes(
+    colorbar_title="EM level",
+    colorbar=dict(
+        tickfont=dict(color="white"),
+        title=dict(
+            font=dict(color="white")
+        )
+    )
+)
+# Make the globe itself dark to match your site
+fig.update_geos(
+    bgcolor="#000000",     # area outside the projection
+    showocean=True,
+    oceancolor="#000000",  # oceans
+    showland=True,
+    landcolor="#0b0b0d",   # subtle dark land fill (not pure black)
+    lakecolor="#000000",
+)
+
+# Softer country borders on dark theme (optional)
+fig.update_traces(
+    marker_line_color="#2a2a2e",  # your --line color
+    marker_line_width=0.5
+)
 
 # ----------------------------
 # Save outputs
 # ----------------------------
 fig.write_html(HTML_OUT, include_plotlyjs="cdn")
-df_export = df_plot[["Country","ISO3"] + METRIC_COLS].sort_values("Aggregate_EM_Score", ascending=False)
+df_export = df_plot[["Country", "ISO3"] + METRIC_COLS].sort_values("Aggregate_EM_Score", ascending=False)
 df_export.to_csv(CSV_OUT, index=False)
 
 print(f"Saved:\n  - {HTML_OUT}\n  - {CSV_OUT}")
